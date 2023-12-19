@@ -83,7 +83,7 @@ fn load_pages() -> snag.Result(List(Page)) {
 
   use pages <- result.try(
     list.try_map(lessons, fn(pair) {
-      let #(index, lesson) = pair
+      let #(lesson, index) = pair
       let path = lessons_src <> "/" <> lesson
       let name =
         lesson
