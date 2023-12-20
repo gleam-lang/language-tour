@@ -1,0 +1,26 @@
+<p>
+  Bit arrays represent a sequence of 1s and 0s, and are a convenient syntax for
+  constructing and manipulating binary data.
+</p>
+<p>
+  Each segment of a bit array can be given options to specify the representation
+  used for that segment.
+</p>
+<ul>
+  <li><code>size</code>: the size of the segment in bits.</li>
+  <li><code>unit</code>: how many times to repeat the segment.</li>
+  <li><code>bits</code>: a nested bit array of any size.</li>
+  <li><code>bytes</code>: a nested byte-aligned bit array.</li>
+  <li><code>float</code>: a 64 bits floating point number.</li>
+  <li><code>int</code>: an int with a default size of 8 bits.</li>
+  <li><code>big</code>: big endian.</li>
+  <li><code>little</code>: little endian.</li>
+  <li><code>native</code>: the endianness of the processor.</li>
+  <li><code>utf8</code>: utf8 encoded text.</li>
+  <li><code>utf16</code>: utf16 encoded text.</li>
+  <li><code>utf32</code>: utf32 encoded text.</li>
+</ul>
+<p>
+  Bit arrays have limited support when compiling to JavaScript, not all options
+  can be used. Full bit array support will be implemented in future.
+</p>
