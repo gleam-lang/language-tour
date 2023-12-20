@@ -15,6 +15,10 @@ pub fn main() {
   io.debug(2 >= 1)
   io.debug(2 <= 1)
 
+  // Equality works for any type
+  io.debug(1 == 1)
+  io.debug(2 == 1)
+
   // Standard library int functions
   io.debug(int.max(42, 77))
   io.debug(int.clamp(5, 10, 20))

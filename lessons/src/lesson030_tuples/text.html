@@ -1,0 +1,20 @@
+<p>
+  Lists are good for when we want a collection of one type, but sometimes we
+  want to combine multiple values of different types. In this case tuples are a
+  quick and convenient option.
+</p>
+<p>
+  The tuple access syntax can be used to get elements from a tuple without
+  pattern matching. <code>some_tuple.0</code> gets the first element,
+  <code>some_tuple.1</code> gets the second element, etc.
+</p>
+<p>
+  Tuples are generic types, they have type parameters for the types they
+  contain. <code>#(1, "Hi!")</code> has the type <code>#(Int, String)</code>,
+  and <code>#(1.4, 10, 48)</code> has the type <code>#(Float, Int, Int)</code>.
+</p>
+<p>
+  Tuples are most commonly used to return 2 or 3 values from a function. Other
+  times it is often is clearer to use a <em>custom type</em>, which we will
+  cover next.
+</p>

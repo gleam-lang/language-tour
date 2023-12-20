@@ -14,6 +14,10 @@ pub fn main() {
   io.debug(2.2 >=. 1.3)
   io.debug(2.2 <=. 1.3)
 
+  // Equality works for any type
+  io.debug(1.1 == 1.1)
+  io.debug(2.1 == 1.2)
+
   // Standard library float functions
   io.debug(float.max(2.0, 9.5))
   io.debug(float.ceiling(5.4))

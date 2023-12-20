@@ -1,0 +1,18 @@
+<p>
+  The record accessor syntax <code>record.field_label</code> can be used to get
+  contained values from a custom type record.
+</p>
+<p>
+  The accessor syntax can only be used for fields that are in the same position
+  and have the same type for all variants of the custom type.
+</p>
+<p>
+  The <code>name</code> field is in the first position and has type
+  <code>String</code> for all variants, so it can be accessed.
+</p>
+<p>
+  The <code>subject</code> field is absent on the <code>Student</code> variant,
+  so it cannot be used on any variant of type <code>SchoolPerson</code>.
+  Uncomment the <code>teacher.subject</code> line to see the compile error from
+  trying to use this accessor.
+</p>
