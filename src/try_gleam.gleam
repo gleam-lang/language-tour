@@ -379,8 +379,8 @@ fn page_html(page: Page) -> String {
       h("nav", [#("class", "navbar")], [
         h("a", [#("href", "/")], [text("Try Gleam")]),
       ]),
-      h("article", [#("class", "playground")], [
-        h("section", [#("id", "text")], [
+      h("article", [#("id", "playground")], [
+        h("section", [#("id", "left")], [
           htmb.dangerous_unescaped_fragment(string_builder.from_string(page.text,
           )),
           h("nav", [#("class", "prev-next")], [
@@ -391,10 +391,12 @@ fn page_html(page: Page) -> String {
             navlink("Next", page.next),
           ]),
         ]),
-        h("section", [#("id", "editor")], [
-          h("div", [#("id", "editor-target")], []),
+        h("section", [#("id", "right")], [
+          h("section", [#("id", "editor")], [
+            h("div", [#("id", "editor-target")], []),
+          ]),
+          h("aside", [#("id", "output")], []),
         ]),
-        h("aside", [#("id", "output")], []),
       ]),
       h("script", [#("type", "gleam"), #("id", "code")], [
         htmb.dangerous_unescaped_fragment(string_builder.from_string(page.code)),
