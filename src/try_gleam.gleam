@@ -15,7 +15,7 @@ const public = "public"
 
 const public_precompiled = "public/precompiled"
 
-const prelude = "../compiler-core/templates/prelude.mjs"
+const prelude = "build/dev/javascript/prelude.mjs"
 
 const stdlib_compiled = "build/dev/javascript/gleam_stdlib/gleam"
 
@@ -23,7 +23,7 @@ const stdlib_sources = "build/packages/gleam_stdlib/src/gleam"
 
 const stdlib_external = "build/packages/gleam_stdlib/src"
 
-const compiler_wasm = "../compiler-wasm/pkg"
+const compiler_wasm = "../gleam/compiler-wasm/pkg"
 
 const lessons_src = "lessons/src"
 
@@ -51,10 +51,11 @@ pub fn main() {
   }
 
   case result {
-    Ok(_) -> Nil
+    Ok(_) -> {
+      io.println("Done")
+    }
     Error(snag) -> {
-      io.println(snag.pretty_print(snag))
-      panic
+      panic as snag.pretty_print(snag)
     }
   }
 }
