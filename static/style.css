@@ -171,3 +171,7 @@ h6 {
 .prev-next span {
   opacity: 0.5;
 }
+
+.mb-0 {
+  margin-bottom: 0;
+}

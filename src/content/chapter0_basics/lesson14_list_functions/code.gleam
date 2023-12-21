@@ -10,6 +10,6 @@ pub fn main() {
   let even = list.filter(ints, fn(x) { x % 2 == 0 })
   io.debug(even)
 
-  let total = list.fold(ints, from: 0, with: fn(count, e) { count + e })
+  let total = list.fold(ints, 0, fn(count, e) { count + e })
   io.debug(total)
 }

@@ -3,7 +3,7 @@ import gleam/int
 import gleam/list
 
 pub fn main() {
-  let x = list.repeat(int.random(0, 5), times: int.random(0, 3))
+  let x = list.repeat(int.random(5), times: int.random(3))
   io.debug(x)
 
   let result = case x {

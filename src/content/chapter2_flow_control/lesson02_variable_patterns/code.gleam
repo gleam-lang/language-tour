@@ -2,7 +2,7 @@ import gleam/io
 import gleam/int
 
 pub fn main() {
-  let x = int.random(0, 5)
+  let x = int.random(5)
   io.debug(x)
 
   let result = case x {

@@ -3,7 +3,6 @@ import gleam/list
 import htmb.{h, text}
 import gleam/string_builder
 import gleam/option.{type Option, None, Some}
-import gleam/pair
 import gleam/string
 import gleam/result
 import simplifile
@@ -25,7 +24,7 @@ const stdlib_external = "build/packages/gleam_stdlib/src"
 
 const compiler_wasm = "../gleam/compiler-wasm/pkg"
 
-const lessons_src = "lessons/src"
+const content_path = "src/content"
 
 const hello_joe = "import gleam/io
 
@@ -45,8 +44,8 @@ pub fn main() {
     use _ <- result.try(make_prelude_available())
     use _ <- result.try(make_stdlib_available())
     use _ <- result.try(copy_wasm_compiler())
-    use p <- result.try(load_pages())
-    use _ <- result.try(write_pages(p))
+    use p <- result.try(load_content())
+    use _ <- result.try(write_content(p))
     Ok(Nil)
   }
 
@@ -60,8 +59,12 @@ pub fn main() {
   }
 }
 
-type Page {
-  Page(
+type Chapter {
+  Chapter(name: String, path: String, lessons: List(Lesson))
+}
+
+type Lesson {
+  Lesson(
     name: String,
     text: String,
     code: String,
@@ -71,118 +74,175 @@ type Page {
   )
 }
 
-fn load_pages() -> snag.Result(List(Page)) {
-  use lessons <- result.try(
-    simplifile.read_directory(lessons_src)
-    |> file_error("Failed to read lessons directory"),
-  )
-
-  let lessons =
-    lessons
-    |> list.sort(by: string.compare)
-    |> list.index_map(pair.new)
-
-  use pages <- result.try(
-    list.try_map(lessons, fn(pair) {
-      let #(lesson, index) = pair
-      let path = lessons_src <> "/" <> lesson
-      let name =
-        lesson
-        |> string.split("_")
-        |> list.drop(1)
-        |> string.join("-")
-
-      use code <- result.try(
-        simplifile.read(path <> "/code.gleam")
-        |> file_error("Failed to read code.gleam"),
-      )
-
-      use text <- result.try(
-        simplifile.read(path <> "/text.html")
-        |> file_error("Failed to read text.html"),
-      )
-
-      let path = case index {
-        0 -> "/"
-        _ -> "/" <> name
-      }
-
-      Ok(Page(
-        name: name,
-        text: text,
-        code: code,
-        path: path,
-        previous: None,
-        next: None,
-      ))
-    }),
-  )
-
-  Ok(add_previous_next(pages, [], None))
+type FileNames {
+  FileNames(path: String, name: String, slug: String)
 }
 
-fn write_pages(pages: List(Page)) -> snag.Result(Nil) {
-  use _ <- result.try(list.try_each(pages, write_page))
+fn load_directory_names(path: String) -> snag.Result(List(FileNames)) {
+  use files <- result.map(
+    simplifile.read_directory(path)
+    |> file_error("Failed to read directory " <> path),
+  )
+  files
+  |> list.sort(by: string.compare)
+  |> list.filter(fn(file) { !string.starts_with(file, ".") })
+  |> list.map(fn(file) {
+    let path = path <> "/" <> file
+    let slug =
+      file
+      |> string.split("_")
+      |> list.drop(1)
+      |> string.join("-")
+    let name =
+      slug
+      |> string.replace("-", " ")
+      |> string.capitalise
+    FileNames(path: path, name: name, slug: slug)
+  })
+}
 
-  let render = fn(h) { string_builder.to_string(htmb.render(h)) }
-  let html =
-    string.concat([
-      render(h("h2", [], [text("Table of contents")])),
-      render(h(
-        "ul",
-        [],
-        list.map(pages, fn(page) {
-          h("li", [], [
-            h("a", [#("href", page.path)], [
-              page.name
-              |> string.replace("-", " ")
-              |> string.capitalise
-              |> text,
-            ]),
-          ])
-        }),
-      )),
-    ])
+fn load_chapter(names: FileNames) -> snag.Result(Chapter) {
+  let path = "/" <> names.slug
+  use lessons <- result.try(load_directory_names(names.path))
+  use lessons <- result.try(list.try_map(lessons, load_lesson(path, _)))
+  Ok(Chapter(name: names.name, path: path, lessons: lessons))
+}
 
-  let page =
-    Page(
+fn read_file(path: String) -> snag.Result(String) {
+  simplifile.read(path)
+  |> file_error("Failed to read file " <> path)
+}
+
+fn load_lesson(chapter_path: String, names: FileNames) -> snag.Result(Lesson) {
+  use code <- result.try(read_file(names.path <> "/code.gleam"))
+  use text <- result.try(read_file(names.path <> "/text.html"))
+
+  Ok(Lesson(
+    name: names.name,
+    text: text,
+    code: code,
+    path: chapter_path
+    <> "/"
+    <> names.slug,
+    previous: None,
+    next: None,
+  ))
+}
+
+fn load_content() -> snag.Result(List(Chapter)) {
+  use chapters <- result.try(load_directory_names(content_path))
+  use chapters <- result.try(list.try_map(chapters, load_chapter))
+  Ok(add_prev_next(chapters, [], Some("/")))
+}
+
+fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
+  let lessons = list.flat_map(chapters, fn(c) { c.lessons })
+  use _ <- result.try(list.try_map(lessons, write_lesson))
+
+  let lesson =
+    Lesson(
       name: "Index",
-      text: html,
+      text: index_list_html(chapters),
       code: hello_joe,
       path: "/index",
       previous: None,
       next: None,
     )
-  write_page(page)
+  write_lesson(lesson)
 }
 
-fn write_page(page: Page) -> snag.Result(Nil) {
-  let path = public <> page.path
+fn index_chapter_html(chapter: Chapter) -> String {
+  string.concat([
+    render_html(h("h3", [#("class", "mb-0")], [text(chapter.name)])),
+    render_html(h(
+      "ul",
+      [],
+      list.map(chapter.lessons, fn(lesson) {
+        h("li", [], [
+          h("a", [#("href", lesson.path)], [
+            lesson.name
+            |> string.replace("-", " ")
+            |> string.capitalise
+            |> text,
+          ]),
+        ])
+      }),
+    )),
+  ])
+}
+
+fn render_html(html: htmb.Html) -> String {
+  html
+  |> htmb.render
+  |> string_builder.to_string
+}
+
+fn index_list_html(chapters: List(Chapter)) -> String {
+  h("h2", [], [text("Table of contents")])
+  |> render_html
+  |> string.append(
+    chapters
+    |> list.map(index_chapter_html)
+    |> string.join("\n"),
+  )
+}
+
+fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
+  let path = public <> lesson.path
   use _ <- result.try(
     simplifile.create_directory_all(path)
     |> file_error("Failed to make " <> path),
   )
 
   let path = path <> "/index.html"
-  simplifile.write(to: path, contents: page_html(page))
+  simplifile.write(to: path, contents: lesson_html(lesson))
   |> file_error("Failed to write page " <> path)
 }
 
-fn add_previous_next(
-  rest: List(Page),
-  acc: List(Page),
+fn add_prev_next(
+  rest: List(Chapter),
+  acc: List(Chapter),
   previous: Option(String),
-) -> List(Page) {
+) -> List(Chapter) {
   case rest {
+    [chapter1, Chapter(lessons: [next, ..], ..) as chapter2, ..rest] -> {
+      let lessons = chapter1.lessons
+      let #(lessons, previous) =
+        add_prev_next_for_chapter(lessons, [], previous, Some(next.path))
+      let chapter1 = Chapter(..chapter1, lessons: lessons)
+      add_prev_next([chapter2, ..rest], [chapter1, ..acc], previous)
+    }
+
+    [chapter, ..rest] -> {
+      let lessons = chapter.lessons
+      let #(lessons, previous) =
+        add_prev_next_for_chapter(lessons, [], previous, None)
+      let chapter = Chapter(..chapter, lessons: lessons)
+      add_prev_next(rest, [chapter, ..acc], previous)
+    }
+
     [] -> list.reverse(acc)
-    [page, next, ..rest] -> {
-      let page = Page(..page, previous: previous, next: Some(next.path))
-      add_previous_next([next, ..rest], [page, ..acc], Some(page.path))
+  }
+}
+
+fn add_prev_next_for_chapter(
+  rest: List(Lesson),
+  acc: List(Lesson),
+  previous: Option(String),
+  last: Option(String),
+) -> #(List(Lesson), Option(String)) {
+  case rest {
+    [lesson1, lesson2, ..rest] -> {
+      let next = Some(lesson2.path)
+      let lesson = Lesson(..lesson1, previous: previous, next: next)
+      let rest = [lesson2, ..rest]
+      add_prev_next_for_chapter(rest, [lesson, ..acc], Some(lesson.path), last)
     }
-    [page, ..rest] -> {
-      let page = Page(..page, previous: previous, next: None)
-      add_previous_next(rest, [page, ..acc], Some(page.path))
+    [lesson, ..rest] -> {
+      let lesson = Lesson(..lesson, previous: previous, next: last)
+      add_prev_next_for_chapter(rest, [lesson, ..acc], Some(lesson.path), last)
     }
+    [] -> #(list.reverse(acc), previous)
   }
 }
 
@@ -353,7 +413,7 @@ fn file_error(
   }
 }
 
-fn page_html(page: Page) -> String {
+fn lesson_html(page: Lesson) -> String {
   let navlink = fn(name, link) {
     case link {
       None -> h("span", [], [text(name)])
