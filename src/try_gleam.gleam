@@ -139,10 +139,15 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   let lessons = list.flat_map(chapters, fn(c) { c.lessons })
   use _ <- result.try(list.try_map(lessons, write_lesson))
 
+  let html =
+    chapters
+    |> list.map(index_chapter_html)
+    |> string.join("\n")
+
   let lesson =
     Lesson(
       name: "Index",
-      text: index_list_html(chapters),
+      text: html,
       code: hello_joe,
       path: "/index",
       previous: None,
@@ -175,16 +180,6 @@ fn render_html(html: htmb.Html) -> String {
   html
   |> htmb.render
   |> string_builder.to_string
-}
-
-fn index_list_html(chapters: List(Chapter)) -> String {
-  h("h2", [], [text("Table of contents")])
-  |> render_html
-  |> string.append(
-    chapters
-    |> list.map(index_chapter_html)
-    |> string.join("\n"),
-  )
 }
 
 fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
