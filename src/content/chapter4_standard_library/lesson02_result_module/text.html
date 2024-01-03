@@ -1,0 +1,40 @@
+<p>
+  The
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/result.html"
+    ><code>gleam/result</code></a
+  >
+  standard library module contains functions for working with results. Gleam
+  programs will make heavy use of this module to avoid excessive nested case
+  expressions when calling multiple functions that can fail.
+</p>
+
+<p>
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/result.html#map"
+    ><code>map</code></a
+  >
+  updates a value held within the Ok of a result by calling a given function on
+  it. If the result is an error then the function is not called.
+</p>
+
+<p>
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/result.html#try"
+    ><code>try</code></a
+  >
+  runs a result returning function on the value held within an Ok of a result.
+  If the result is an error then the function is not called. This is useful for
+  chaining together multiple function calls that can fail, one after the other,
+  stopping at the first error.
+</p>
+
+<p>
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/result.html#unwrap"
+    ><code>unwrap</code></a
+  >
+  extracts the success value from a result, or returning a default value if the
+  result is an error.
+</p>
+
+<p>
+  Result functions are often used with pipelines to chain together multiple
+  calls to result returning functions.
+</p>

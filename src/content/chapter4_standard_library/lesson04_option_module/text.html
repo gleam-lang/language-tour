@@ -1,0 +1,16 @@
+<p>
+  Values in Gleam are not nullable, so the
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/option.html"
+    ><code>gleam/option</code></a
+  >
+  standard library module defines Gleam's <code>Oction</code> type, which can be
+  used to represent a value that is either present or absent.
+</p>
+
+<p>
+  The option type is very similar to the result type, but it does not have an
+  error value. Some languages have functions return an option when there is no
+  extra error detail to give, but Gleam always uses result. This makes all
+  failible functions consistent and removes any boilerplate that would be
+  required when mixing functions that use each type.
+</p>
