@@ -61,7 +61,8 @@ async function compileEval(project, code) {
     replaceOutput(logged, "log");
   } catch (error) {
     console.error(error);
-    replaceOutput(error.toString(), "error");
+    replaceOutput(logged, "log");
+    appendOutput(error.toString(), "error");
   }
   for (const warning of project.takeWarnings()) {
     appendOutput(warning, "warning");
