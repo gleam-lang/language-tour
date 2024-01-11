@@ -1,0 +1,25 @@
+<p>
+  Sometimes in our projects we want to use code written in other languages, most
+  commonly Erlang and JavaScript, depending on which runtime is being used.
+  Gleam's <em>external functions</em> and <em>external types</em> allow us to
+  import and use this non-Gleam code.
+</p>
+<p>
+  An external type is a one that has no constructors. Gleam doesn't know what
+  shape it has or how to create one, it only knows that it exists.
+</p>
+<p>
+  An external function is one that has the <code>@external</code> attribute on
+  it, directing the compiler to use the specified module function as the
+  implementation, instead of Gleam code.
+</p>
+<p>
+  The compiler can't tell the types of functions written in other languages, so
+  when the external attribute is given type annotations must be provided. Gleam
+  trusts that the type given is correct so an inaccurate type annotation can
+  result in unexpected behaviour and crashes at runtime. Be careful!
+</p>
+<p>
+  External functions are useful but should be used sparingly. Prefer to write
+  Gleam code where possible.
+</p>

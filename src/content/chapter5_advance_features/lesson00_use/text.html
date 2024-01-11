@@ -1,0 +1,31 @@
+<p>
+  Gleam lacks exceptions, macros, type classes, early returns, and a variety of
+  other features, instead going all-in with just first-class-functions and
+  pattern matching. This makes Gleam code easier to understand, but it can
+  sometimes result in excessive indentation.
+</p>
+<p>
+  Gleam's use expression helps out here by enabling us to write code that uses
+  callbacks in an unindented style, as shown in the code window.
+</p>
+
+<p>
+  The higher order function being called goes on the right hand side of the
+  <code>&lt;-</code> operator. It must take a callback function as its final
+  argument.
+</p>
+<p>
+  The argument names for the callback function go on the left hand side of the
+  <code>&lt;-</code> operator. The function can take any number of arguments,
+  including zero.
+</p>
+<p>
+  All the following code in the <code class="hljs">{}</code> block becomes the
+  body of the callback function.
+</p>
+<p>
+  This is a very capable and useful feature, but excessive application of
+  <code>use</code> may result in code that is unclear otherwise, especially to
+  beginners. Often using the regular function call syntax will result in more
+  approachable code!
+</p>

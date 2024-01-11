@@ -1,0 +1,30 @@
+<p>
+  The <code>use</code> expression is syntactic sugar for a regular function call
+  and an anonymous function.
+</p>
+
+<p>This code:</p>
+<pre>
+use a, b <- my_function
+next(a)
+next(b)
+</pre>
+
+<p>Expands into this code:</p>
+<pre>
+my_function(fn(a, b) {
+  next(a)
+  next(b)
+})
+</pre>
+
+<p>
+  To ensure that your <code>use</code> code works and is as understandable as
+  possible, the right-hand-side ideally should be a function call rather than a
+  pipeline or other expression, which is typically more difficult to read.
+</p>
+
+<p>
+  <code>use</code> is an expression like everything else in Gleam, so it can be
+  placed within blocks.
+</p>

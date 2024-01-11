@@ -1,0 +1,22 @@
+<p>
+  Multiple external implementations can be specified for the same function,
+  enabling the function to work on both Erlang and JavaScript.
+</p>
+<p>
+  If a function doesn't have an implementation for the currently compiled-for
+  target then the compiler will return an error.
+</p>
+<p>
+  You should try to implement functons for all targets, but this isn't always
+  possible due to incompatibilities in how IO and concurreny works in Erlang and
+  JavaScript. With Erlang concurrent IO is handled transparently by the runtime,
+  while in JavaScript concurrent IO requires the use of promises or callbacks.
+  If your code uses the Erlang style it is typically not possible to implement
+  in JavaScript, while if callbacks are used then it won't be compatible with
+  most Gleam and Erlang code as it forces any code that calls the function to
+  also use callbacks.
+</p>
+<p>
+  Libraries that make use of concurrent IO will typically have to decide whether
+  they support Erlang or JavaScript, and document this in their README.
+</p>

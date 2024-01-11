@@ -77,8 +77,9 @@ async function loadProgram(js) {
   const href = url.toString();
   const js1 = js.replaceAll(
     /from\s+"\.\/(.+)"/g,
-    `from "${href}precompiled/$1"`
+    `from "${href}precompiled/$1"`,
   );
+  console.log(js1);
   const js2 = btoa(unescape(encodeURIComponent(js1)));
   const module = await import("data:text/javascript;base64," + js2);
   return module.main;

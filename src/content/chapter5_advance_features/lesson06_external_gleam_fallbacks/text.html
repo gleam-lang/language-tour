@@ -1,0 +1,13 @@
+<p>
+  It's possible for a function to have both a Gleam implementation and an
+  external implementation. If there exists an external implementation for the
+  currently compiled-for target then it will be used, otherwise the Gleam
+  implementation is used.
+</p>
+<p>
+  This may be useful if you have a function that can be implemented in Gleam,
+  but there is an optimised implementation that can be used for one target. For
+  example, the Erlang virtual machine has a built-in list reverse function that
+  is implemented in native code. The code here uses this implementation when
+  running on Erlang, as it is then available.
+</p>
