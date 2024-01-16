@@ -15,4 +15,3 @@ pub fn now() -> DateTime
 pub fn main() {
   io.debug(now())
 }
-

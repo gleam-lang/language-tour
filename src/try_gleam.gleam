@@ -121,9 +121,7 @@ fn load_lesson(chapter_path: String, names: FileNames) -> snag.Result(Lesson) {
     name: names.name,
     text: text,
     code: code,
-    path: chapter_path
-    <> "/"
-    <> names.slug,
+    path: chapter_path <> "/" <> names.slug,
     previous: None,
     next: None,
   ))
@@ -436,7 +434,8 @@ fn lesson_html(page: Lesson) -> String {
       ]),
       h("article", [#("id", "playground")], [
         h("section", [#("id", "left")], [
-          htmb.dangerous_unescaped_fragment(string_builder.from_string(page.text,
+          htmb.dangerous_unescaped_fragment(string_builder.from_string(
+            page.text,
           )),
           h("nav", [#("class", "prev-next")], [
             navlink("Back", page.previous),
