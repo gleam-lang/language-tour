@@ -23,7 +23,7 @@ const prismGrammar = {
     greedy: true,
   },
   string: {
-    pattern: /"(?:\\(?:\r\n|[\s\S])|(?!")[^\\\r\n])*"/,
+    pattern: /"((?:[^"\\]|\\.)*)"/,
     greedy: true,
   },
   module: {
