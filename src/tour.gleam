@@ -22,7 +22,7 @@ const stdlib_sources = "build/packages/gleam_stdlib/src/gleam"
 
 const stdlib_external = "build/packages/gleam_stdlib/src"
 
-const compiler_wasm = "../gleam/compiler-wasm/pkg"
+const compiler_wasm = "./wasm-compiler"
 
 const content_path = "src/content"
 
@@ -333,7 +333,7 @@ fn add_prev_next_for_chapter(
 fn copy_wasm_compiler() -> snag.Result(Nil) {
   use <- require(
     simplifile.is_directory(compiler_wasm),
-    "compiler-wasm/pkg must have been compiled",
+    "compiler-wasm must have been compiled",
   )
 
   simplifile.copy_directory(compiler_wasm, public <> "/compiler")
