@@ -211,7 +211,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   // Home page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "Welcome the Gleam language tour! 💫",
+      name: "Welcome to the Gleam language tour! 💫",
       text: home_html,
       code: hello_joe,
       path: path_home,
