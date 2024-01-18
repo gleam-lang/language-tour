@@ -68,7 +68,7 @@ const home_html = "
   and we want to know about it so we can improve the tour.
 </p>
 <p>
-  OK, let's go. Click \"Next\" to get started, or click \"Index\" to jump to a
+  OK, let's go. Click \"Next\" to get started, or click \"Contents\" to jump to a
   specific topic.
 </p>
 "
@@ -96,7 +96,7 @@ const what_next_html = "
 
 const path_home = "/"
 
-const path_index = "/index"
+const page_contents = "/table-of-contents"
 
 const path_what_next = "/what-next"
 
@@ -231,13 +231,13 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
     )),
   )
 
-  // Lesson index page
+  // Lesson contents page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "Index",
-      text: string.join(list.map(chapters, index_chapter_html), "\n"),
+      name: "Contents",
+      text: string.join(list.map(chapters, contents_list_html), "\n"),
       code: hello_joe,
-      path: path_index,
+      path: page_contents,
       previous: None,
       next: None,
     )),
@@ -246,7 +246,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   Ok(Nil)
 }
 
-fn index_chapter_html(chapter: Chapter) -> String {
+fn contents_list_html(chapter: Chapter) -> String {
   string.concat([
     render_html(h("h3", [#("class", "mb-0")], [text(chapter.name)])),
     render_html(h(
@@ -280,7 +280,6 @@ fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
   )
 
   let path = filepath.join(path, "/index.html")
-  io.println("writing " <> path)
   simplifile.write(to: path, contents: lesson_html(lesson))
   |> file_error("Failed to write page " <> path)
 }
@@ -533,7 +532,7 @@ fn lesson_html(page: Lesson) -> String {
           h("nav", [#("class", "prev-next")], [
             navlink("Back", page.previous),
             text(" — "),
-            h("a", [#("href", path_index)], [text("Index")]),
+            h("a", [#("href", page_contents)], [text("Contents")]),
             text(" — "),
             navlink("Next", page.next),
           ]),
