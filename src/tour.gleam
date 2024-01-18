@@ -6,6 +6,7 @@ import gleam/option.{type Option, None, Some}
 import gleam/string
 import gleam/result
 import simplifile
+import filepath
 import snag
 
 const static = "static"
@@ -278,7 +279,8 @@ fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
     |> file_error("Failed to make " <> path),
   )
 
-  let path = path <> "/index.html"
+  let path = filepath.join(path, "/index.html")
+  io.println("writing " <> path)
   simplifile.write(to: path, contents: lesson_html(lesson))
   |> file_error("Failed to write page " <> path)
 }

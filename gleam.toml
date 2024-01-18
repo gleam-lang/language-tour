@@ -15,6 +15,7 @@ gleam_stdlib = "~> 0.32"
 simplifile = "~> 1.0"
 snag = "~> 0.2"
 htmb = "~> 1.1"
+filepath = "~> 0.1"
 
 [dev-dependencies]
 gleeunit = "~> 1.0"

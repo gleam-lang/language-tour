@@ -2,6 +2,7 @@
 # You typically do not need to edit this file
 
 packages = [
+  { name = "filepath", version = "0.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "filepath", source = "hex", outer_checksum = "534E8161A0DE192A9A105EFEC34369E9FD5834BB58ED449B5ACAEE8704358588" },
   { name = "gleam_stdlib", version = "0.34.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "1FB8454D2991E9B4C0C804544D8A9AD0F6184725E20D63C3155F0AEB4230B016" },
   { name = "gleeunit", version = "1.0.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "D364C87AFEB26BDB4FB8A5ABDE67D635DC9FA52D6AB68416044C35B096C6882D" },
   { name = "htmb", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "htmb", source = "hex", outer_checksum = "30D448F0E15DFCF7283AAAC2F351D77B9D54E318219C9FDDB1877572B67C27B7" },
@@ -10,6 +11,7 @@ packages = [
 ]
 
 [requirements]
+filepath = { version = "~> 0.1"}
 gleam_stdlib = { version = "~> 0.32" }
 gleeunit = { version = "~> 1.0" }
 htmb = { version = "~> 1.1" }
