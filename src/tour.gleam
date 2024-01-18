@@ -506,6 +506,14 @@ fn lesson_html(page: Lesson) -> String {
     }
   }
 
+  let metaprop = fn(property, content) {
+    h("meta", [#("property", property), #("content", content)], [])
+  }
+
+  let title = page.name <> " - The Gleam Language Tour"
+  let description =
+    "An interactive introduction reference to the Gleam programming language"
+
   h("html", [#("lang", "en-gb")], [
     h("head", [], [
       h("meta", [#("charset", "utf-8")], []),
@@ -517,7 +525,18 @@ fn lesson_html(page: Lesson) -> String {
         ],
         [],
       ),
-      h("title", [], [text(page.name <> " - The Gleam Language Tour")]),
+      h("title", [], [text(title)]),
+      h("meta", [#("name", "description"), #("content", description)], []),
+      metaprop("og:type", "website"),
+      metaprop("og:title", title),
+      metaprop("og:description", description),
+      metaprop("og:url", "https://tour.gleam.run/" <> page.path),
+      metaprop("og:image", "https://gleam.run/images/og-image.png"),
+      metaprop("twitter:card", "summary_large_image"),
+      metaprop("twitter:url", "https://tour.gleam.run/" <> page.path),
+      metaprop("twitter:title", title),
+      metaprop("twitter:description", description),
+      metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       h("link", [#("rel", "stylesheet"), #("href", "/style.css")], []),
     ]),
     h("body", [], [
