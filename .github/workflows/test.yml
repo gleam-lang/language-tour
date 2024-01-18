@@ -20,5 +20,12 @@ jobs:
           # elixir-version: "1.15.4"
       - run: gleam deps download
       - run: gleam format --check src test
-      # - run: gleam run
       - run: gleam test
+
+      - run: |
+          mkdir wasm-compiler
+          cd wasm-compiler
+          curl -L "https://github.com/gleam-lang/gleam/releases/download/v0.34.1/gleam-v0.34.1-browser.tar.gz" | tar xz
+          cd ..
+
+      - run: gleam run
