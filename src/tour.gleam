@@ -522,7 +522,7 @@ fn lesson_html(page: Lesson) -> String {
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
-        h("a", [#("href", "/")], [text("Try Gleam")]),
+        h("a", [#("href", "/")], [text("Gleam Language Tour")]),
       ]),
       h("article", [#("id", "playground")], [
         h("section", [#("id", "left")], [
