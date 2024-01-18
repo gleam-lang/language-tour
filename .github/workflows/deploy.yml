@@ -23,6 +23,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "26.0.2"
+          gleam-version: "0.34.1"
+          rebar3-version: "3"
 
       - name: Download WASM version of Gleam compiler
         run: ./bin/download-compiler
