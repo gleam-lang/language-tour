@@ -29,3 +29,21 @@ jobs:
           cd ..
 
       - run: gleam run
+
+      # Deploy to GitHub pages.
+      # These steps only run for the main branch, each has an `if`.
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        if: github.ref == 'refs/heads/main'
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+        if: github.ref == 'refs/heads/main'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        if: github.ref == 'refs/heads/main'
