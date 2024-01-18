@@ -33,6 +33,72 @@ pub fn main() {
 }
 "
 
+const hello_mike = "import gleam/io
+import gleam/list
+
+pub fn main() {
+  list.each(erlang_the_movie, io.println)
+}
+
+const erlang_the_movie = [
+  \"📞\", \"Hello, Mike!\", \"Hello, Joe!\", \"System working?\", \"Seems to be.\",
+  \"OK, fine.\", \"OK.\", \"💫\",
+]
+"
+
+const home_html = "
+<h2>Welcome the Gleam language tour! 💫</h2>
+<p>
+  This tour covers all aspects of the Gleam language, and assuming you have some
+  prior programming experience should teach you everything you need to write
+  real programs in Gleam.
+</p>
+<p>
+  The tour is interactive! The code shown is editable and will be compiled and
+  evaluated as you type. Anything you print using <code>io.println</code> or
+  <code>io.debug</code> will be shown in the bottom section, along with any
+  compile errors and warnings. To evaluate Gleam code the tour compiles Gleam to
+  JavaScript and runs it, all entirely within your browser window.
+</p>
+<p>
+  If at any point you get stuck or have a question do not hesitate to ask in
+  <a href=\"https://discord.gg/Fm8Pwmy\">the Gleam Discord server</a>. We're here
+  to help, and if you find something confusing then it's likely others will too,
+  and we want to know about it so we can improve the tour.
+</p>
+<p>
+  OK, let's go. Click \"Next\" to get started, or click \"Index\" to jump to a
+  specific topic.
+</p>
+"
+
+const what_next_html = "
+<h2>What next? 💫</h2>
+<p>
+  Congratulations on completing the tour! Here's some ideas for what to do next:
+</p>
+
+<p>
+  Read the <a href=\"https://gleam.run/getting-started/\">Gleam getting started
+  documentation</a> to learn more about the language and its tooling.
+</p>
+<p>
+  Join the <a href=\"https://discord.gg/Fm8Pwmy\">the Gleam Discord server</a>
+  and meet the community. They're friendly and helpful!
+</p>
+<p>
+  Enroll in the <a href=\"https://exercism.io/tracks/gleam\">Exercism
+  Gleam track</a> practice your Gleam skills through a series of exercises,
+  and get feedback from experienced Gleam developers.
+</p>
+"
+
+const path_home = "/"
+
+const path_index = "/index"
+
+const path_what_next = "/what-next"
+
 // Don't include deprecated stdlib modules
 const skipped_stdlib_modules = [
   "bit_string.gleam", "bit_builder.gleam", "map.gleam",
@@ -130,28 +196,53 @@ fn load_lesson(chapter_path: String, names: FileNames) -> snag.Result(Lesson) {
 fn load_content() -> snag.Result(List(Chapter)) {
   use chapters <- result.try(load_directory_names(content_path))
   use chapters <- result.try(list.try_map(chapters, load_chapter))
-  Ok(add_prev_next(chapters, [], Some("/")))
+  Ok(add_prev_next(chapters, [], path_home))
 }
 
 fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   let lessons = list.flat_map(chapters, fn(c) { c.lessons })
   use _ <- result.try(list.try_map(lessons, write_lesson))
 
-  let html =
-    chapters
-    |> list.map(index_chapter_html)
-    |> string.join("\n")
+  let assert Ok(first) = list.first(lessons)
+  let assert Ok(last) = list.last(lessons)
 
-  let lesson =
-    Lesson(
-      name: "Index",
-      text: html,
+  // Home page
+  use _ <- result.try(
+    write_lesson(Lesson(
+      name: "Hello, world!",
+      text: home_html,
       code: hello_joe,
-      path: "/index",
+      path: path_home,
+      previous: None,
+      next: Some(first.path),
+    )),
+  )
+
+  // "What next" final page
+  use _ <- result.try(
+    write_lesson(Lesson(
+      name: "What next?",
+      text: what_next_html,
+      code: hello_mike,
+      path: path_what_next,
+      previous: Some(last.path),
+      next: None,
+    )),
+  )
+
+  // Lesson index page
+  use _ <- result.try(
+    write_lesson(Lesson(
+      name: "Index",
+      text: string.join(list.map(chapters, index_chapter_html), "\n"),
+      code: hello_joe,
+      path: path_index,
       previous: None,
       next: None,
-    )
-  write_lesson(lesson)
+    )),
+  )
+
+  Ok(Nil)
 }
 
 fn index_chapter_html(chapter: Chapter) -> String {
@@ -195,13 +286,13 @@ fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
 fn add_prev_next(
   rest: List(Chapter),
   acc: List(Chapter),
-  previous: Option(String),
+  previous: String,
 ) -> List(Chapter) {
   case rest {
     [chapter1, Chapter(lessons: [next, ..], ..) as chapter2, ..rest] -> {
       let lessons = chapter1.lessons
       let #(lessons, previous) =
-        add_prev_next_for_chapter(lessons, [], previous, Some(next.path))
+        add_prev_next_for_chapter(lessons, [], previous, next.path)
       let chapter1 = Chapter(..chapter1, lessons: lessons)
       add_prev_next([chapter2, ..rest], [chapter1, ..acc], previous)
     }
@@ -209,7 +300,7 @@ fn add_prev_next(
     [chapter, ..rest] -> {
       let lessons = chapter.lessons
       let #(lessons, previous) =
-        add_prev_next_for_chapter(lessons, [], previous, None)
+        add_prev_next_for_chapter(lessons, [], previous, path_what_next)
       let chapter = Chapter(..chapter, lessons: lessons)
       add_prev_next(rest, [chapter, ..acc], previous)
     }
@@ -221,19 +312,19 @@ fn add_prev_next(
 fn add_prev_next_for_chapter(
   rest: List(Lesson),
   acc: List(Lesson),
-  previous: Option(String),
-  last: Option(String),
-) -> #(List(Lesson), Option(String)) {
+  previous: String,
+  last: String,
+) -> #(List(Lesson), String) {
   case rest {
     [lesson1, lesson2, ..rest] -> {
-      let next = Some(lesson2.path)
-      let lesson = Lesson(..lesson1, previous: previous, next: next)
+      let next = lesson2.path
+      let lesson = Lesson(..lesson1, previous: Some(previous), next: Some(next))
       let rest = [lesson2, ..rest]
-      add_prev_next_for_chapter(rest, [lesson, ..acc], Some(lesson.path), last)
+      add_prev_next_for_chapter(rest, [lesson, ..acc], lesson.path, last)
     }
     [lesson, ..rest] -> {
-      let lesson = Lesson(..lesson, previous: previous, next: last)
-      add_prev_next_for_chapter(rest, [lesson, ..acc], Some(lesson.path), last)
+      let lesson = Lesson(..lesson, previous: Some(previous), next: Some(last))
+      add_prev_next_for_chapter(rest, [lesson, ..acc], lesson.path, last)
     }
     [] -> #(list.reverse(acc), previous)
   }
@@ -425,7 +516,7 @@ fn lesson_html(page: Lesson) -> String {
         ],
         [],
       ),
-      h("title", [], [text("Try Gleam")]),
+      h("title", [], [text(page.name <> " - The Gleam Language Tour")]),
       h("link", [#("rel", "stylesheet"), #("href", "/style.css")], []),
     ]),
     h("body", [], [
@@ -440,7 +531,7 @@ fn lesson_html(page: Lesson) -> String {
           h("nav", [#("class", "prev-next")], [
             navlink("Back", page.previous),
             text(" — "),
-            h("a", [#("href", "/index")], [text("Index")]),
+            h("a", [#("href", path_index)], [text("Index")]),
             text(" — "),
             navlink("Next", page.next),
           ]),

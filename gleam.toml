@@ -1,4 +1,4 @@
-name = "try_gleam"
+name = "tour"
 version = "1.0.0"
 target = "javascript"
 

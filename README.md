@@ -1,3 +1,3 @@
-# Try Gleam
+# The Gleam Language Tour
 
-An interactive Gleam tutorial and playground! Watch this space.
+An interactive tour of the Gleam programming language.

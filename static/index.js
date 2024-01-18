@@ -79,7 +79,6 @@ async function loadProgram(js) {
     /from\s+"\.\/(.+)"/g,
     `from "${href}precompiled/$1"`,
   );
-  console.log(js1);
   const js2 = btoa(unescape(encodeURIComponent(js1)));
   const module = await import("data:text/javascript;base64," + js2);
   return module.main;
