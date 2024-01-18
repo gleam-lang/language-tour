@@ -48,7 +48,6 @@ const erlang_the_movie = [
 "
 
 const home_html = "
-<h2>Welcome the Gleam language tour! 💫</h2>
 <p>
   This tour covers all aspects of the Gleam language, and assuming you have some
   prior programming experience should teach you everything you need to write
@@ -74,7 +73,6 @@ const home_html = "
 "
 
 const what_next_html = "
-<h2>What next? 💫</h2>
 <p>
   Congratulations on completing the tour! Here's some ideas for what to do next:
 </p>
@@ -210,7 +208,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   // Home page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "Welcome!",
+      name: "Welcome the Gleam language tour! 💫",
       text: home_html,
       code: hello_joe,
       path: path_home,
@@ -222,7 +220,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   // "What next" final page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "What next?",
+      name: "What next? ✨",
       text: what_next_html,
       code: hello_mike,
       path: path_what_next,
@@ -234,7 +232,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   // Lesson contents page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "Contents",
+      name: "Table of Contents",
       text: string.join(list.map(chapters, contents_list_html), "\n"),
       code: hello_joe,
       path: page_contents,
@@ -545,6 +543,7 @@ fn lesson_html(page: Lesson) -> String {
       ]),
       h("article", [#("id", "playground")], [
         h("section", [#("id", "left")], [
+          h("h2", [], [text(page.name)]),
           htmb.dangerous_unescaped_fragment(string_builder.from_string(
             page.text,
           )),
