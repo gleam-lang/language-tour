@@ -117,7 +117,7 @@ pub fn main() {
 
   case result {
     Ok(_) -> {
-      io.println("Done")
+      io.println("Site compiled to ./public 🎉")
     }
     Error(snag) -> {
       panic as snag.pretty_print(snag)
