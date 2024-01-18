@@ -87,8 +87,11 @@ const what_next_html = "
 </p>
 <p>
   Enroll in the <a href=\"https://exercism.io/tracks/gleam\">Exercism
-  Gleam track</a> practice your Gleam skills through a series of exercises,
-  and get feedback from experienced Gleam developers.
+  Gleam track</a> to practice your Gleam skills through a series of exercises
+  and optionally get feedback from experienced Gleam developers.
+</p>
+<p>
+  Happy hacking!
 </p>
 "
 
