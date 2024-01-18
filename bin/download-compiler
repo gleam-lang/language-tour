@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -eu
+
+VERSION="v0.34.1"
+
+mkdir wasm-compiler
+cd wasm-compiler
+curl -L "https://github.com/gleam-lang/gleam/releases/download/$VERSION/gleam-$VERSION-browser.tar.gz" | tar xz
+cd ..
