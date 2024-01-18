@@ -210,7 +210,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   // Home page
   use _ <- result.try(
     write_lesson(Lesson(
-      name: "Hello, world!",
+      name: "Welcome!",
       text: home_html,
       code: hello_joe,
       path: path_home,
