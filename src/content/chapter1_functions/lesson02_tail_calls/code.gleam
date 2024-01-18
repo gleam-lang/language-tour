@@ -1,0 +1,21 @@
+import gleam/io
+
+pub fn main() {
+  io.debug(factorial(5))
+  io.debug(factorial(7))
+}
+
+pub fn factorial(x: Int) -> Int {
+  // The public function calls the private tail recursive function
+  factorial_loop(x, 1)
+}
+
+fn factorial_loop(x: Int, accumulator: Int) -> Int {
+  case x {
+    1 -> accumulator
+
+    // The last thing this function does is call itself
+    // In the previous lesson the last thing it did was multiple two ints
+    _ -> factorial_loop(x - 1, accumulator * x)
+  }
+}

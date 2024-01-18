@@ -1,0 +1,23 @@
+<p>
+  When a function is called a new stack frame is created in memory to store the
+  arguments and local variables of the function. If lots of these frames are
+  created during recursion then the program would use a large amount of memory,
+  or even crash the program if some limit is hit.
+</p>
+<p>
+  To avoid this problem Gleam supports <em>tail call optimisation</em>, which
+  allows the compiler to reuse the stack frame for the current function if a
+  function call is the last thing the function does, removing the memory cost.
+</p>
+
+<p>
+  Unoptimised recursive functions can often be rewritten into tail call
+  optimised functions by using an accumulator. An accumulator is a variable that
+  is passed along in addition to the data, similar to a mutable variable in a
+  language with <code>while</code> loops.
+</p>
+<p>
+  Accumulators should be hidden away from the users of your code, they are
+  internal implementation details. To do this write a public function that calls
+  a recursive private function with the initial accumulator value.
+</p>
