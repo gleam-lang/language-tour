@@ -64,9 +64,20 @@ function debounce(fn, delay) {
   };
 }
 
+let workerWorking = false;
+let queuedWork = undefined;
 const worker = new Worker("worker.js", { type: "module" });
 
+function sendToWorker(code) {
+  if (workerWorking) {
+    queuedWork = code;
+    return;
+  }
+  worker.postMessage(code);
+}
+
 worker.onmessage = (event) => {
+  // Handle the result of the compilation and execution
   const result = event.data;
   clearOutput();
   if (result.log) appendOutput(result.log, "log");
@@ -74,6 +85,11 @@ worker.onmessage = (event) => {
   for (const warning of result.warnings) {
     appendOutput(warning, "warning");
   }
+
+  // Deal with any queued work
+  workerWorking = false;
+  if (queuedWork) sendToWorker(queuedWork);
+  queuedWork = undefined;
 };
 
 editor.onUpdate(debounce((code) => worker.postMessage(code), 200));
