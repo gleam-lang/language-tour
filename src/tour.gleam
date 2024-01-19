@@ -541,6 +541,15 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
       link("stylesheet", "/style.css"),
+      h(
+        "script",
+        [
+          #("defer", ""),
+          #("data-domain", "tour.gleam.run"),
+          #("src", "https://plausible.io/js/script.js"),
+        ],
+        [],
+      ),
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
