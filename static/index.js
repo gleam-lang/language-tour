@@ -66,7 +66,7 @@ function debounce(fn, delay) {
 
 let workerWorking = false;
 let queuedWork = undefined;
-const worker = new Worker("worker.js", { type: "module" });
+const worker = new Worker("/worker.js", { type: "module" });
 
 function sendToWorker(code) {
   if (workerWorking) {
