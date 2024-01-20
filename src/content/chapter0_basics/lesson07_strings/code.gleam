@@ -11,6 +11,9 @@ pub fn main() {
   )
   io.debug("\u{1F600}")
 
+  // Use io.println to see an escape sequence in action
+  io.println("\"X\" marks the spot")
+
   // String concatenation
   io.debug("One " <> "Two")
 
