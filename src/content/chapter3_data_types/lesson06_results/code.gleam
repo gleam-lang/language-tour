@@ -8,12 +8,12 @@ pub fn main() {
   io.debug(buy_pastry(3))
 }
 
-pub type Error {
+pub type PurchaseError {
   NotEnoughMoney(required: Int)
   NotLuckyEnough
 }
 
-fn buy_pastry(money: Int) -> Result(Int, Error) {
+fn buy_pastry(money: Int) -> Result(Int, PurchaseError) {
   case money >= 5 {
     True ->
       case int.random(4) == 0 {
