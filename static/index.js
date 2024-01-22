@@ -64,7 +64,7 @@ function debounce(fn, delay) {
   };
 }
 
-let workerWorking = false;
+let workerWorking = true;
 let queuedWork = undefined;
 const worker = new Worker("/worker.js", { type: "module" });
 
@@ -73,16 +73,17 @@ function sendToWorker(code) {
     queuedWork = code;
     return;
   }
+  workerWorking = true;
   worker.postMessage(code);
 }
 
 worker.onmessage = (event) => {
   // Handle the result of the compilation and execution
   const result = event.data;
-  clearOutput();
+  if (!result.initialReadyMessage) clearOutput();
   if (result.log) appendOutput(result.log, "log");
   if (result.error) appendOutput(result.error, "error");
-  for (const warning of result.warnings) {
+  for (const warning of result.warnings ?? []) {
     appendOutput(warning, "warning");
   }
 
@@ -92,5 +93,10 @@ worker.onmessage = (event) => {
   queuedWork = undefined;
 };
 
-editor.onUpdate(debounce((code) => worker.postMessage(code), 200));
-worker.postMessage(initialCode);
+editor.onUpdate(debounce((code) => sendToWorker(code), 200));
+
+// This line doesn't seem to be needed,
+// because updating the editor to the initial code (line 57)
+// triggers the onUpdate callback above (line 96) on my machine.
+// But you might uncomment it anyway to be extra safe:
+// sendToWorker(initialCode);

@@ -65,3 +65,5 @@ self.onmessage = async (event) => {
   const result = compileEval(event.data);
   postMessage(await result);
 };
+
+postMessage({initialReadyMessage: true});
