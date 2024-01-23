@@ -11,7 +11,7 @@ pub fn main() {
 
   case x {
     Ok(greeting) -> io.println(greeting)
-    Error(error) -> io.println_error(error)
+    Error(error) -> io.println("ERROR:" <> error)
   }
 }
 
