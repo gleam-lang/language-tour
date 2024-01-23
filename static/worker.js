@@ -66,4 +66,6 @@ self.onmessage = async (event) => {
   postMessage(await result);
 };
 
-postMessage({initialReadyMessage: true});
+// Send an initial message to the main thread to indicate that the worker is
+// ready to receive messages.
+postMessage({});
