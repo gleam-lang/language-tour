@@ -18,6 +18,9 @@ pub fn main() {
   io.debug(1.1 == 1.1)
   io.debug(2.1 == 1.2)
 
+  // Division by zero is not an error
+  io.debug(3.14 /. 0.0)
+
   // Standard library float functions
   io.debug(float.max(2.0, 9.5))
   io.debug(float.ceiling(5.4))
