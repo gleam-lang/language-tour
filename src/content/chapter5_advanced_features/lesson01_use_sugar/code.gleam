@@ -3,7 +3,7 @@ import gleam/result
 
 pub fn main() {
   let x = {
-    use username <- result.try(get_usename())
+    use username <- result.try(get_username())
     use password <- result.try(get_password())
     use greeting <- result.map(log_in(username, password))
     greeting <> ", " <> username
@@ -17,7 +17,7 @@ pub fn main() {
 
 // Here are some pretend functions for this example:
 
-fn get_usename() {
+fn get_username() {
   Ok("alice")
 }
 
