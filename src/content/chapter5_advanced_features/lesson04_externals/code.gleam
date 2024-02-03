@@ -8,7 +8,7 @@ pub type DateTime
 pub fn now() -> DateTime
 
 // The `now` function in `./my_package_ffi.mjs` looks like this:
-// external function now() {
+// export function now() {
 //   return new Date();
 // }
 
