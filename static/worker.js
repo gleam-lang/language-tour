@@ -65,3 +65,7 @@ self.onmessage = async (event) => {
   const result = compileEval(event.data);
   postMessage(await result);
 };
+
+// Send an initial message to the main thread to indicate that the worker is
+// ready to receive messages.
+postMessage({});
