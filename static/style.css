@@ -28,7 +28,7 @@
 
 html.theme-light {
   --color-background: var(--light-theme-background);
-  --color-background-dim: var(--dark-theme-background-dim);
+  --color-background-dim: var(--light-theme-background-dim);
   --color-link: var(initial);
   --color-navbar-background: var(--brand-primary);
   --color-navbar-link: var(--light-theme-text);
