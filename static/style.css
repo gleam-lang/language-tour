@@ -170,17 +170,18 @@ a {
 
 .error,
 .warning {
-  border: var(--gap) solid var(--border-color);
+  border-width: var(--gap);
+  border-style: solid;
   border-top: 0;
   border-bottom: 0;
 }
 
 .error {
-  --border-color: var(--brand-error);
+  border-color: var(--brand-error);
 }
 
 .warning {
-  --border-color: var(--brand-warning);
+  border-color: var(--brand-warning);
 }
 
 .prev-next {
