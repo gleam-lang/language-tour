@@ -516,7 +516,7 @@ fn lesson_html(page: Lesson) -> String {
   let description =
     "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!"
 
-  h("html", [#("lang", "en-gb")], [
+  h("html", [#("lang", "en-gb"), #("class", "theme-dark")], [
     h("head", [], [
       h("meta", [#("charset", "utf-8")], []),
       h(
