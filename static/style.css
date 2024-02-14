@@ -33,6 +33,7 @@ html.theme-light {
   --color-navbar-background: var(--brand-primary);
   --color-navbar-link: var(--light-theme-text);
   --color-text: var(--light-theme-text);
+  --color-code: var(--light-theme-code);
   --color-divider: var(--brand-primary);
   color-scheme: light;
 }
@@ -44,6 +45,7 @@ html.theme-dark {
   --color-navbar-background: var(--brand-primary);
   --color-navbar-link: var(--light-theme-text);
   --color-text: var(--dark-theme-text);
+  --color-code: var(--dark-theme-code);
   --color-divider: var(--col-magenta-800);
   color-scheme: dark;
 }
@@ -74,6 +76,7 @@ code {
 
 p code {
   padding: 1px 2px;
+  color: var(--color-code);
   background-color: var(--color-background-dim);
 }
 
