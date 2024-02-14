@@ -15,7 +15,7 @@ fn factorial_loop(x: Int, accumulator: Int) -> Int {
     1 -> accumulator
 
     // The last thing this function does is call itself
-    // In the previous lesson the last thing it did was multiple two ints
+    // In the previous lesson the last thing it did was multiply two ints
     _ -> factorial_loop(x - 1, accumulator * x)
   }
 }
