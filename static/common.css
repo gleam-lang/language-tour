@@ -27,6 +27,7 @@
 
   /* Semantic colors */
   --brand-primary: var(--col-magenta-300);
+  --brand-primary-dim: var(--col-magenta-800);
   --brand-success: var(--col-green-200);
   --brand-warning: var(--col-yellow-300);
   --brand-error: var(--col-red-400);
