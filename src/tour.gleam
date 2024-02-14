@@ -540,6 +540,7 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
+      link("stylesheet", "/common.css"),
       link("stylesheet", "/style.css"),
       h(
         "script",

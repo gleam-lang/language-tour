@@ -22,11 +22,6 @@
   --font-family-normal: "Outfit", sans-serif;
   --font-family-title: "Lexend", sans-serif;
 
-  --color-pink: #ffaff3;
-  --color-red: #ff6262;
-  --color-orange: #ffd596;
-  --color-green: #c8ffa7;
-
   --navbar-height: calc(calc(2 * var(--gap)) + 20px);
   --gap: 12px;
 }
@@ -55,7 +50,7 @@ code {
 
 p code {
   padding: 1px 2px;
-  background-color: #f5f5f5;
+  background-color: var(--light-theme-background-dim);
 }
 
 h1,
@@ -74,13 +69,13 @@ h6 {
   align-items: center;
   height: var(--navbar-height);
   padding: var(--gap);
-  background-color: var(--color-pink);
+  background-color: var(--brand-primary);
 }
 
 .navbar a:visited,
 .navbar a {
   text-decoration: none;
-  color: #000;
+  color: var(--light-theme-text);
 }
 
 #left,
@@ -88,7 +83,7 @@ h6 {
 #editor {
   min-height: 200px;
   overflow-y: auto;
-  border-bottom: 2px solid var(--color-pink);
+  border-bottom: 2px solid var(--brand-primary);
   margin: 0;
   overflow-wrap: break-word;
 }
@@ -119,7 +114,7 @@ h6 {
   }
 
   #left {
-    border-right: 2px solid var(--color-pink);
+    border-right: 2px solid var(--brand-primary);
   }
 
   #right {
@@ -153,11 +148,11 @@ h6 {
 }
 
 .error {
-  --border-color: var(--color-red);
+  --border-color: var(--brand-error);
 }
 
 .warning {
-  --border-color: var(--color-orange);
+  --border-color: var(--brand-warning);
 }
 
 .prev-next {
