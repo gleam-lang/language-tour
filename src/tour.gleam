@@ -8,6 +8,7 @@ import gleam/result
 import simplifile
 import filepath
 import snag
+import icons
 
 const static = "static"
 
@@ -516,7 +517,7 @@ fn lesson_html(page: Lesson) -> String {
   let description =
     "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!"
 
-  h("html", [#("lang", "en-gb"), #("class", "theme-dark")], [
+  h("html", [#("lang", "en-gb"), #("class", "theme-light")], [
     h("head", [], [
       h("meta", [#("charset", "utf-8")], []),
       h(
@@ -540,6 +541,8 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
+      // Initialize theme before CSS is loaded to avoid FOUC
+      h("script", [], [text(theme_picker_js)]),
       link("stylesheet", "/common.css"),
       link("stylesheet", "/style.css"),
       h(
@@ -555,6 +558,32 @@ fn lesson_html(page: Lesson) -> String {
     h("body", [], [
       h("nav", [#("class", "navbar")], [
         h("a", [#("href", "/")], [text("Gleam Language Tour")]),
+        h("div", [#("class", "nav-right")], [
+          h("div", [#("class", "theme-picker")], [
+            h(
+              "button",
+              [
+                #("type", "button"),
+                #("alt", "Switch to light mode"),
+                #("title", "Switch to light mode"),
+                #("onclick", "setLightTheme()"),
+                #("class", "theme-button -light"),
+              ],
+              [icons.icon_moon(), icons.icon_toggle_left()],
+            ),
+            h(
+              "button",
+              [
+                #("type", "button"),
+                #("alt", "Switch to dark mode"),
+                #("title", "Switch to dark mode"),
+                #("onclick", "setDarkTheme()"),
+                #("class", "theme-button -dark"),
+              ],
+              [icons.icon_sun(), icons.icon_toggle_right()],
+            ),
+          ]),
+        ]),
       ]),
       h("article", [#("id", "playground")], [
         h("section", [#("id", "left")], [
@@ -586,3 +615,26 @@ fn lesson_html(page: Lesson) -> String {
   |> htmb.render_page("html")
   |> string_builder.to_string
 }
+
+const theme_picker_js = "
+window.setDarkTheme = function() {
+  document.documentElement.classList.add('theme-dark')
+  document.documentElement.classList.remove('theme-light')
+  localStorage.setItem('theme', 'dark')
+};
+
+window.setLightTheme = function() {
+  document.documentElement.classList.add('theme-light')
+  document.documentElement.classList.remove('theme-dark')
+  localStorage.setItem('theme', 'light')
+};
+
+(function initTheme() {
+  const theme = localStorage.getItem('theme') || 'light'
+  if (theme == 'dark') {
+    window.setDarkTheme()
+  } else {
+    window.setLightTheme()
+  }
+})();
+"
