@@ -234,100 +234,124 @@ html.theme-light .theme-button.-light {
   margin-bottom: 0;
 }
 
+
+/*
+ * CodeFlask editor themes based on the Atom One highlight.js theme used in Gleam package docs sites.
+ */
+
+.codeflask .codeflask__textarea {
+  color: var(--color-background-dim); /* Prevents rendering artifacts in dark mode */
+  caret-color: var(--color-text); /* Makes the text input cursor visible in dark mode */
+}
+
+
+/* CodeFlask light theme */
+
+html.theme-light .codeflask {
+  background: var(--color-background-dim);
+  color: var(--color-text);
+}
+
 html.theme-light .codeflask .token.punctuation {
-  color: #4a4a4a;
+  color: #383a42;
 }
 
 html.theme-light .codeflask .token.keyword {
-  color: #8500ff;
+  color: #a626a4;
 }
 
 html.theme-light .codeflask .token.operator {
-  color: #ff5598;
+  color: #383a42;
 }
 
 html.theme-light .codeflask .token.string {
-  color: #41ad8f;
+  color: #50a14f;
 }
 
 html.theme-light .codeflask .token.comment {
-  color: #9badb7;
+  color: #a0a1a7;
 }
 
 html.theme-light .codeflask .token.function {
-  color: #8500ff;
+  color: #986801;
 }
 
 html.theme-light .codeflask .token.boolean {
-  color: #8500ff;
+  color: #986801;
 }
 
 html.theme-light .codeflask .token.number {
-  color: #8500ff;
+  color: #986801;
 }
 
 html.theme-light .codeflask .token.selector {
-  color: #8500ff;
+  color: #986801;
 }
 
 html.theme-light .codeflask .token.property {
-  color: #8500ff;
+  color: #986801;
 }
 
 html.theme-light .codeflask .token.tag {
-  color: #8500ff;
+  color: #383a42;
 }
 
 html.theme-light .codeflask .token.attr-value {
-  color: #8500ff;
+  color: #383a42;
 }
 
 
+/* CodeFlask dark theme */
+
+html.theme-dark .codeflask {
+  background: var(--color-background-dim);
+  color: #d19a66;
+}
 
 html.theme-dark .codeflask .token.punctuation {
-  color: #4a4a4a;
+  color: #abb2bf
 }
 
 html.theme-dark .codeflask .token.keyword {
-  color: #8500ff;
+  color: #c678dd;
 }
 
 html.theme-dark .codeflask .token.operator {
-  color: #ff5598;
+  color: #abb2bf;
 }
 
 html.theme-dark .codeflask .token.string {
-  color: #41ad8f;
+  color: #98c379;
 }
 
 html.theme-dark .codeflask .token.comment {
-  color: #9badb7;
+  color: #5c6370;
 }
 
 html.theme-dark .codeflask .token.function {
-  color: #8500ff;
+  color: #61aeee;
 }
 
 html.theme-dark .codeflask .token.boolean {
-  color: #8500ff;
+  color: #61aeee;
 }
 
 html.theme-dark .codeflask .token.number {
-  color: #8500ff;
+  color: #d19a66;
 }
 
 html.theme-dark .codeflask .token.selector {
-  color: #8500ff;
+  color: #d19a66;
 }
 
 html.theme-dark .codeflask .token.property {
-  color: #8500ff;
+  color: #d19a66;
 }
 
 html.theme-dark .codeflask .token.tag {
-  color: #8500ff;
+  color: #abb2bf;
 }
 
 html.theme-dark .codeflask .token.attr-value {
-  color: #8500ff;
+  color: #abb2bf;
 }
