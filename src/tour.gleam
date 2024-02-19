@@ -541,8 +541,6 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
-      // Initialize theme before CSS is loaded to avoid FOUC
-      h("script", [], [text(theme_picker_js)]),
       link("stylesheet", "/common.css"),
       link("stylesheet", "/style.css"),
       h(
@@ -554,6 +552,7 @@ fn lesson_html(page: Lesson) -> String {
         ],
         [],
       ),
+      h("script", [#("type", "module")], [text(theme_picker_js)]),
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
@@ -616,6 +615,7 @@ fn lesson_html(page: Lesson) -> String {
   |> string_builder.to_string
 }
 
+// This script is loaded inline to avoid FOUC
 const theme_picker_js = "
 window.setDarkTheme = function() {
   document.documentElement.classList.add('theme-dark')
@@ -629,12 +629,10 @@ window.setLightTheme = function() {
   localStorage.setItem('theme', 'light')
 };
 
-(function initTheme() {
-  const theme = localStorage.getItem('theme') || 'light'
-  if (theme == 'dark') {
-    window.setDarkTheme()
-  } else {
-    window.setLightTheme()
-  }
-})();
+const theme = localStorage.getItem('theme') || 'light'
+if (theme == 'dark') {
+  window.setDarkTheme()
+} else {
+  window.setLightTheme()
+}
 "
