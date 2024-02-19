@@ -233,3 +233,101 @@ html.theme-light .theme-button.-light {
 .mb-0 {
   margin-bottom: 0;
 }
+
+html.theme-light .codeflask .token.punctuation {
+  color: #4a4a4a;
+}
+
+html.theme-light .codeflask .token.keyword {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.operator {
+  color: #ff5598;
+}
+
+html.theme-light .codeflask .token.string {
+  color: #41ad8f;
+}
+
+html.theme-light .codeflask .token.comment {
+  color: #9badb7;
+}
+
+html.theme-light .codeflask .token.function {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.boolean {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.number {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.selector {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.property {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.tag {
+  color: #8500ff;
+}
+
+html.theme-light .codeflask .token.attr-value {
+  color: #8500ff;
+}
+
+
+
+html.theme-dark .codeflask .token.punctuation {
+  color: #4a4a4a;
+}
+
+html.theme-dark .codeflask .token.keyword {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.operator {
+  color: #ff5598;
+}
+
+html.theme-dark .codeflask .token.string {
+  color: #41ad8f;
+}
+
+html.theme-dark .codeflask .token.comment {
+  color: #9badb7;
+}
+
+html.theme-dark .codeflask .token.function {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.boolean {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.number {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.selector {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.property {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.tag {
+  color: #8500ff;
+}
+
+html.theme-dark .codeflask .token.attr-value {
+  color: #8500ff;
+}
