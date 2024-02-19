@@ -552,7 +552,11 @@ fn lesson_html(page: Lesson) -> String {
         ],
         [],
       ),
-      h("script", [#("type", "module")], [text(theme_picker_js)]),
+      h("script", [#("type", "module")], [
+        htmb.dangerous_unescaped_fragment(string_builder.from_string(
+          theme_picker_js,
+        )),
+      ]),
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
