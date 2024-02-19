@@ -569,8 +569,7 @@ fn lesson_html(page: Lesson) -> String {
                 #("type", "button"),
                 #("alt", "Switch to light mode"),
                 #("title", "Switch to light mode"),
-                #("onclick", "setLightTheme()"),
-                #("class", "theme-button -light"),
+                #("class", "theme-button -light js-theme-button-light"),
               ],
               [icons.icon_moon(), icons.icon_toggle_left()],
             ),
@@ -580,8 +579,7 @@ fn lesson_html(page: Lesson) -> String {
                 #("type", "button"),
                 #("alt", "Switch to dark mode"),
                 #("title", "Switch to dark mode"),
-                #("onclick", "setDarkTheme()"),
-                #("class", "theme-button -dark"),
+                #("class", "theme-button -dark js-theme-button-dark"),
               ],
               [icons.icon_sun(), icons.icon_toggle_right()],
             ),
@@ -619,24 +617,33 @@ fn lesson_html(page: Lesson) -> String {
   |> string_builder.to_string
 }
 
-// This script is loaded inline to avoid FOUC
+// This script is inlined in the response to avoid FOUC when applying the theme
 const theme_picker_js = "
-window.setDarkTheme = function() {
+function setDarkTheme() {
   document.documentElement.classList.add('theme-dark')
   document.documentElement.classList.remove('theme-light')
   localStorage.setItem('theme', 'dark')
 };
 
-window.setLightTheme = function() {
+function setLightTheme() {
   document.documentElement.classList.add('theme-light')
   document.documentElement.classList.remove('theme-dark')
   localStorage.setItem('theme', 'light')
 };
 
+// Add handlers for theme selection buttons
+document.querySelector('.js-theme-button-light').addEventListener('click', (e) => {
+  setLightTheme()
+})
+document.querySelector('.js-theme-button-dark').addEventListener('click', (e) => {
+  setDarkTheme()
+})
+
+// Apply the preferred theme
 const theme = localStorage.getItem('theme') || 'light'
 if (theme == 'dark') {
-  window.setDarkTheme()
+  setDarkTheme()
 } else {
-  window.setLightTheme()
+  setLightTheme()
 }
 "
