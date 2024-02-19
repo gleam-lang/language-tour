@@ -78,8 +78,8 @@ const what_next_html = "
 </p>
 
 <p>
-  Read the <a href=\"https://gleam.run/getting-started/\">Gleam getting started
-  documentation</a> to learn more about the language and its tooling.
+  Read the <a href=\"https://gleam.run/writing-gleam\">Writing Gleam
+  guide</a> to learn how to create and develop a Gleam project.
 </p>
 <p>
   Join the <a href=\"https://discord.gg/Fm8Pwmy\">the Gleam Discord server</a>
