@@ -14,6 +14,8 @@ pub fn main() {
   io.debug(twice("Hello", exclaim))
 }
 
+// The function signature (below) states that the type of 
+// `value` must be the same in all 4 places:
 fn twice(argument: value, function: fn(value) -> value) -> value {
   function(function(argument))
 }
