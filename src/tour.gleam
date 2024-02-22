@@ -569,7 +569,8 @@ fn lesson_html(page: Lesson) -> String {
                 #("type", "button"),
                 #("alt", "Switch to light mode"),
                 #("title", "Switch to light mode"),
-                #("class", "theme-button -light js-theme-button-light"),
+                #("class", "theme-button -light"),
+                #("data-light-theme-toggle", ""),
               ],
               [icons.icon_moon(), icons.icon_toggle_left()],
             ),
@@ -579,7 +580,8 @@ fn lesson_html(page: Lesson) -> String {
                 #("type", "button"),
                 #("alt", "Switch to dark mode"),
                 #("title", "Switch to dark mode"),
-                #("class", "theme-button -dark js-theme-button-dark"),
+                #("class", "theme-button -dark"),
+                #("data-dark-theme-toggle", ""),
               ],
               [icons.icon_sun(), icons.icon_toggle_right()],
             ),
@@ -619,31 +621,62 @@ fn lesson_html(page: Lesson) -> String {
 
 // This script is inlined in the response to avoid FOUC when applying the theme
 const theme_picker_js = "
-function setDarkTheme() {
+const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+function applyPreferredTheme() {
+  // Use the device's preferred theme as indicated by the media query
+  if (mediaPrefersDarkTheme.matches) {
+    applyDarkTheme()
+  } else {
+    applyLightTheme()
+  }
+}
+
+function applyDarkTheme() {
   document.documentElement.classList.add('theme-dark')
   document.documentElement.classList.remove('theme-light')
-  localStorage.setItem('theme', 'dark')
-};
+}
 
-function setLightTheme() {
+function applyLightTheme() {
   document.documentElement.classList.add('theme-light')
   document.documentElement.classList.remove('theme-dark')
-  localStorage.setItem('theme', 'light')
-};
-
-// Add handlers for theme selection buttons
-document.querySelector('.js-theme-button-light').addEventListener('click', (e) => {
-  setLightTheme()
-})
-document.querySelector('.js-theme-button-dark').addEventListener('click', (e) => {
-  setDarkTheme()
-})
-
-// Apply the preferred theme
-const theme = localStorage.getItem('theme') || 'light'
-if (theme == 'dark') {
-  setDarkTheme()
-} else {
-  setLightTheme()
 }
+
+// If user had selected a theme, load it. Otherwise, use device's preferred theme
+const selectedTheme = localStorage.getItem('theme')
+if (selectedTheme == 'dark') {
+  applyDarkTheme()
+} else if (selectedTheme == 'light') {
+  applyLightTheme()
+} else {
+  applyPreferredTheme()
+}
+
+// Watch the device's preferred theme and update theme if user did not select a theme
+mediaPrefersDarkTheme.addEventListener('change', () => {
+  const selectedTheme = localStorage.getItem('theme')
+  if (!selectedTheme) {
+    applyPreferredTheme()
+  }
+})
+
+// Add handlers for theme selection buttons.
+// If the selected theme matches the device's preferred theme, we can simply forget
+// the selected theme and instead use the preferred theme.
+document.querySelector('[data-light-theme-toggle]').addEventListener('click', () => {
+  if (!mediaPrefersDarkTheme.matches) {
+    localStorage.removeItem('theme')
+  } else {
+    localStorage.setItem('theme', 'light')
+  }
+  applyLightTheme()
+})
+document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
+  if (mediaPrefersDarkTheme.matches) {
+    localStorage.removeItem('theme')
+  } else {
+    localStorage.setItem('theme', 'dark')
+  }
+  applyDarkTheme()
+})
 "
