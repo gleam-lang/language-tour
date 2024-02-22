@@ -69,7 +69,7 @@ body {
   color: var(--color-text);
 }
 
-codeflask__textarea,
+.codeflask__textarea,
 pre,
 code {
   font-weight: normal;
