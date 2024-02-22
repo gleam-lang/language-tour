@@ -623,40 +623,24 @@ fn lesson_html(page: Lesson) -> String {
 const theme_picker_js = "
 const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
 
-function applyPreferredTheme() {
-  // Use the device's preferred theme as indicated by the media query
-  if (mediaPrefersDarkTheme.matches) {
-    applyDarkTheme()
-  } else {
-    applyLightTheme()
-  }
-}
-
-function applyDarkTheme() {
-  document.documentElement.classList.add('theme-dark')
-  document.documentElement.classList.remove('theme-light')
-}
-
-function applyLightTheme() {
-  document.documentElement.classList.add('theme-light')
-  document.documentElement.classList.remove('theme-dark')
+function applyTheme(theme) {
+  document.documentElement.classList.toggle('theme-dark', theme === 'dark')
+  document.documentElement.classList.toggle('theme-light', theme !== 'dark')
 }
 
 // If user had selected a theme, load it. Otherwise, use device's preferred theme
 const selectedTheme = localStorage.getItem('theme')
-if (selectedTheme == 'dark') {
-  applyDarkTheme()
-} else if (selectedTheme == 'light') {
-  applyLightTheme()
+if (selectedTheme) {
+  applyTheme(selectedTheme)
 } else {
-  applyPreferredTheme()
+  applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
 }
 
 // Watch the device's preferred theme and update theme if user did not select a theme
 mediaPrefersDarkTheme.addEventListener('change', () => {
   const selectedTheme = localStorage.getItem('theme')
   if (!selectedTheme) {
-    applyPreferredTheme()
+    applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
   }
 })
 
@@ -669,7 +653,7 @@ document.querySelector('[data-light-theme-toggle]').addEventListener('click', ()
   } else {
     localStorage.setItem('theme', 'light')
   }
-  applyLightTheme()
+  applyTheme('light')
 })
 document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
   if (mediaPrefersDarkTheme.matches) {
@@ -677,6 +661,6 @@ document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () 
   } else {
     localStorage.setItem('theme', 'dark')
   }
-  applyDarkTheme()
+  applyTheme('dark')
 })
 "
