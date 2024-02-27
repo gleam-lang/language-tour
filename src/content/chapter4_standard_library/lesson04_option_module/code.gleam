@@ -1,4 +1,7 @@
 import gleam/io
+
+// Notice that the `type` keyword is used when importing types such
+// as `Option` but not when importing values like `None` or `Some`.
 import gleam/option.{type Option, None, Some}
 
 pub type Person {
