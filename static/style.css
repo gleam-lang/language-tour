@@ -239,7 +239,7 @@ html.theme-light .theme-button.-light {
  */
 
 .codeflask .codeflask__textarea {
-  color: var(--color-background-dim); /* Prevents rendering artifacts in dark mode */
+  color: var(--color-background); /* Prevents rendering artifacts in dark mode */
   caret-color: var(--color-text); /* Makes the text input cursor visible in dark mode */
 }
 
@@ -247,7 +247,7 @@ html.theme-light .theme-button.-light {
 /* CodeFlask light theme */
 
 html.theme-light .codeflask {
-  background: var(--color-background-dim);
+  background: var(--color-background);
   color: var(--color-text);
 }
 
@@ -303,7 +303,7 @@ html.theme-light .codeflask .token.attr-value {
 /* CodeFlask dark theme */
 
 html.theme-dark .codeflask {
-  background: var(--color-background-dim);
+  background: var(--color-background);
   color: #d19a66;
 }
 
