@@ -33,20 +33,20 @@
 html.theme-light {
   --color-background: var(--light-theme-background);
   --color-background-dim: var(--light-theme-background-dim);
-  --color-link: var(initial);
   --color-text: var(--light-theme-text);
+  --color-link: var(--light-theme-text);
   --color-code: var(--light-theme-code);
-  --color-divider: var(--brand-primary);
+  --color-divider: var(--faff-pink);
   color-scheme: light;
 }
 
 html.theme-dark {
   --color-background: var(--dark-theme-background);
   --color-background-dim: var(--dark-theme-background-dim);
-  --color-link: var(--brand-primary);
   --color-text: var(--dark-theme-text);
+  --color-link: var(--faff-pink);
   --color-code: var(--dark-theme-code);
-  --color-divider: var(--brand-primary-dim);
+  --color-divider: var(--unexpected-aubergine);
   color-scheme: dark;
 }
 
