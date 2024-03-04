@@ -539,7 +539,7 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:title", title),
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
-      link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
+      link("shortcut icon", "https://gleam.run/images/lucy/lucy.svg"),
       link("stylesheet", "/style.css"),
       h(
         "script",
@@ -553,7 +553,17 @@ fn lesson_html(page: Lesson) -> String {
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
-        h("a", [#("href", "/")], [text("Gleam Language Tour")]),
+        h("a", [#("href", "/"), #("class", "logo")], [
+          h(
+            "img",
+            [
+              #("src", "https://gleam.run/images/lucy/lucy.svg"),
+              #("alt", "Lucy the star, Gleam's mascot"),
+            ],
+            [],
+          ),
+          text("Gleam Language Tour"),
+        ]),
       ]),
       h("article", [#("id", "playground")], [
         h("section", [#("id", "left")], [
