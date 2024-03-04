@@ -35,6 +35,7 @@ html.theme-light {
   --color-background-dim: var(--light-theme-background-dim);
   --color-text: var(--light-theme-text);
   --color-link: var(--light-theme-text);
+  --color-link-decoration: var(--faff-pink);
   --color-code: var(--light-theme-code);
   --color-divider: var(--faff-pink);
   color-scheme: light;
@@ -44,7 +45,8 @@ html.theme-dark {
   --color-background: var(--dark-theme-background);
   --color-background-dim: var(--dark-theme-background-dim);
   --color-text: var(--dark-theme-text);
-  --color-link: var(--faff-pink);
+  --color-link: var(--dark-theme-text);
+  --color-link-decoration: var(--faff-pink);
   --color-code: var(--dark-theme-code);
   --color-divider: var(--unexpected-aubergine);
   color-scheme: dark;
@@ -103,6 +105,11 @@ h6 {
 
 a {
   color: var(--color-link);
+  text-decoration-color: var(--color-link-decoration);
+}
+
+a code {
+  color: inherit;
 }
 
 .navbar a:visited,
