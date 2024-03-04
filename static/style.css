@@ -24,15 +24,16 @@
 
   --navbar-height: calc(calc(2 * var(--gap)) + 20px);
   --gap: 12px;
+
+  --color-navbar-background: var(--faff-pink);
+  --color-navbar-text: var(--light-theme-text);
+  --color-navbar-link: var(--light-theme-text);
 }
 
 html.theme-light {
   --color-background: var(--light-theme-background);
   --color-background-dim: var(--light-theme-background-dim);
   --color-link: var(initial);
-  --color-navbar-background: var(--brand-primary);
-  --color-navbar-text: var(--light-theme-text);
-  --color-navbar-link: var(--light-theme-text);
   --color-text: var(--light-theme-text);
   --color-code: var(--light-theme-code);
   --color-divider: var(--brand-primary);
@@ -43,9 +44,6 @@ html.theme-dark {
   --color-background: var(--dark-theme-background);
   --color-background-dim: var(--dark-theme-background-dim);
   --color-link: var(--brand-primary);
-  --color-navbar-background: var(--brand-primary);
-  --color-navbar-text: var(--dark-theme-background);
-  --color-navbar-link: var(--light-theme-text);
   --color-text: var(--dark-theme-text);
   --color-code: var(--dark-theme-code);
   --color-divider: var(--brand-primary-dim);
