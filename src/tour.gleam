@@ -79,8 +79,8 @@ const what_next_html = "
 </p>
 
 <p>
-  Read the <a href=\"https://gleam.run/getting-started/\">Gleam getting started
-  documentation</a> to learn more about the language and its tooling.
+  Read the <a href=\"https://gleam.run/writing-gleam\">Writing Gleam
+  guide</a> to learn how to create and develop a Gleam project.
 </p>
 <p>
   Join the <a href=\"https://discord.gg/Fm8Pwmy\">the Gleam Discord server</a>
@@ -184,7 +184,7 @@ fn read_file(path: String) -> snag.Result(String) {
 
 fn load_lesson(chapter_path: String, names: FileNames) -> snag.Result(Lesson) {
   use code <- result.try(read_file(names.path <> "/code.gleam"))
-  use text <- result.try(read_file(names.path <> "/text.html"))
+  use text <- result.try(read_file(names.path <> "/en.html"))
 
   Ok(Lesson(
     name: names.name,
@@ -540,7 +540,7 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:title", title),
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
-      link("shortcut icon", "https://gleam.run/images/lucy-circle.svg"),
+      link("shortcut icon", "https://gleam.run/images/lucy/lucy.svg"),
       link("stylesheet", "/common.css"),
       link("stylesheet", "/style.css"),
       h(
@@ -560,7 +560,17 @@ fn lesson_html(page: Lesson) -> String {
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
-        h("a", [#("href", "/")], [text("Gleam Language Tour")]),
+        h("a", [#("href", "/"), #("class", "logo")], [
+          h(
+            "img",
+            [
+              #("src", "https://gleam.run/images/lucy/lucy.svg"),
+              #("alt", "Lucy the star, Gleam's mascot"),
+            ],
+            [],
+          ),
+          text("Gleam Language Tour"),
+        ]),
         h("div", [#("class", "nav-right")], [
           h("div", [#("class", "theme-picker")], [
             h(

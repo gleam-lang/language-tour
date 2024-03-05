@@ -112,6 +112,18 @@ a code {
   color: inherit;
 }
 
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .logo img {
+  display: inline-block;
+  height: 2em;
+  transform: rotate(-10deg);
+  margin-right: 0.5em;
+}
+
 .navbar a:visited,
 .navbar a {
   text-decoration: none;

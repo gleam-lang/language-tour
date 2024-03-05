@@ -16,10 +16,6 @@ console.log = (...args) => {
   logged += args.map((e) => `${e}`).join(" ") + "\n";
 };
 
-function resetLogCapture() {
-  logged = "";
-}
-
 async function loadProgram(js) {
   const url = new URL(import.meta.url);
   url.pathname = "";
@@ -36,6 +32,7 @@ async function loadProgram(js) {
 }
 
 async function compileEval(code) {
+  logged = "";
   const result = {
     log: null,
     error: null,
@@ -47,7 +44,6 @@ async function compileEval(code) {
     project.compilePackage("javascript");
     const js = project.readCompiledJavaScript("main");
     const main = await loadProgram(js);
-    resetLogCapture();
     if (main) main();
   } catch (error) {
     console.error(error);

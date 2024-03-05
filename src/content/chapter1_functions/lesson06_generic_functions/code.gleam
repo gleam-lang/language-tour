@@ -14,6 +14,7 @@ pub fn main() {
   io.debug(twice("Hello", exclaim))
 }
 
+// The name `value` refers to the same type multiple times
 fn twice(argument: value, function: fn(value) -> value) -> value {
   function(function(argument))
 }
