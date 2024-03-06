@@ -52,6 +52,7 @@ function appendOutput(content, className) {
 
 const editor = new CodeFlask("#editor-target", {
   language: "gleam",
+  defaultTheme: false
 });
 editor.addLanguage("gleam", prismGrammar);
 editor.updateCode(initialCode);

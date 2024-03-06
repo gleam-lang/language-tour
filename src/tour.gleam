@@ -8,6 +8,7 @@ import gleam/result
 import simplifile
 import filepath
 import snag
+import icons
 
 const static = "static"
 
@@ -516,7 +517,7 @@ fn lesson_html(page: Lesson) -> String {
   let description =
     "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!"
 
-  h("html", [#("lang", "en-gb")], [
+  h("html", [#("lang", "en-gb"), #("class", "theme-light")], [
     h("head", [], [
       h("meta", [#("charset", "utf-8")], []),
       h(
@@ -540,6 +541,7 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
       link("shortcut icon", "https://gleam.run/images/lucy/lucy.svg"),
+      link("stylesheet", "/common.css"),
       link("stylesheet", "/style.css"),
       h(
         "script",
@@ -550,6 +552,11 @@ fn lesson_html(page: Lesson) -> String {
         ],
         [],
       ),
+      h("script", [#("type", "module")], [
+        htmb.dangerous_unescaped_fragment(string_builder.from_string(
+          theme_picker_js,
+        )),
+      ]),
     ]),
     h("body", [], [
       h("nav", [#("class", "navbar")], [
@@ -563,6 +570,32 @@ fn lesson_html(page: Lesson) -> String {
             [],
           ),
           text("Gleam Language Tour"),
+        ]),
+        h("div", [#("class", "nav-right")], [
+          h("div", [#("class", "theme-picker")], [
+            h(
+              "button",
+              [
+                #("type", "button"),
+                #("alt", "Switch to light mode"),
+                #("title", "Switch to light mode"),
+                #("class", "theme-button -light"),
+                #("data-light-theme-toggle", ""),
+              ],
+              [icons.icon_moon(), icons.icon_toggle_left()],
+            ),
+            h(
+              "button",
+              [
+                #("type", "button"),
+                #("alt", "Switch to dark mode"),
+                #("title", "Switch to dark mode"),
+                #("class", "theme-button -dark"),
+                #("data-dark-theme-toggle", ""),
+              ],
+              [icons.icon_sun(), icons.icon_toggle_right()],
+            ),
+          ]),
         ]),
       ]),
       h("article", [#("id", "playground")], [
@@ -595,3 +628,49 @@ fn lesson_html(page: Lesson) -> String {
   |> htmb.render_page("html")
   |> string_builder.to_string
 }
+
+// This script is inlined in the response to avoid FOUC when applying the theme
+const theme_picker_js = "
+const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+function selectTheme(selectedTheme) {
+  // Apply and remember the specified theme.
+  applyTheme(selectedTheme)
+  if ((selectedTheme === 'dark') === mediaPrefersDarkTheme.matches) {
+    // Selected theme is the same as the device's preferred theme, so we can forget this setting.
+    localStorage.removeItem('theme')
+  } else {
+    // Remember the selected theme to apply it on the next visit
+    localStorage.setItem('theme', selectedTheme)
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.classList.toggle('theme-dark', theme === 'dark')
+  document.documentElement.classList.toggle('theme-light', theme !== 'dark')
+}
+
+// If user had selected a theme, load it. Otherwise, use device's preferred theme
+const selectedTheme = localStorage.getItem('theme')
+if (selectedTheme) {
+  applyTheme(selectedTheme)
+} else {
+  applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
+}
+
+// Watch the device's preferred theme and update theme if user did not select a theme
+mediaPrefersDarkTheme.addEventListener('change', () => {
+  const selectedTheme = localStorage.getItem('theme')
+  if (!selectedTheme) {
+    applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
+  }
+})
+
+// Add handlers for theme selection buttons.
+document.querySelector('[data-light-theme-toggle]').addEventListener('click', () => {
+  selectTheme('light')
+})
+document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
+  selectTheme('dark')
+})
+"

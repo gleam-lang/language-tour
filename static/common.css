@@ -1,0 +1,41 @@
+/* This file contains design tokens used in core Gleam projects */
+:root {
+  /* Branding */
+  --faff-pink: #ffaff3;
+  --white: #fefefc;
+  --unnamed-blue: #a6f0fc;
+  --aged-plastic-yellow: #fffbe8;
+  --unexpected-aubergine: #584355;
+  --underwater-blue: #292d3e;
+  --charcoal: #2f2f2f;
+  --black: #1e1e1e;
+  --blacker: #151515;
+
+  /* Other greys */
+  --off-white: #f5f5f5;
+
+  /* Other colors */
+  --menthol: #c8ffa7;
+  --caramel: #ffd596;
+  --deep-saffron: #ff9d35;
+  --tomato: #ff6262;
+
+  /* Semantic colors */
+  --brand-success: var(--menthol);
+  --brand-warning: var(--caramel);
+  --brand-error: var(--tomato);
+
+  /* Light theme */
+  --light-theme-background: var(--white);
+  --light-theme-background-dim: var(--off-white);
+  --light-theme-text: var(--black);
+  --light-theme-text-secondary: var(--charcoal);
+  --light-theme-code: var(--black);
+
+  /* Dark theme */
+  --dark-theme-background: var(--underwater-blue);
+  --dark-theme-background-dim: var(--black);
+  --dark-theme-text: var(--white);
+  --dark-theme-text-secondary: var(--aged-plastic-yellow);
+  --dark-theme-code: var(--deep-saffron);
+}
