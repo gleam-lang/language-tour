@@ -9,8 +9,8 @@ pub fn main() {
   io.debug(function(100))
 }
 
-fn twice(argument: Int, function: fn(Int) -> Int) -> Int {
-  function(function(argument))
+fn twice(argument: Int, passed_function: fn(Int) -> Int) -> Int {
+  passed_function(passed_function(argument))
 }
 
 fn add_one(argument: Int) -> Int {
