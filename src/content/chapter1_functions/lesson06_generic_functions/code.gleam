@@ -15,6 +15,6 @@ pub fn main() {
 }
 
 // The name `value` refers to the same type multiple times
-fn twice(argument: value, function: fn(value) -> value) -> value {
-  function(function(argument))
+fn twice(argument: value, passed_function: fn(value) -> value) -> value {
+  passed_function(passed_function(argument))
 }
