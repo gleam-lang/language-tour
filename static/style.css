@@ -130,6 +130,12 @@ a code {
   color: var(--color-navbar-link);
 }
 
+.navbar .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
 html.theme-dark .theme-button.-dark {
   display: none;
 }

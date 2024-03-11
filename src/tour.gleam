@@ -572,6 +572,7 @@ fn lesson_html(page: Lesson) -> String {
           text("Gleam Language Tour"),
         ]),
         h("div", [#("class", "nav-right")], [
+          h("a", [#("href", "https://gleam.run")], [text("Homepage")]),
           h("div", [#("class", "theme-picker")], [
             h(
               "button",
