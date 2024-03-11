@@ -1,14 +1,14 @@
+import filepath
 import gleam/io
 import gleam/list
-import htmb.{h, text}
-import gleam/string_builder
 import gleam/option.{type Option, None, Some}
-import gleam/string
 import gleam/result
-import simplifile
-import filepath
-import snag
+import gleam/string
+import gleam/string_builder
+import htmb.{h, text}
 import icons
+import simplifile
+import snag
 
 const static = "static"
 
@@ -572,7 +572,7 @@ fn lesson_html(page: Lesson) -> String {
           text("Gleam Language Tour"),
         ]),
         h("div", [#("class", "nav-right")], [
-          h("a", [#("href", "https://gleam.run")], [text("Homepage")]),
+          h("a", [#("href", "https://gleam.run")], [text("gleam.run")]),
           h("div", [#("class", "theme-picker")], [
             h(
               "button",
