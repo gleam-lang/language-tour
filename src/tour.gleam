@@ -6,9 +6,9 @@ import gleam/result
 import gleam/string
 import gleam/string_builder
 import htmb.{h, text}
-import icons
 import simplifile
 import snag
+import tour/widgets
 
 const static = "static"
 
@@ -245,6 +245,9 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
     )),
   )
 
+  // Everything page
+  use _ <- result.try(write_everything_page(chapters))
+
   Ok(Nil)
 }
 
@@ -274,16 +277,28 @@ fn render_html(html: htmb.Html) -> String {
   |> string_builder.to_string
 }
 
+fn ensure_directory(path: String) -> snag.Result(Nil) {
+  simplifile.create_directory_all(path)
+  |> file_error("Failed to create directory " <> path)
+}
+
+fn write_text(path: String, text: String) -> snag.Result(Nil) {
+  simplifile.write(path, text)
+  |> file_error("Failed to write " <> path)
+}
+
+fn write_everything_page(chapters: List(Chapter)) -> snag.Result(Nil) {
+  let path = public <> "/everything"
+  use _ <- result.try(ensure_directory(path))
+  let path = filepath.join(path, "/index.html")
+  write_text(path, everything_html(chapters))
+}
+
 fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
   let path = public <> lesson.path
-  use _ <- result.try(
-    simplifile.create_directory_all(path)
-    |> file_error("Failed to make " <> path),
-  )
-
+  use _ <- result.try(ensure_directory(path))
   let path = filepath.join(path, "/index.html")
-  simplifile.write(to: path, contents: lesson_html(lesson))
-  |> file_error("Failed to write page " <> path)
+  write_text(path, lesson_html(lesson))
 }
 
 fn add_prev_next(
@@ -500,6 +515,48 @@ fn file_error(
   }
 }
 
+fn slugify_path(path: String) -> String {
+  string.replace(path, "/", "")
+}
+
+fn everything_html(chapters: List(Chapter)) -> String {
+  let lessons = {
+    use chapter <- list.flat_map(chapters)
+    use lesson <- list.flat_map(chapter.lessons)
+    [
+      h("h2", [#("id", slugify_path(lesson.path))], [text(lesson.name)]),
+      htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
+      h("pre", [], [h("code", [], [text(lesson.code)])]),
+    ]
+  }
+
+  let table_of_contents =
+    list.map(chapters, fn(chapter) {
+      h("li", [], [
+        h("h3", [], [text(chapter.name)]),
+        h(
+          "ul",
+          [],
+          list.map(chapter.lessons, fn(lesson) {
+            h("li", [], [
+              h("a", [#("href", "#" <> slugify_path(lesson.path))], [
+                text(lesson.name),
+              ]),
+            ])
+          }),
+        ),
+      ])
+    })
+
+  // TODO: use proper values for location and such
+  page_html(at: "everything", titled: "Everythingyyy!!!", containing: [
+    h("main", [#("class", "everything")], [
+      h("ul", [#("class", "everything-contents")], table_of_contents),
+      h("article", [#("class", "everything-lessons")], lessons),
+    ]),
+  ])
+}
+
 fn lesson_html(page: Lesson) -> String {
   let navlink = fn(name, link) {
     case link {
@@ -508,12 +565,44 @@ fn lesson_html(page: Lesson) -> String {
     }
   }
 
+  page_html(at: page.path, titled: page.name, containing: [
+    h("article", [#("id", "playground")], [
+      h("section", [#("id", "left")], [
+        h("h2", [], [text(page.name)]),
+        htmb.dangerous_unescaped_fragment(string_builder.from_string(page.text)),
+        h("nav", [#("class", "prev-next")], [
+          navlink("Back", page.previous),
+          text(" — "),
+          h("a", [#("href", page_contents)], [text("Contents")]),
+          text(" — "),
+          navlink("Next", page.next),
+        ]),
+      ]),
+      h("section", [#("id", "right")], [
+        h("section", [#("id", "editor")], [
+          h("div", [#("id", "editor-target")], []),
+        ]),
+        h("aside", [#("id", "output")], []),
+      ]),
+    ]),
+    h("script", [#("type", "gleam"), #("id", "code")], [
+      htmb.dangerous_unescaped_fragment(string_builder.from_string(page.code)),
+    ]),
+    h("script", [#("type", "module"), #("src", "/index.js")], []),
+  ])
+}
+
+fn page_html(
+  at path: String,
+  titled title: String,
+  containing content: List(htmb.Html),
+) -> String {
   let metaprop = fn(property, content) {
     h("meta", [#("property", property), #("content", content)], [])
   }
   let link = fn(rel, href) { h("link", [#("rel", rel), #("href", href)], []) }
 
-  let title = page.name <> " - The Gleam Language Tour"
+  let title = title <> " - The Gleam Language Tour"
   let description =
     "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!"
 
@@ -533,10 +622,10 @@ fn lesson_html(page: Lesson) -> String {
       metaprop("og:type", "website"),
       metaprop("og:title", title),
       metaprop("og:description", description),
-      metaprop("og:url", "https://tour.gleam.run/" <> page.path),
+      metaprop("og:url", "https://tour.gleam.run/" <> path),
       metaprop("og:image", "https://gleam.run/images/og-image.png"),
       metaprop("twitter:card", "summary_large_image"),
-      metaprop("twitter:url", "https://tour.gleam.run/" <> page.path),
+      metaprop("twitter:url", "https://tour.gleam.run/" <> path),
       metaprop("twitter:title", title),
       metaprop("twitter:description", description),
       metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
@@ -554,7 +643,7 @@ fn lesson_html(page: Lesson) -> String {
       ),
       h("script", [#("type", "module")], [
         htmb.dangerous_unescaped_fragment(string_builder.from_string(
-          theme_picker_js,
+          widgets.theme_picker_js,
         )),
       ]),
     ]),
@@ -583,7 +672,7 @@ fn lesson_html(page: Lesson) -> String {
                 #("class", "theme-button -light"),
                 #("data-light-theme-toggle", ""),
               ],
-              [icons.icon_moon(), icons.icon_toggle_left()],
+              [widgets.icon_moon(), widgets.icon_toggle_left()],
             ),
             h(
               "button",
@@ -594,84 +683,14 @@ fn lesson_html(page: Lesson) -> String {
                 #("class", "theme-button -dark"),
                 #("data-dark-theme-toggle", ""),
               ],
-              [icons.icon_sun(), icons.icon_toggle_right()],
+              [widgets.icon_sun(), widgets.icon_toggle_right()],
             ),
           ]),
         ]),
       ]),
-      h("article", [#("id", "playground")], [
-        h("section", [#("id", "left")], [
-          h("h2", [], [text(page.name)]),
-          htmb.dangerous_unescaped_fragment(string_builder.from_string(
-            page.text,
-          )),
-          h("nav", [#("class", "prev-next")], [
-            navlink("Back", page.previous),
-            text(" — "),
-            h("a", [#("href", page_contents)], [text("Contents")]),
-            text(" — "),
-            navlink("Next", page.next),
-          ]),
-        ]),
-        h("section", [#("id", "right")], [
-          h("section", [#("id", "editor")], [
-            h("div", [#("id", "editor-target")], []),
-          ]),
-          h("aside", [#("id", "output")], []),
-        ]),
-      ]),
-      h("script", [#("type", "gleam"), #("id", "code")], [
-        htmb.dangerous_unescaped_fragment(string_builder.from_string(page.code)),
-      ]),
-      h("script", [#("type", "module"), #("src", "/index.js")], []),
+      ..content
     ]),
   ])
   |> htmb.render_page("html")
   |> string_builder.to_string
 }
-
-// This script is inlined in the response to avoid FOUC when applying the theme
-const theme_picker_js = "
-const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
-
-function selectTheme(selectedTheme) {
-  // Apply and remember the specified theme.
-  applyTheme(selectedTheme)
-  if ((selectedTheme === 'dark') === mediaPrefersDarkTheme.matches) {
-    // Selected theme is the same as the device's preferred theme, so we can forget this setting.
-    localStorage.removeItem('theme')
-  } else {
-    // Remember the selected theme to apply it on the next visit
-    localStorage.setItem('theme', selectedTheme)
-  }
-}
-
-function applyTheme(theme) {
-  document.documentElement.classList.toggle('theme-dark', theme === 'dark')
-  document.documentElement.classList.toggle('theme-light', theme !== 'dark')
-}
-
-// If user had selected a theme, load it. Otherwise, use device's preferred theme
-const selectedTheme = localStorage.getItem('theme')
-if (selectedTheme) {
-  applyTheme(selectedTheme)
-} else {
-  applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
-}
-
-// Watch the device's preferred theme and update theme if user did not select a theme
-mediaPrefersDarkTheme.addEventListener('change', () => {
-  const selectedTheme = localStorage.getItem('theme')
-  if (!selectedTheme) {
-    applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
-  }
-})
-
-// Add handlers for theme selection buttons.
-document.querySelector('[data-light-theme-toggle]').addEventListener('click', () => {
-  selectTheme('light')
-})
-document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
-  selectTheme('dark')
-})
-"

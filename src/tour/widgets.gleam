@@ -59,3 +59,49 @@ pub fn icon_toggle_right() -> Html {
     ),
   ])
 }
+
+// This script is inlined in the response to avoid FOUC when applying the theme
+pub const theme_picker_js = "
+const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
+
+function selectTheme(selectedTheme) {
+  // Apply and remember the specified theme.
+  applyTheme(selectedTheme)
+  if ((selectedTheme === 'dark') === mediaPrefersDarkTheme.matches) {
+    // Selected theme is the same as the device's preferred theme, so we can forget this setting.
+    localStorage.removeItem('theme')
+  } else {
+    // Remember the selected theme to apply it on the next visit
+    localStorage.setItem('theme', selectedTheme)
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.classList.toggle('theme-dark', theme === 'dark')
+  document.documentElement.classList.toggle('theme-light', theme !== 'dark')
+}
+
+// If user had selected a theme, load it. Otherwise, use device's preferred theme
+const selectedTheme = localStorage.getItem('theme')
+if (selectedTheme) {
+  applyTheme(selectedTheme)
+} else {
+  applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
+}
+
+// Watch the device's preferred theme and update theme if user did not select a theme
+mediaPrefersDarkTheme.addEventListener('change', () => {
+  const selectedTheme = localStorage.getItem('theme')
+  if (!selectedTheme) {
+    applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
+  }
+})
+
+// Add handlers for theme selection buttons.
+document.querySelector('[data-light-theme-toggle]').addEventListener('click', () => {
+  selectTheme('light')
+})
+document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
+  selectTheme('dark')
+})
+"

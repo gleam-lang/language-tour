@@ -1,5 +1,8 @@
 import CodeFlask from "https://cdn.jsdelivr.net/npm/codeflask@1.4.1/+esm";
 
+console.log(CodeFlask);
+globalThis.CodeFlask = CodeFlask;
+
 const output = document.querySelector("#output");
 const initialCode = document.querySelector("#code").innerHTML;
 
@@ -52,7 +55,7 @@ function appendOutput(content, className) {
 
 const editor = new CodeFlask("#editor-target", {
   language: "gleam",
-  defaultTheme: false
+  defaultTheme: false,
 });
 editor.addLanguage("gleam", prismGrammar);
 editor.updateCode(initialCode);
