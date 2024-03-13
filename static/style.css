@@ -100,7 +100,7 @@ h6 {
   padding: var(--gap);
   background-color: var(--color-navbar-background);
   color: var(--color-navbar-text);
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1)
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 a {
@@ -258,16 +258,18 @@ html.theme-light .theme-button.-light {
   margin-bottom: 0;
 }
 
-
 /*
  * CodeFlask editor themes based on the Atom One highlight.js theme used in Gleam package docs sites.
  */
 
 .codeflask .codeflask__textarea {
-  color: var(--color-background); /* Prevents rendering artifacts in dark mode */
-  caret-color: var(--color-text); /* Makes the text input cursor visible in dark mode */
+  color: var(
+    --color-background
+  ); /* Prevents rendering artifacts in dark mode */
+  caret-color: var(
+    --color-text
+  ); /* Makes the text input cursor visible in dark mode */
 }
-
 
 /* CodeFlask light theme */
 
@@ -324,7 +326,6 @@ html.theme-light .codeflask .token.attr-value {
   color: #383a42;
 }
 
-
 /* CodeFlask dark theme */
 
 html.theme-dark .codeflask {
@@ -333,7 +334,7 @@ html.theme-dark .codeflask {
 }
 
 html.theme-dark .codeflask .token.punctuation {
-  color: #abb2bf
+  color: #abb2bf;
 }
 
 html.theme-dark .codeflask .token.keyword {
@@ -378,4 +379,35 @@ html.theme-dark .codeflask .token.tag {
 
 html.theme-dark .codeflask .token.attr-value {
   color: #abb2bf;
+}
+
+.everything {
+  padding: var(--gap);
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.everything h2,
+.everything h3,
+.everything ul {
+  margin-top: 0;
+}
+
+.everything h3 {
+  margin-bottom: var(--gap);
+}
+
+.everything-contents {
+  width: 400px;
+}
+
+.everything-contents,
+.everything-contents ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--gap);
+}
+
+.everything-contents li li {
+  padding-left: var(--gap);
 }
