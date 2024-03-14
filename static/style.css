@@ -22,6 +22,10 @@
   --font-family-normal: "Outfit", sans-serif;
   --font-family-title: "Lexend", sans-serif;
 
+  --font-size-normal: calc(var(--gap) * 1.5);
+  --font-size-small: calc(var(--gap) * 1.2);
+  --font-size-extra-small: calc(var(--gap));
+
   --gap: 0.75rem;
   --gap-double: calc(2 * var(--gap));
   --gap-triple: calc(3 * var(--gap));
@@ -412,11 +416,10 @@ html.theme-dark .codeflask .token.attr-value {
 }
 
 /*
+ * /everything page
+ * inline chapters & lessons
+ */
 
-/everything page
-inline chapters & lessons
-
-/*
 
 /* set navbar to position: fixed */
 body:has(#everything) .navbar {
@@ -435,11 +438,16 @@ main#everything {
   overflow: hidden;
 }
 
-#everything p {
+#everything p,
+#everything a {
   margin: var(--gap) 0;
-  font-size: 1rem;
+  font-size: var(--font-size-normal);
   line-height: var(--gap-double);
   font-weight: 400;
+}
+
+#everything code {
+  font-size: var(--font-size-small);
 }
 
 #everything h1,
@@ -533,6 +541,7 @@ main#everything {
 #everything-lessons .lesson {
   margin: var(--gap) 0;
   padding: var(--gap) 0;
+  padding-bottom: var(--gap-triple);
 }
 
 #everything-lessons .lesson * {
@@ -545,6 +554,7 @@ main#everything {
   background: var(--color-background);
   z-index: 2;
   padding: var(--gap) 0;
+  margin-bottom: var(--gap-double);
 }
 
 #everything-lessons .lesson:target .lesson-title {
@@ -552,23 +562,37 @@ main#everything {
 }
 
 #everything-lessons .lesson-snippet {
-  padding: var(--gap) var(--gap-half);
+  padding: var(--gap);
+  margin-right: var(--gap);
   margin-top: var(--gap-double);
   position: relative;
+  background: var(--color-background-dim);
+  box-shadow: var(--gap) var(--gap) 0 var(--blacker);
+}
+
+.theme-light #everything-lessons .lesson-snippet {
+  box-shadow: var(--gap) var(--gap) 0 var(--unnamed-blue);
+}
+
+#everything-lessons .lesson-snippet code {
+  overflow-x: auto;
+  display: inline-block;
+  width: 100%;
+  padding: var(--gap);
+  padding-bottom: var(--gap-double);
 }
 
 #everything-lessons .lesson-snippet-link {
   background: var(--color-background);
   position: absolute;
-  top: var(--gap-half);
-  right: var(--gap-half);
-  padding: var(--gap-half);
+  bottom: 0;
+  right: 0;
+  padding: var(--gap-half) var(--gap);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--gap);
-  font-size: 0.75rem;
-  line-height: 0.75rem;
+  font-size: var(--font-size-small);
   color: var(--color-link);
   border-radius: none;
   text-decoration: none;
@@ -628,28 +652,71 @@ main#everything {
 /* transform contents as to a side menu  */
 @media only screen and (max-width: 768px) {
   #everything-contents {
+    position: fixed;
+    inset: 0;
+    top: var(--navbar-height);
     grid-column: 1 / span 2;
     padding-left: calc( var(--gap) + var(--gap-quad));
-    transform: translateX(calc(-100% + var(--gap)));
-    transition: transform 300ms ease-in 0s;
+    transform: translateX(-100%);
+    transition: transform 300ms ease-in 0s, overflow-y 0s linear 600ms;
     z-index: 10;
-    overflow-y: hidden;
+    overflow: unset;
+    
     box-shadow: 0 var(--gap-double) var(--gap-double) rgba(0, 0, 0, 0.4);
+    background: var(--color-background-dim);
   }
+
 
   /* show / hide contents when touching on trigger */
   #everything-contents:hover:not(:has(a:hover)) {
-    transition: transform 300ms ease-out 0s;
-    transform: translateX(calc(var(--gap-quad) * -1));
-    overflow-y: auto;
+    transform: translateX(0);
+    /* overflow-x: hidden; */
+    animation: reveal 300ms ease-out 20ms forwards 1;
+  }
+
+  
+
+  /* show / hide contents when touching on trigger */
+  /* #everything-contents:hover:not(:is(:has(a:active), :has(a:focus))) { */
+
+    /* animation: reveal 300ms ease-out 0s forwards 1; */
+  /* } */
+
+  #everything-contents::before {
+    display:none;
+  }
+
+  #everything-contents::after {
+    content: "Table of contents";
+    position: fixed;
+    padding: var(--gap-double) var(--gap);
+    inset: unset;
+    bottom: 0;
+    right: calc(-100%);
+    font-size: var(--font-size-normal);
+    filter: none;
+    width: calc(100vw);
+    transform: translateX(0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--faff-pink);
+
+    background: var(--color-background-dim);
+    z-index: 60;
+    opacity: 1;
+    pointer-events: all;
+    box-sizing: border-box;
   }
 
   #everything-lessons {
     grid-column: 1 / span 2;
-    padding-left: var(--gap-double);
+    padding-bottom: var(--gap-quad);
   }
 
-
+  #everything-lessons .lesson-snippet code {
+    padding: var(--gap);
+  }
 
 }
 
@@ -661,9 +728,9 @@ main#everything {
   }
 
   #everything-lessons .chapter-separator {
-    margin-left: var(--gap-double);
-    margin-right: var(--gap-double);
-    width: calc(100% - var(--gap-quad));
+    margin-left: var(--gap-quad);
+    margin-right: var(--gap-quad);
+    width: calc(100% - var(--gap-quad) * 2);
   }
   
 }
@@ -683,5 +750,28 @@ main#everything {
   100% {
     text-decoration: underline;
     text-decoration-color: transparent;
+  }
+}
+
+@keyframes reveal {
+  0% {
+    overflow: unset;
+  }
+
+  99% {
+    overflow: unset;
+  }
+
+  100% {
+    overflow-y: auto;
+  }
+}
+
+@keyframes hide {
+  0% {
+    overflow-y: auto
+  }
+  100% {
+    overflow: unset;
   }
 }
