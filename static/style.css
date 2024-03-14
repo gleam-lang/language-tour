@@ -22,8 +22,11 @@
   --font-family-normal: "Outfit", sans-serif;
   --font-family-title: "Lexend", sans-serif;
 
-  --navbar-height: calc(calc(2 * var(--gap)) + 20px);
-  --gap: 12px;
+  --gap: 0.75rem;
+  --gap-double: calc(2 * var(--gap));
+  --gap-half: calc(0.5 * var(--gap));
+  --gap-quarter: calc(0.25 * var(--gap));
+  --navbar-height: calc(var(--gap-double) + 20px);
 
   --color-navbar-background: var(--faff-pink);
   --color-navbar-text: var(--light-theme-text);
@@ -34,6 +37,7 @@ html.theme-light {
   --color-background: var(--light-theme-background);
   --color-background-dim: var(--light-theme-background-dim);
   --color-text: var(--light-theme-text);
+  --color-text-secondary: var(--light-theme-text-secondary);
   --color-link: var(--light-theme-text);
   --color-link-decoration: var(--faff-pink);
   --color-code: var(--light-theme-code);
@@ -45,6 +49,7 @@ html.theme-dark {
   --color-background: var(--dark-theme-background);
   --color-background-dim: var(--dark-theme-background-dim);
   --color-text: var(--dark-theme-text);
+  --color-text-secondary: var(--dark-theme-text-secondary);
   --color-link: var(--dark-theme-text);
   --color-link-decoration: var(--faff-pink);
   --color-code: var(--dark-theme-code);
@@ -65,7 +70,6 @@ body {
   background-color: var(--color-background);
   font-family: var(--font-family-normal);
   letter-spacing: 0.01em;
-  line-height: 1.3;
   color: var(--color-text);
 }
 
@@ -74,6 +78,13 @@ pre,
 code {
   font-weight: normal;
   letter-spacing: initial;
+}
+
+p {
+  margin: var(--gap) 0 !important;
+  font-size: 1rem;
+  line-height: var(--gap-double);
+  font-weight: 400;
 }
 
 p code {
@@ -97,8 +108,12 @@ h6 {
   justify-content: space-between;
   align-items: center;
   height: var(--navbar-height);
+  z-index: 100;
+  position: fixed;
+  inset: 0;
+  bottom: unset;
   padding: var(--gap);
-  background-color: var(--color-navbar-background);
+  background: var(--color-navbar-background);
   color: var(--color-navbar-text);
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
 }
@@ -381,33 +396,179 @@ html.theme-dark .codeflask .token.attr-value {
   color: #abb2bf;
 }
 
-.everything {
-  padding: var(--gap);
-  display: flex;
-  flex-direction: row-reverse;
+/* everything wrapper, 2x2 responsive grid layout */
+main#everything {
+  display: grid;
+  max-height: 100vh;
+  grid-template-columns: minmax(0, max-content) 1fr;
+  padding-top: var(--navbar-height);
+  overflow: hidden;
 }
 
-.everything h2,
-.everything h3,
-.everything ul {
+#everything h1,
+#everything h2,
+#everything h3 {
+  margin: 0;
+}
+/* table of contents on the left, scrollable */
+#everything-contents, #everything-lessons {
+  grid-column-end: span 1;
+  grid-row: 1 / span 1;
+  padding: var(--gap);
+  padding-bottom: var(--gap-double);
+  overflow-y: auto;
+  display: flex;
+  background: var(--color-background);
+  flex-direction: column;
+}
+
+#everything-contents {
+  grid-column-start: 1;
+  background: var(--color-background-dim);
+  gap: var(--gap-double);
+}
+
+#everything-contents * {
+  margin: 0;
+}
+
+@media only screen and (min-width: 1100px) {
+  #everything {
+    grid-template-columns: minmax(min-content, max-content) 1fr;
+  }
+
+  #everything-contents {
+    padding: var(--gap) var(--gap-double) var(--gap-double) var(--gap);
+  }
+}
+
+#everything-contents .chapter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+#everything-contents .chapter h3 {
+  white-space: nowrap;
+}
+
+#everything-contents .chapter ul, 
+#everything-contents .chapter li {
+  list-style: none;
+  padding: 0;
+  color: var(--color-text-secondary);
+}
+
+#everything-contents .chapter ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-half);
+}
+
+#everything-contents a {
+  color: var(--color-text-secondary);
+  transition: color 150ms ease-out 0s;
+}
+
+#everything-contents a:hover {
+  color: var(--color-link);
+}
+
+#everything-lessons {
+  grid-column-start: 2;
+  gap: var(--gap-quarter);
+  container-type: inline-size;
+  container-name: lessons-list;
+}
+
+
+#everything-lessons .chapter-title {
+  margin: 0;
+  margin-top: var(--gap);
+  color: var(--faff-pink);
+}
+
+#everything-lessons .chapter-title:first-child {
   margin-top: 0;
 }
 
-.everything h3 {
-  margin-bottom: var(--gap);
+#everything-lessons .lesson {
+  margin: var(--gap) 0;
+  padding: var(--gap) 0;
 }
 
-.everything-contents {
-  width: 400px;
+#everything-lessons .lesson * {
+  margin: 0;
 }
 
-.everything-contents,
-.everything-contents ul {
-  list-style: none;
+#everything-lessons .lesson-snippet {
+  padding: var(--gap) var(--gap-half);
+  margin-top: var(--gap-double);
+  background: var(--color-background-dim);
+  position: relative;
+}
+
+#everything-lessons .lesson-snippet-link {
+  background: var(--color-background);
+  position: absolute;
+  top: var(--gap-half);
+  right: var(--gap-half);
+  padding: var(--gap-half);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  color: var(--color-link);
+  border-radius: none;
+  text-decoration: none;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  cursor: pointer;
+  transition: all 300ms ease-out 0s;
+}
+
+#everything-lessons .lesson-snippet-link:hover {
+  color: var(--color-background);
+  background: var(--color-link);
+  transition: all 120ms ease-in 0s;
+  outline-color: var(--faff-pink);
+}
+
+#everything-lessons .snippet-link-icon {
+  color: var(--faff-pink);
+  font-weight: bold;
+  text-decoration: none !important;
+}
+
+#everything-lessons hr {
+  width: 100%;
+  height: 1px;
+  border: 0;
   padding: 0;
-  margin-bottom: var(--gap);
+  margin: 0;
+  display: block;
 }
 
-.everything-contents li li {
-  padding-left: var(--gap);
+#everything-lessons .lesson-separator {
+  border-top: 1px solid var(--color-background-dim);
+}
+
+#everything-lessons .chapter-separator {
+  border-top: 1px solid var(--faff-pink);
+}
+
+@container lessons-list (min-width: 900px) {
+  #everything-lessons .lesson,
+  #everything-lessons .chapter-title { 
+    padding-right: var(--gap-double);
+    padding-left: var(--gap-double);
+  }
+
+  #everything-lessons .chapter-separator {
+    margin-left: var(--gap-double);
+    width: calc(100% - var(--gap-double));
+  }
+  
 }
