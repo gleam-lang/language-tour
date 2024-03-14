@@ -9,6 +9,6 @@ pub fn main() {
   io.debug(twice(1, fn(a) { a * 2 }))
 }
 
-fn twice(argument: Int, function: fn(Int) -> Int) -> Int {
-  function(function(argument))
+fn twice(argument: Int, my_function: fn(Int) -> Int) -> Int {
+  my_function(my_function(argument))
 }
