@@ -403,6 +403,27 @@ html.theme-dark .codeflask .token.attr-value {
   color: #abb2bf;
 }
 
+.dim-bg {
+  position: relative;
+}
+
+.dim-bg * {
+  z-index: 1;
+  position: relative;
+}
+
+.dim-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-background-dim);
+  z-index: 0;
+}
+
+.theme-dark .dim-bg::before {
+  opacity: 0.3
+}
+
 /* everything wrapper, 2x2 responsive grid layout */
 main#everything {
   display: grid;
@@ -417,7 +438,6 @@ main#everything {
 #everything h3 {
   margin: 0;
 }
-/* table of contents on the left, scrollable */
 #everything-contents, #everything-lessons {
   grid-column-end: span 1;
   grid-row: 1 / span 1;
@@ -429,11 +449,15 @@ main#everything {
   flex-direction: column;
 }
 
+/* table of contents on the left, scrollable */
 #everything-contents {
   grid-column-start: 1;
-  background: var(--color-background-dim);
   padding-bottom: var(--gap-quad);
   gap: var(--gap-double);
+}
+
+#everything-contents::before {
+  position: fixed;
 }
 
 #everything-contents * {
@@ -488,7 +512,7 @@ main#everything {
   height: var(--gap-triple);
   top: 0;
   background: var(--color-background);
-  z-index: 2;
+  z-index: 3;
 }
 
 #everything-lessons .chapter-title:first-child {
@@ -508,14 +532,13 @@ main#everything {
   position: sticky;
   top: var(--gap-triple);
   background: var(--color-background);
-  z-index: 1;
+  z-index: 2;
   padding: var(--gap) 0;
 }
 
 #everything-lessons .lesson-snippet {
   padding: var(--gap) var(--gap-half);
   margin-top: var(--gap-double);
-  background: var(--color-background-dim);
   position: relative;
 }
 
@@ -570,7 +593,7 @@ main#everything {
   border-top: 1px solid var(--faff-pink);
   position: sticky;
   top: calc(var(--gap-triple) - 1px);
-  z-index: 2;
+  z-index: 3;
 }
 
 @media only screen and (min-width: 1100px) {
