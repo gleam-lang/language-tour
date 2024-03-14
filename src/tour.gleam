@@ -531,7 +531,7 @@ fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
     h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
       h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
       htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
-      h("pre", [#("class", "lesson-snippet")], [
+      h("pre", [#("class", "lesson-snippet dim-bg")], [
         h("code", [], [text(lesson.code)]),
         h(
           "a",
@@ -609,7 +609,11 @@ fn everything_html(chapters: List(Chapter)) -> String {
   // TODO: use proper values for location and such
   page_html(at: "everything", titled: "Everything!!!", containing: [
     h("main", [#("id", "everything")], [
-      h("aside", [#("id", "everything-contents")], table_of_contents),
+      h(
+        "aside",
+        [#("id", "everything-contents"), #("class", "dim-bg")],
+        table_of_contents,
+      ),
       h("section", [#("id", "everything-lessons")], chapter_lessons),
     ]),
   ])
