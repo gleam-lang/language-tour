@@ -416,12 +416,14 @@ html.theme-dark .codeflask .token.attr-value {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--color-background-dim);
+  background: var(--color-background);
+  filter:  brightness(0.4) saturate(1.3);
   z-index: 0;
+  opacity: 0.3;
 }
 
-.theme-dark .dim-bg::before {
-  opacity: 0.3
+.theme-light .dim-bg::before {
+  filter:  brightness(0.8) saturate(1.3);
 }
 
 /* everything wrapper, 2x2 responsive grid layout */
