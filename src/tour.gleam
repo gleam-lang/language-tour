@@ -531,7 +531,7 @@ fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
     h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
       h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
       htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
-      h("pre", [#("class", "lesson-snippet dim-bg")], [
+      h("pre", [#("class", "lesson-snippet")], [
         h("code", [], [text(lesson.code)]),
         h(
           "a",
@@ -543,7 +543,7 @@ fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
           ],
           [
             h("i", [#("class", "snippet-link-icon")], [text("</>")]),
-            text("Run"),
+            text("Run code snippet"),
           ],
         ),
       ]),
