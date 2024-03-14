@@ -516,7 +516,8 @@ fn file_error(
 }
 
 fn slugify_path(path: String) -> String {
-  string.replace(path, "/", "")
+  string.replace(path, "/", "-")
+  |> string.drop_left(up_to: 1)
 }
 
 fn separator(class: String) {
