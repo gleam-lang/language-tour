@@ -24,6 +24,8 @@
 
   --gap: 0.75rem;
   --gap-double: calc(2 * var(--gap));
+  --gap-triple: calc(3 * var(--gap));
+  --gap-quad: calc(4 * var(--gap));
   --gap-half: calc(0.5 * var(--gap));
   --gap-quarter: calc(0.25 * var(--gap));
   --navbar-height: calc(var(--gap-double) + 20px);
@@ -197,13 +199,18 @@ html.theme-light .theme-button.-light {
   position: relative;
 }
 
+#playground {
+  padding-top: var(--navbar-height);
+}
+
 @media (min-width: 600px) {
   #playground {
     position: fixed;
-    top: 44px;
+    top: var(--navbar-height);
     bottom: 0;
     left: 0;
     right: 0;
+    padding-top: 0;
   }
 
   #left,
@@ -425,21 +432,12 @@ main#everything {
 #everything-contents {
   grid-column-start: 1;
   background: var(--color-background-dim);
+  padding-bottom: var(--gap-quad);
   gap: var(--gap-double);
 }
 
 #everything-contents * {
   margin: 0;
-}
-
-@media only screen and (min-width: 1100px) {
-  #everything {
-    grid-template-columns: minmax(min-content, max-content) 1fr;
-  }
-
-  #everything-contents {
-    padding: var(--gap) var(--gap-double) var(--gap-double) var(--gap);
-  }
 }
 
 #everything-contents .chapter {
@@ -476,16 +474,21 @@ main#everything {
 
 #everything-lessons {
   grid-column-start: 2;
-  gap: var(--gap-quarter);
   container-type: inline-size;
   container-name: lessons-list;
+  padding-top: 0;
 }
 
 
 #everything-lessons .chapter-title {
   margin: 0;
-  margin-top: var(--gap);
+  padding-top: var(--gap);
   color: var(--faff-pink);
+  position: sticky;
+  height: var(--gap-triple);
+  top: 0;
+  background: var(--color-background);
+  z-index: 2;
 }
 
 #everything-lessons .chapter-title:first-child {
@@ -499,6 +502,14 @@ main#everything {
 
 #everything-lessons .lesson * {
   margin: 0;
+}
+
+#everything-lessons .lesson-title {
+  position: sticky;
+  top: var(--gap-triple);
+  background: var(--color-background);
+  z-index: 1;
+  padding: var(--gap) 0;
 }
 
 #everything-lessons .lesson-snippet {
@@ -557,18 +568,46 @@ main#everything {
 
 #everything-lessons .chapter-separator {
   border-top: 1px solid var(--faff-pink);
+  position: sticky;
+  top: calc(var(--gap-triple) - 1px);
+  z-index: 2;
+}
+
+@media only screen and (min-width: 1100px) {
+  #everything {
+    grid-template-columns: minmax(min-content, max-content) 1fr;
+  }
+
+  #everything-contents {
+    padding: var(--gap) var(--gap-double) var(--gap-quad) var(--gap);
+  }
+
+  #everything-contents .chapter ul {
+    padding-left: var(--gap);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #everything-contents {
+    display: none;
+  }
+  #everything-lessons {
+    grid-column: 1 / span 2;
+  }
+
 }
 
 @container lessons-list (min-width: 900px) {
   #everything-lessons .lesson,
   #everything-lessons .chapter-title { 
-    padding-right: var(--gap-double);
-    padding-left: var(--gap-double);
+    padding-right: var(--gap-quad);
+    padding-left: var(--gap-quad);
   }
 
   #everything-lessons .chapter-separator {
     margin-left: var(--gap-double);
-    width: calc(100% - var(--gap-double));
+    margin-right: var(--gap-double);
+    width: calc(100% - var(--gap-quad));
   }
   
 }
