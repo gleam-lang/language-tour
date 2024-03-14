@@ -98,7 +98,7 @@ const what_next_html = "
 
 const path_home = "/"
 
-const page_contents = "/table-of-contents"
+const path_table_of_contents = "/table-of-contents"
 
 const path_what_next = "/what-next"
 
@@ -239,7 +239,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
       name: "Table of Contents",
       text: string.join(list.map(chapters, contents_list_html), "\n"),
       code: hello_joe,
-      path: page_contents,
+      path: path_table_of_contents,
       previous: None,
       next: None,
     )),
@@ -519,40 +519,97 @@ fn slugify_path(path: String) -> String {
   string.replace(path, "/", "")
 }
 
-fn everything_html(chapters: List(Chapter)) -> String {
-  let lessons = {
-    use chapter <- list.flat_map(chapters)
-    use lesson <- list.flat_map(chapter.lessons)
-    [
-      h("h2", [#("id", slugify_path(lesson.path))], [text(lesson.name)]),
+fn separator(class: String) {
+  h("hr", [#("class", class <> "-separator")], [])
+}
+
+fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
+  let snippet_link_title = "Experiment with " <> lesson.name <> " in browser"
+
+  let lesson_content =
+    h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
+      h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
       htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
-      h("pre", [], [h("code", [], [text(lesson.code)])]),
-    ]
+      h("pre", [#("class", "lesson-snippet")], [
+        h("code", [], [text(lesson.code)]),
+        h(
+          "a",
+          [
+            #("class", "lesson-snippet-link"),
+            #("href", lesson.path),
+            #("title", snippet_link_title),
+            #("aria-label", snippet_link_title),
+          ],
+          [
+            h("i", [#("class", "snippet-link-icon")], [text("</>")]),
+            text("Run"),
+          ],
+        ),
+      ]),
+    ])
+
+  case index {
+    i if i == end_index -> [lesson_content]
+    _ -> [lesson_content, separator("lesson")]
+  }
+}
+
+fn everything_html(chapters: List(Chapter)) -> String {
+  let chapter_lessons = {
+    use #(chapter, index) <- list.flat_map(
+      list.index_map(chapters, fn(chap, i) { #(chap, i) }),
+    )
+
+    let end_lesson_index = list.length(chapter.lessons) - 1
+
+    let chapter_lessons =
+      chapter.lessons
+      |> list.index_map(fn(lesson, index) {
+        everything_chapter_lesson_html(lesson, index, end_lesson_index)
+      })
+
+    let chapter_title =
+      h(
+        "h3",
+        [#("id", slugify_path(chapter.path)), #("class", "chapter-title")],
+        [text(chapter.name)],
+      )
+
+    let chapter_header = case index {
+      0 -> [chapter_title, separator("chapter")]
+      _ -> [separator("chapter-between"), chapter_title, separator("chapter")]
+    }
+
+    list.concat([chapter_header, ..chapter_lessons])
   }
 
   let table_of_contents =
     list.map(chapters, fn(chapter) {
-      h("li", [], [
-        h("h3", [], [text(chapter.name)]),
-        h(
-          "ul",
-          [],
-          list.map(chapter.lessons, fn(lesson) {
-            h("li", [], [
-              h("a", [#("href", "#" <> slugify_path(lesson.path))], [
-                text(lesson.name),
-              ]),
-            ])
-          }),
-        ),
-      ])
+      h(
+        "article",
+        [#("class", "chapter"), #("id", "chapter-" <> chapter.name)],
+        [
+          h("h3", [], [text(chapter.name)]),
+          h(
+            "ul",
+            [],
+            list.map(chapter.lessons, fn(lesson) {
+              h("li", [], [
+                h("a", [#("href", "#" <> slugify_path(lesson.path))], [
+                  text(lesson.name),
+                ]),
+              ])
+            }),
+          ),
+        ],
+      )
     })
 
   // TODO: use proper values for location and such
-  page_html(at: "everything", titled: "Everythingyyy!!!", containing: [
-    h("main", [#("class", "everything")], [
-      h("ul", [#("class", "everything-contents")], table_of_contents),
-      h("article", [#("class", "everything-lessons")], lessons),
+  page_html(at: "everything", titled: "Everything!!!", containing: [
+    h("main", [#("id", "everything")], [
+      h("aside", [#("id", "everything-contents")], table_of_contents),
+      h("section", [#("id", "everything-lessons")], chapter_lessons),
     ]),
   ])
 }
@@ -573,7 +630,7 @@ fn lesson_html(page: Lesson) -> String {
         h("nav", [#("class", "prev-next")], [
           navlink("Back", page.previous),
           text(" — "),
-          h("a", [#("href", page_contents)], [text("Contents")]),
+          h("a", [#("href", path_table_of_contents)], [text("Contents")]),
           text(" — "),
           navlink("Next", page.next),
         ]),

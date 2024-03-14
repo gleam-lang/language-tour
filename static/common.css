@@ -7,12 +7,13 @@
   --aged-plastic-yellow: #fffbe8;
   --unexpected-aubergine: #584355;
   --underwater-blue: #292d3e;
+  --muted-indigo: #303549;
   --charcoal: #2f2f2f;
   --black: #1e1e1e;
   --blacker: #151515;
 
   /* Other greys */
-  --off-white: #f5f5f5;
+  --off-white: #f0f0f0;
 
   /* Other colors */
   --menthol: #c8ffa7;
@@ -34,8 +35,8 @@
 
   /* Dark theme */
   --dark-theme-background: var(--underwater-blue);
-  --dark-theme-background-dim: var(--black);
+  --dark-theme-background-dim: var(--muted-indigo);
   --dark-theme-text: var(--white);
-  --dark-theme-text-secondary: var(--aged-plastic-yellow);
+  --dark-theme-text-secondary: var(--off-white);
   --dark-theme-code: var(--deep-saffron);
 }
