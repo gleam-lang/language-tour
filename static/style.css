@@ -82,13 +82,6 @@ code {
   letter-spacing: initial;
 }
 
-p {
-  margin: var(--gap) 0 !important;
-  font-size: 1rem;
-  line-height: var(--gap-double);
-  font-weight: 400;
-}
-
 p code {
   padding: 1px 2px;
   color: var(--color-code);
@@ -435,6 +428,13 @@ main#everything {
   overflow: hidden;
 }
 
+#everything p {
+  margin: var(--gap) 0;
+  font-size: 1rem;
+  line-height: var(--gap-double);
+  font-weight: 400;
+}
+
 #everything h1,
 #everything h2,
 #everything h3 {
@@ -503,6 +503,8 @@ main#everything {
   container-type: inline-size;
   container-name: lessons-list;
   padding-top: 0;
+  scroll-behavior: smooth;
+  scroll-padding-block-start: var(--gap-double);
 }
 
 
@@ -536,6 +538,10 @@ main#everything {
   background: var(--color-background);
   z-index: 2;
   padding: var(--gap) 0;
+}
+
+#everything-lessons .lesson:target .lesson-title {
+  animation: highlight 300ms ease-in-out 600ms 3;
 }
 
 #everything-lessons .lesson-snippet {
@@ -575,7 +581,7 @@ main#everything {
 #everything-lessons .snippet-link-icon {
   color: var(--faff-pink);
   font-weight: bold;
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 #everything-lessons hr {
@@ -612,13 +618,31 @@ main#everything {
   }
 }
 
+/* transform contents as to a side menu  */
 @media only screen and (max-width: 768px) {
   #everything-contents {
-    display: none;
+    grid-column: 1 / span 2;
+    padding-left: calc( var(--gap) + var(--gap-quad));
+    transform: translateX(calc(-100% + var(--gap)));
+    transition: transform 300ms ease-in 0s;
+    z-index: 10;
+    overflow-y: hidden;
+    box-shadow: 0 var(--gap-double) var(--gap-double) rgba(0, 0, 0, 0.4);
   }
+
+  /* show / hide contents when touching on trigger */
+  #everything-contents:hover:not(:has(a:hover)) {
+    transition: transform 300ms ease-out 0s;
+    transform: translateX(calc(var(--gap-quad) * -1));
+    overflow-y: auto;
+  }
+
   #everything-lessons {
     grid-column: 1 / span 2;
+    padding-left: var(--gap-double);
   }
+
+
 
 }
 
@@ -635,4 +659,22 @@ main#everything {
     width: calc(100% - var(--gap-quad));
   }
   
+}
+
+@keyframes highlight {
+  0% {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+  }
+
+  50% {
+    text-decoration: underline;
+    text-decoration-color: var(--faff-pink);
+    color: var(--faff-pink);
+  }
+
+  100% {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+  }
 }
