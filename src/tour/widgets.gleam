@@ -60,6 +60,33 @@ pub fn icon_toggle_right() -> Html {
   ])
 }
 
+pub fn theme_picker() -> Html {
+  h("div", [#("class", "theme-picker")], [
+    h(
+      "button",
+      [
+        #("type", "button"),
+        #("alt", "Switch to light mode"),
+        #("title", "Switch to light mode"),
+        #("class", "theme-button -light"),
+        #("data-light-theme-toggle", ""),
+      ],
+      [icon_moon(), icon_toggle_left()],
+    ),
+    h(
+      "button",
+      [
+        #("type", "button"),
+        #("alt", "Switch to dark mode"),
+        #("title", "Switch to dark mode"),
+        #("class", "theme-button -dark"),
+        #("data-dark-theme-toggle", ""),
+      ],
+      [icon_sun(), icon_toggle_right()],
+    ),
+  ])
+}
+
 // This script is inlined in the response to avoid FOUC when applying the theme
 pub const theme_picker_js = "
 const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
