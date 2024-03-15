@@ -794,11 +794,6 @@ main#everything {
     padding-right: var(--gap);
   }
 
-  #everything-lessons .lesson-title,
-  #everything-lessons .chapter-title,
-  #everything-lessons .chapter-separator {
-    /* position: static; */
-  }
 
   
 
