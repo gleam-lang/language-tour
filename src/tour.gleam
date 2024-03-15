@@ -529,7 +529,9 @@ fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
 
   let lesson_content =
     h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
-      h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
+      h("a", [#("href", "#" <> slugify_path(lesson.path)), #("class", "link")], [
+        h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
+      ]),
       htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
       h("pre", [#("class", "lesson-snippet")], [
         h("code", [], [text(lesson.code)]),
@@ -596,9 +598,14 @@ fn everything_html(chapters: List(Chapter)) -> String {
             [],
             list.map(chapter.lessons, fn(lesson) {
               h("li", [], [
-                h("a", [#("href", "#" <> slugify_path(lesson.path))], [
-                  text(lesson.name),
-                ]),
+                h(
+                  "a",
+                  [
+                    #("href", "#" <> slugify_path(lesson.path)),
+                    #("class", "link"),
+                  ],
+                  [text(lesson.name)],
+                ),
               ])
             }),
           ),
