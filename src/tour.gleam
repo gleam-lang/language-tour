@@ -1,16 +1,18 @@
 import filepath
 import gleam/io
 import gleam/list
-import gleam/option.{type Option, None, Some}
+import gleam/option.{None, Some}
 import gleam/result
 import gleam/string
 import gleam/string_builder
 import htmb.{h, text}
 import simplifile
 import snag
+import tour/types/lesson.{type Chapter, type Lesson, Chapter, Lesson}
 import tour/document
 import tour/page.{PageConfig, ScriptConfig}
 import tour/styles
+import tour/pages/everything
 
 const static = "static"
 
@@ -128,21 +130,6 @@ pub fn main() {
       panic as snag.pretty_print(snag)
     }
   }
-}
-
-type Chapter {
-  Chapter(name: String, path: String, lessons: List(Lesson))
-}
-
-type Lesson {
-  Lesson(
-    name: String,
-    text: String,
-    code: String,
-    path: String,
-    previous: Option(String),
-    next: Option(String),
-  )
 }
 
 type FileNames {
@@ -293,7 +280,7 @@ fn write_everything_page(chapters: List(Chapter)) -> snag.Result(Nil) {
   let path = public <> "/everything"
   use _ <- result.try(ensure_directory(path))
   let path = filepath.join(path, "/index.html")
-  write_text(path, everything_html(chapters))
+  write_text(path, everything.render(chapters))
 }
 
 fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
@@ -517,142 +504,6 @@ fn file_error(
   }
 }
 
-fn slugify_path(path: String) -> String {
-  string.replace(path, "/", "-")
-  |> string.drop_left(up_to: 1)
-}
-
-fn separator(class: String) {
-  h("hr", [#("class", class <> "-separator")], [])
-}
-
-fn everything_chapter_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
-  let snippet_link_title = "Experiment with " <> lesson.name <> " in browser"
-
-  let lesson_content =
-    h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
-      h("a", [#("href", "#" <> slugify_path(lesson.path)), #("class", "link")], [
-        h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
-      ]),
-      htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
-      h("pre", [#("class", "lesson-snippet hljs gleam language-gleam")], [
-        h("code", [], [text(lesson.code)]),
-        h(
-          "a",
-          [
-            #("class", "lesson-snippet-link"),
-            #("href", lesson.path),
-            #("title", snippet_link_title),
-            #("aria-label", snippet_link_title),
-          ],
-          [
-            h("i", [#("class", "snippet-link-icon")], [text("</>")]),
-            text("Run code snippet"),
-          ],
-        ),
-      ]),
-    ])
-
-  case index {
-    i if i == end_index -> [lesson_content]
-    _ -> [lesson_content, separator("lesson")]
-  }
-}
-
-fn everything_html(chapters: List(Chapter)) -> String {
-  let chapter_lessons = {
-    use #(chapter, index) <- list.flat_map(
-      list.index_map(chapters, fn(chap, i) { #(chap, i) }),
-    )
-
-    let end_lesson_index = list.length(chapter.lessons) - 1
-
-    let chapter_lessons =
-      chapter.lessons
-      |> list.index_map(fn(lesson, index) {
-        everything_chapter_lesson_html(lesson, index, end_lesson_index)
-      })
-
-    let chapter_title =
-      h(
-        "h3",
-        [#("id", slugify_path(chapter.path)), #("class", "chapter-title")],
-        [text(chapter.name)],
-      )
-
-    let chapter_header = case index {
-      0 -> [chapter_title, separator("chapter")]
-      _ -> [separator("chapter-between"), chapter_title, separator("chapter")]
-    }
-
-    list.concat([chapter_header, ..chapter_lessons])
-  }
-
-  let table_of_contents =
-    list.map(chapters, fn(chapter) {
-      h(
-        "article",
-        [#("class", "chapter"), #("id", "chapter-" <> chapter.name)],
-        [
-          h("h3", [], [text(chapter.name)]),
-          h(
-            "ul",
-            [],
-            list.map(chapter.lessons, fn(lesson) {
-              h("li", [], [
-                link_html(
-                  Link(label: lesson.name, to: "#" <> slugify_path(lesson.path)),
-                  [#("class", "link padded")],
-                ),
-              ])
-            }),
-          ),
-        ],
-      )
-    })
-
-  // TODO: use proper values for location and such
-  page.html(
-    page.PageConfig(
-      path: "everything",
-      title: "Everything!",
-      scripts: page.ScriptConfig(
-        head: [
-          document.script(
-            "/js/highlight/highlight.core.min.js",
-            document.ScriptOptions(module: True, defer: False),
-            [],
-          ),
-          document.script(
-            "/js/highlight/regexes.js",
-            document.ScriptOptions(module: True, defer: True),
-            [],
-          ),
-        ],
-        body: [
-          document.script(
-            "/js/highlight/highlight-gleam.js",
-            document.ScriptOptions(module: True, defer: True),
-            [],
-          ),
-        ],
-      ),
-      stylesheets: [styles.page, ..styles.defaults_code],
-      content: [
-        h("main", [#("id", "everything")], [
-          h(
-            "aside",
-            [#("id", "everything-contents"), #("class", "dim-bg")],
-            table_of_contents,
-          ),
-          h("section", [#("id", "everything-lessons")], chapter_lessons),
-        ]),
-      ],
-    ),
-  )
-  |> page.render
-}
-
 fn lesson_html(lesson: Lesson) -> String {
   let navlink = fn(name, link) {
     case link {
@@ -707,14 +558,4 @@ fn lesson_html(lesson: Lesson) -> String {
     ),
   )
   |> page.render
-}
-
-type Link {
-  Link(label: String, to: String)
-}
-
-fn link_html(for link: Link, attributes attributes: List(#(String, String))) {
-  let link_attributes = [#("href", link.to), ..attributes]
-
-  h("a", link_attributes, [text(link.label)])
 }
