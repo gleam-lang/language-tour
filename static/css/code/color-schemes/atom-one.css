@@ -1,0 +1,76 @@
+/*
+
+Atom One Dark & Light by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+Tweaked for compat with light / dark themes
+
+*/
+
+:root {
+  /*
+  Atom One Dark
+
+  base:    #282c34
+  mono-1:  #abb2bf
+  mono-2:  #818896
+  mono-3:  #5c6370
+  hue-1:   #56b6c2
+  hue-2:   #61aeee
+  hue-3:   #c678dd
+  hue-4:   #98c379
+  hue-5:   #e06c75
+  hue-5-2: #be5046
+  hue-6:   #d19a66
+  hue-6-2: #e6c07b
+  */
+
+  --code-background-dark: #282c34; /* base */
+  --code-token-base-dark: #abb2bf; /* mono-1 */
+  --code-token-punctuation-dark: #818896; /* mono-2 */
+  --code-token-operator-dark: #c678dd; /* hue-3 */
+  --code-token-keyword-dark: #c678dd; /* hue-3 */
+  --code-token-string-dark: #98c379; /* hue-4 */
+  --code-token-comment-dark: #5c6370; /* mono-3 */
+  --code-token-attribute-dark: #818896; /* mono-2 */
+  --code-token-function-dark: #61aeee; /* hue-2 */
+  --code-token-function-name-dark: #61aeee; /* hue-2 */
+  --code-token-function-param-dark: #abb2bf; /* mono-1 */
+  --code-token-boolean-dark: #d19a66; /* hue-6 */
+  --code-token-number-dark: #d19a66; /* hue-6 */
+  --code-token-selector-dark: #e6c07b; /* hue-6-2 */
+  --code-token-type-dark: #56b6c2; /* hue-1 */
+
+  /*
+  Atom One Light
+
+  base:    #fafafa
+  mono-1:  #383a42
+  mono-2:  #686b77
+  mono-3:  #a0a1a7
+  hue-1:   #0184bb
+  hue-2:   #4078f2
+  hue-3:   #a626a4
+  hue-4:   #50a14f
+  hue-5:   #e45649
+  hue-5-2: #c91243
+  hue-6:   #986801
+  hue-6-2: #c18401
+  */
+
+  --code-background-light: #fafafa; /* base */
+  --code-token-base-light: #383a42; /* mono-1 */
+  --code-token-punctuation-light: #686b77; /* mono-2 */
+  --code-token-operator-light: #a626a4; /* hue-3 */
+  --code-token-keyword-light: #a626a4; /* hue-3 */
+  --code-token-string-light: #50a14f; /* hue-4 */
+  --code-token-comment-light: #a0a1a7; /* mono-3 */
+  --code-token-attribute-light: #686b77; /* mono-2 */
+  --code-token-function-light: #4078f2; /* hue-2 */
+  --code-token-function-name-light: #4078f2; /* hue-2 */
+  --code-token-function-param-light: #383a42; /* mono-1 */
+  --code-token-boolean-light: #986801; /* hue-6 */
+  --code-token-number-light: #986801; /* hue-6 */
+  --code-token-selector-light: #c18401; /* hue-6-2 */
+  --code-token-type-light: #0184bb; /* hue-1 */
+}
