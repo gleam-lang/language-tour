@@ -9,7 +9,9 @@ Derives app colors for both dark & light themes from common.css variables
   --light-pink: #fff8fe;
   --gray-light: #dfdfdf;
 
-  --drop-shadow: 0 0 var(--gap-quarter) var(--color-background), var(--gap) var(--gap) 0 var(--color-drop-shadow), inset 0 0 0 1px var(--color-accent-muted); 
+  --drop-shadow: 0 0 var(--gap-quarter) var(--color-background),
+    var(--gap) var(--gap) 0 var(--color-drop-shadow),
+    inset 0 0 0 1px var(--color-accent-muted);
 
   --color-navbar-background: var(--faff-pink);
   --color-navbar-text: var(--light-theme-text);

@@ -16,14 +16,41 @@ import * as regexes from "./regexes.js";
  */
 const cp = (obj) => ({ ...obj });
 
-
 // Define operators and keywords to highlight gleam code without spawning an editor
 const GLEAM_OPERATORS = [
-  "<<", ">>", "<-", "->", "|>", "<>", "..",
-  "<=", "<=.", ">=", ">=.", "==", "==.", "%", "%.",
-  "!=", "!=.", '<', "<.", ">", ">.", "&&", "||",
-  "+", "+.", "-", "-.", "/", "/.", "*", "*.", "=",
-]
+  "<<",
+  ">>",
+  "<-",
+  "->",
+  "|>",
+  "<>",
+  "..",
+  "<=",
+  "<=.",
+  ">=",
+  ">=.",
+  "==",
+  "==.",
+  "%",
+  "%.",
+  "!=",
+  "!=.",
+  "<",
+  "<.",
+  ">",
+  ">.",
+  "&&",
+  "||",
+  "+",
+  "+.",
+  "-",
+  "-.",
+  "/",
+  "/.",
+  "*",
+  "*.",
+  "=",
+];
 const GLEAM_KEYWORDS = [
   "as",
   "assert",
@@ -52,10 +79,10 @@ const GLEAM_KEYWORDS = [
 /**
  * HLJS modes
  * Glorified regular expressions used to target & highlight code snippets
- * 
+ *
  * Ordered by `relevance` -> more or less translates to parsing order / priority
  * https://highlightjs.readthedocs.io/en/stable/language-guide.html#relevance
- * 
+ *
  * Their `scope` maps to 1 or more css class
  * https://highlightjs.readthedocs.io/en/stable/css-classes-reference.html
  */
@@ -82,7 +109,7 @@ const FUNCTION_PARAM = {
   scope: "function-param",
   match: regexes.functionParam,
   relevance: 0,
-}
+};
 
 const DISCARD_NAMES = {
   scope: "attribute",
@@ -94,7 +121,7 @@ const MODULES = {
   scope: "module",
   match: regexes.importModule,
   relevance: 0,
-}
+};
 
 // Relevance 1
 
@@ -106,10 +133,10 @@ const OPERATORS = {
     $pattern: /\b\S+\b/g,
   },
   relevance: 1,
-}
+};
 
 const KEYWORDS = {
-  name: 'Gleam keywords',
+  name: "Gleam keywords",
   scope: "keyword",
   keywords: {
     keyword: GLEAM_KEYWORDS.join(" "),
@@ -132,20 +159,20 @@ const NUMBERS = {
   scope: "number",
   variants: [
     {
-      begin: regexes.number.binary
+      begin: regexes.number.binary,
     },
     {
-      begin: regexes.number.octal
+      begin: regexes.number.octal,
     },
     {
-      begin: regexes.number.hex
+      begin: regexes.number.hex,
     },
     {
-      begin: regexes.number.decOrFloat
+      begin: regexes.number.decOrFloat,
     },
     {
-      match: regexes.number.scientific
-    }
+      match: regexes.number.scientific,
+    },
   ],
   relevance: 2,
 };
@@ -157,7 +184,7 @@ const TYPES = {
   scope: "type",
   match: regexes.type,
   relevance: 3,
-}
+};
 
 // Relevance 4
 
@@ -186,7 +213,7 @@ const ATTRIBUTES = {
   scope: "attribute",
   match: regexes.attribute,
   relevance: 6,
-}
+};
 
 // Relevance 7
 
@@ -230,12 +257,12 @@ const COMMENTS = {
   scope: "comment",
   match: regexes.comment,
   relevance: 10,
-}
+};
 
 /**
  * Register the Gleam lang to HLJS global exported from `./highlight.core.min.js`
  */
-hljs.registerLanguage("gleam", function(hljs) {
+hljs.registerLanguage("gleam", function (hljs) {
   return {
     name: "Gleam",
     aliases: ["gleam"],
@@ -266,4 +293,4 @@ hljs.registerLanguage("gleam", function(hljs) {
  */
 addEventListener("DOMContentLoaded", () => {
   hljs.highlightAll();
-})
+});
