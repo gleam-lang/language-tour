@@ -19,7 +19,7 @@ pub fn text_link(
 
 /// Renders the tour's navbar as html
 pub fn navbar(titled title: String, links links: List(Link)) -> Html {
-  let links = list.map(links, fn(l) { text_link(l, [#("class", "link")]) })
+  let links = list.map(links, fn(l) { text_link(l, []) })
 
   let nav_right_items = list.flatten([links, [widgets.theme_picker()]])
 
