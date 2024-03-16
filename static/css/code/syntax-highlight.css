@@ -1,0 +1,210 @@
+/*
+
+Swiches between code colors based on theme
+and binds color scheme values to highlightJS & CodeFlask
+defaults to light theme.
+
+*/
+
+:root {
+  --code-background: var(--code-background-light); 
+  --code-token-base: var(--code-token-base-light);
+  --code-token-punctuation: var(--code-token-punctuation-light);
+  --code-token-operator: var(--code-token-operator-light); 
+  --code-token-keyword: var(--code-token-keyword-light);
+  --code-token-boolean: var(--code-token-boolean-light);
+  --code-token-number: var(--code-token-number-light);
+  --code-token-type: var(--code-token-type-light);
+  --code-token-function-name: var(--code-token-function-name-light);
+  --code-token-function-param: var(--code-token-function-param-light);
+  --code-token-attribute: var(--code-token-attribute-light);
+  --code-token-string: var(--code-token-string-light);
+  --code-token-function: var(--code-token-function-light);
+  --code-token-comment: var(--code-token-comment-light);  
+}
+
+html.theme-light {
+  --code-background: var(--code-background-light); 
+  --code-token-base: var(--code-token-base-light);
+  --code-token-punctuation: var(--code-token-punctuation-light);
+  --code-token-operator: var(--code-token-operator-light); 
+  --code-token-keyword: var(--code-token-keyword-light);
+  --code-token-boolean: var(--code-token-boolean-light);
+  --code-token-number: var(--code-token-number-light);
+  --code-token-type: var(--code-token-type-light);
+  --code-token-function-name: var(--code-token-function-name-light);
+  --code-token-function-param: var(--code-token-function-param-light);
+  --code-token-attribute: var(--code-token-attribute-light);
+  --code-token-string: var(--code-token-string-light);
+  --code-token-function: var(--code-token-function-light);
+  --code-token-comment: var(--code-token-comment-light);  
+}
+
+html.theme-dark {
+  --code-background: var(--code-background-dark); 
+  --code-token-base: var(--code-token-base-dark);
+  --code-token-punctuation: var(--code-token-punctuation-dark);
+  --code-token-operator: var(--code-token-operator-dark); 
+  --code-token-keyword: var(--code-token-keyword-dark);
+  --code-token-boolean: var(--code-token-boolean-dark);
+  --code-token-number: var(--code-token-number-dark);
+  --code-token-type: var(--code-token-type-dark);
+  --code-token-function-name: var(--code-token-function-name-dark);
+  --code-token-function-param: var(--code-token-function-param-dark);
+  --code-token-attribute: var(--code-token-attribute-dark);
+  --code-token-string: var(--code-token-string-dark);
+  --code-token-function: var(--code-token-function-dark);
+  --code-token-comment: var(--code-token-comment-dark);  
+}
+
+/*
+
+highlightJS mappings
+
+*/
+
+pre.hljs {
+  background: var(--code-background);
+}
+.hljs {
+  color: var(--color-token-base);
+}
+.hljs-punctuation { /* and operators */
+  color: var(--code-token-punctuation);
+}
+.hljs-variable,
+.hljs-name {
+  color: var(--code-token-base);
+}
+.hljs-function-param {
+  font-weight: bold;
+  font-style: italic;
+  color: var(--color-token-base);
+}
+.hljs-operator {
+  color: var(--code-token-operator);
+}
+.hljs-keyword {
+  color: var(--code-token-keyword);
+}
+.hljs-boolean {
+  color: var(--code-token-boolean);
+}
+.hljs-number {
+  color: var(--code-token-number);
+}
+.hljs-type {
+  color: var(--code-token-type);
+}
+.hljs-function.function-name {
+  color: var(--code-token-function-name);
+}
+.hljs-function.function-call {
+  font-style: italic;
+}
+.hljs-function.function-params {
+  color: var(--code-token-function);
+}
+.hljs-attribute {
+  color: var(--code-token-attribute);
+  font-style: italic;
+}
+.hljs-string {
+  color: var(--code-token-string);
+}
+.hljs-comment {
+  color: var(--code-token-comment);
+  font-style: italic
+}
+.hljs-module {
+  font-weight: bold;
+}
+/* 
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: var(--code-token-function);
+}
+.hljs-built_in,
+.hljs-title.class_,
+.hljs-class .hljs-title {
+  color: var(--code-token-function);
+} */
+.hljs-emphasis {
+  font-style: italic
+}
+.hljs-strong {
+  font-weight: bold
+}
+.hljs-link {
+  text-decoration: underline
+}
+
+/*
+
+CodeFlask mappings
+
+*/
+
+.codeflask .codeflask__textarea {
+  color: var(--code-background); /* Prevents rendering artifacts in dark mode */
+  caret-color: var(--code-token-base); /* Makes the text input cursor visible in dark mode */
+}
+
+.codeflask {
+  background: var(--code-background);
+  color: var(--code-token-base);
+}
+.codeflask .token.punctuation {
+  color: var(--code-token-punctuation);
+}
+.codeflask .token.keyword {
+  color: var(--code-token-keyword);
+}
+.codeflask .token.operator {
+  color: var(--code-token-operator);
+}
+.codeflask .token.string {
+  color: var(--code-token-string);
+}
+.codeflask .token.comment {
+  color: var(--code-token-comment);
+}
+.codeflask .token.function {
+  color: var(--code-token-function);
+}
+.codeflask .token.boolean {
+  color: var(--code-token-boolean);
+}
+.codeflask .token.number {
+  color: var(--code-token-number);
+}
+.codeflask .token.selector {
+  color: var(--code-token-selector);
+}
+.codeflask .token.property {
+  color: var(--code-token-property);
+}
+.codeflask .token.tag {
+  color: var(--code-token-tag);
+}
+.codeflask .token.attr-value {
+  color: var(--code-token-attr-value);
+}
+
+/* Add color transitions to fit with theme switching */
+
+.hljs,
+.codeflask .codeflask__textarea {
+  transition: background 150ms linear 0s, color 150ms linear 0s;
+}
+
+.hljs,
+.hljs *,
+.codeflask .codeflask__textarea
+.codeflask .codeflask__textarea * {
+  transition: color 150ms linear 0s;
+}

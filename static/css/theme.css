@@ -1,0 +1,52 @@
+/*
+
+Derives app colors for both dark & light themes from common.css variables
+
+*/
+
+:root {
+  --hot-pink: #d900b8;
+  --light-pink: #fff8fe;
+  --gray-light: #dfdfdf;
+
+  --drop-shadow: 0 0 var(--gap-quarter) var(--color-background), var(--gap) var(--gap) 0 var(--color-drop-shadow), inset 0 0 0 1px var(--color-accent-muted); 
+
+  --color-navbar-background: var(--faff-pink);
+  --color-navbar-text: var(--light-theme-text);
+  --color-navbar-link: var(--light-theme-text);
+
+  --color-accent: var(--faff-pink);
+  --color-accent-light: var(--light-pink);
+  --color-accent-hot: var(--hot-pink);
+  --color-accent-dark: var(--unexpected-aubergine);
+}
+
+html.theme-light {
+  --color-background: var(--light-theme-background);
+  --color-background-dim: var(--light-theme-background-dim);
+  --color-text: var(--light-theme-text);
+  --color-text-secondary: var(--light-theme-text-secondary);
+  --color-link: var(--light-theme-text);
+  --color-link-decoration: var(--faff-pink);
+  --color-code: var(--light-theme-code);
+  --color-divider: var(--faff-pink);
+  --color-drop-shadow: var(--gray-light);
+  --color-accent-muted: var(--color-accent-light);
+  --color-text-accent: var(--color-accent-dark);
+  color-scheme: light;
+}
+
+html.theme-dark {
+  --color-background: var(--dark-theme-background);
+  --color-background-dim: var(--dark-theme-background-dim);
+  --color-text: var(--dark-theme-text);
+  --color-text-secondary: var(--dark-theme-text-secondary);
+  --color-link: var(--dark-theme-text);
+  --color-link-decoration: var(--faff-pink);
+  --color-code: var(--dark-theme-code);
+  --color-divider: var(--unexpected-aubergine);
+  --color-drop-shadow: var(--color-background-dim);
+  --color-accent-muted: var(--color-accent-dark);
+  --color-text-accent: var(--color-accent);
+  color-scheme: dark;
+}

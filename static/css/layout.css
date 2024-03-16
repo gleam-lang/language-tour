@@ -1,0 +1,10 @@
+:root {
+  --gap: 0.75rem;
+  --gap-double: calc(2 * var(--gap));
+  --gap-triple: calc(3 * var(--gap));
+  --gap-quad: calc(4 * var(--gap));
+  --gap-half: calc(0.5 * var(--gap));
+  --gap-quarter: calc(0.25 * var(--gap));
+  
+  --navbar-height: calc(var(--gap-double) + 20px);
+}
