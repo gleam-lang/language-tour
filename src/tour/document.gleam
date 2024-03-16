@@ -31,10 +31,7 @@ pub fn script(
 ) -> Html {
   let attrs = {
     let src_attr = #("src", source)
-    let base_attrs: List(HtmlAttribute) = [
-      src_attr,
-      ..script_common_attributes(attributes)
-    ]
+    let base_attrs = [src_attr, ..script_common_attributes(attributes)]
     list.flatten([base_attrs, additional_attributes])
   }
   h("script", attrs, [])
@@ -127,6 +124,19 @@ pub fn head(with config: HeadConfig) -> htmb.Html {
   let head_content = list.concat([head_meta, head_links, config.scripts])
 
   h("head", [], head_content)
+}
+
+pub type Link {
+  Link(label: String, to: String)
+}
+
+/// Renders an HTML anchor tag
+pub fn anchor(
+  to href: String,
+  attrs attributes: List(HtmlAttribute),
+  with content: List(Html),
+) {
+  h("a", [#("href", href), ..attributes], content)
 }
 
 pub type BodyConfig {
