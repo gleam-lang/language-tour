@@ -121,7 +121,7 @@ html.theme-light .theme-button.-light {
   overflow-wrap: break-word;
 }
 
-#left > :first-child {
+#left> :first-child {
   margin-top: 0;
 }
 
@@ -155,21 +155,22 @@ html.theme-light .theme-button.-light {
     right: 0;
   }
 
-  #right > :first-child {
+  #right> :first-child {
     height: 62%;
   }
-  #right > :last-child {
+
+  #right> :last-child {
     height: 38%;
   }
 }
 
 #left,
-#output > *,
+#output>*,
 #editor .codeflask__flatten {
   padding: var(--gap);
 }
 
-#output > * {
+#output>* {
   margin: 0;
   white-space: pre-wrap;
 }
@@ -205,11 +206,12 @@ html.theme-light .theme-button.-light {
 .mb-0 {
   margin-bottom: 0;
 }
+
 /*
  * utility classes
  */
 
- /*
+/*
  * dims the background of any element it its applied to
  */
 
@@ -227,39 +229,42 @@ html.theme-light .theme-button.-light {
   position: absolute;
   inset: 0;
   background: inherit;
-  filter:  brightness(0.4) saturate(1.3);
+  filter: brightness(0.4) saturate(1.3);
   z-index: 0;
   opacity: 0.3;
 }
 
 .theme-light .dim-bg::before {
-  filter:  brightness(0.8) saturate(1.3);
+  filter: brightness(0.8) saturate(1.3);
 }
 
 /*
  * highlights an element (usually a link) on hover
  */
 
- .link {
+.link {
   color: var(--color-text-accent);
   text-decoration: underline;
   text-decoration-color: transparent;
   transition: background 150ms linear 0s, color 150ms ease-out 0s;
- }
+}
 
- .link:hover {
+.link:hover {
   color: var(--color-link);
   background: var(--color-accent-muted);
   text-decoration-color: var(--color-accent);
- }
+}
 
- .navbar .link, .navbar.link:hover {
-  background: none;
- }
 
- .link.padded {
+.navbar .link:hover {
+  background: var(--color-accent-light);
+  text-decoration-color: var(--color-accent-hot);
+}
+
+.link.padded,
+.navbar .link {
   padding: calc(var(--gap-quarter) * 0.5) var(--gap-quarter) 0;
- }
+}
 
 
 /*
@@ -267,17 +272,17 @@ html.theme-light .theme-button.-light {
  * inline chapters & lessons
  */
 
- body:has(#everything) {
+body:has(#everything) {
   /* max-height: 100%; */
   overflow: hidden;
   min-height: 100vh;
   /* mobile viewport bug fix */
   min-height: -webkit-fill-available;
- }
+}
 
- html:has(#everything) {
+html:has(#everything) {
   min-height: -webkit-fill-available;
- }
+}
 
 
 /* set navbar to position: fixed */
@@ -316,7 +321,9 @@ main#everything {
 #everything h3 {
   margin: 0;
 }
-#everything-contents, #everything-lessons {
+
+#everything-contents,
+#everything-lessons {
   grid-column-end: span 1;
   grid-row: 1 / span 1;
   max-height: 100%;
@@ -355,7 +362,7 @@ main#everything {
   white-space: nowrap;
 }
 
-#everything-contents .chapter ul, 
+#everything-contents .chapter ul,
 #everything-contents .chapter li {
   list-style: none;
   padding: 0;
@@ -419,7 +426,7 @@ main#everything {
   margin-bottom: var(--gap-double);
 }
 
-#everything-lessons .lesson:target  {
+#everything-lessons .lesson:target {
   animation: highlight-block 900ms ease-in-out 300ms 1;
 }
 
@@ -527,7 +534,7 @@ main#everything {
     inset: 0;
     top: var(--navbar-height);
     grid-column: 1 / span 2;
-    padding-left: calc( var(--gap) + var(--gap-quad) * 2);
+    padding-left: calc(var(--gap) + var(--gap-quad) * 2);
     transform: translateX(-100%);
     transition: transform 300ms ease-in 0s, overflow-y 0s linear 600ms, background 150ms linear 0s;
     z-index: 10;
@@ -546,7 +553,7 @@ main#everything {
   }
 
   #everything-contents::before {
-    display:none;
+    display: none;
   }
 
   #everything-contents::after {
@@ -598,7 +605,7 @@ main#everything {
   }
 
 
-  
+
 
   #everything-lessons .lesson-snippet code {
     padding: var(--gap);
@@ -607,8 +614,9 @@ main#everything {
 }
 
 @container lessons-list (min-width: 900px) {
+
   #everything-lessons .lesson,
-  #everything-lessons .chapter-title { 
+  #everything-lessons .chapter-title {
     padding-right: var(--gap-quad);
     padding-left: var(--gap-quad);
   }
@@ -622,7 +630,7 @@ main#everything {
 
 @media all and (orientation: portrait) {
   /* adjust padding and sticky element positions when a link is clicked */
-  
+
   /* #everything:has(*:target) #everything-lessons {
     padding-top: var(--navbar-height);
   }
@@ -631,7 +639,7 @@ main#everything {
     padding-top: calc(var(--navbar-height) + var(--gap));
   } */
 
-  
+
 }
 
 @keyframes highlight-text {
@@ -654,15 +662,13 @@ main#everything {
 }
 
 @keyframes highlight-block {
-  0% {
-  }
+  0% {}
 
   50% {
     background: var(--color-accent-muted);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 @keyframes reveal {
