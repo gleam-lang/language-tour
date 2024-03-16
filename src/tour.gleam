@@ -8,9 +8,9 @@ import gleam/string_builder
 import htmb.{h, text}
 import simplifile
 import snag
-import tour/widgets
 import tour/document
-import tour/page
+import tour/page.{PageConfig, ScriptConfig}
+import tour/styles
 
 const static = "static"
 
@@ -611,71 +611,49 @@ fn everything_html(chapters: List(Chapter)) -> String {
       )
     })
 
-  let render_next = True
-
-  case render_next {
-    True ->
-      page.html(
-        page.PageConfig(
-          path: "everything",
-          title: "Everything!",
-          scripts: page.ScriptConfig(head: [], body: [
-            document.script(
-              "/highlight/highlight.core.min.js",
-              document.ScriptOptions(module: True, defer: True),
-              [],
-            ),
-            document.script(
-              "/highlight/highlight-gleam.js",
-              document.ScriptOptions(module: True, defer: True),
-              [],
-            ),
-          ]),
-          stylesheets: ["/highlight/highlight.css"],
-          content: [
-            h("main", [#("id", "everything")], [
-              h(
-                "aside",
-                [#("id", "everything-contents"), #("class", "dim-bg")],
-                table_of_contents,
-              ),
-              h("section", [#("id", "everything-lessons")], chapter_lessons),
-            ]),
-          ],
-        ),
-      )
-      |> page.render
-    _ ->
-      page_html(
-        at: "everything",
-        titled: "Everything!!!",
-        containing: [
-          h("main", [#("id", "everything")], [
-            h(
-              "aside",
-              [#("id", "everything-contents"), #("class", "dim-bg")],
-              table_of_contents,
-            ),
-            h("section", [#("id", "everything-lessons")], chapter_lessons),
-          ]),
-          h(
-            "script",
-            [#("src", "/highlight/highlight.core.min.js"), #("type", "module")],
+  // TODO: use proper values for location and such
+  page.html(
+    page.PageConfig(
+      path: "everything",
+      title: "Everything!",
+      scripts: page.ScriptConfig(
+        head: [
+          document.script(
+            "/js/highlight/highlight.core.min.js",
+            document.ScriptOptions(module: True, defer: False),
             [],
           ),
-          h(
-            "script",
-            [#("src", "/highlight/highlight-gleam.js"), #("type", "module")],
+          document.script(
+            "/js/highlight/regexes.js",
+            document.ScriptOptions(module: True, defer: True),
             [],
           ),
         ],
-        with_styles: ["/highlight/highlight.css"],
-      )
-  }
-  // TODO: use proper values for location and such
+        body: [
+          document.script(
+            "/js/highlight/highlight-gleam.js",
+            document.ScriptOptions(module: True, defer: True),
+            [],
+          ),
+        ],
+      ),
+      stylesheets: [styles.page, ..styles.defaults_code],
+      content: [
+        h("main", [#("id", "everything")], [
+          h(
+            "aside",
+            [#("id", "everything-contents"), #("class", "dim-bg")],
+            table_of_contents,
+          ),
+          h("section", [#("id", "everything-lessons")], chapter_lessons),
+        ]),
+      ],
+    ),
+  )
+  |> page.render
 }
 
-fn lesson_html(page: Lesson) -> String {
+fn lesson_html(lesson: Lesson) -> String {
   let navlink = fn(name, link) {
     case link {
       None -> h("span", [], [text(name)])
@@ -683,38 +661,52 @@ fn lesson_html(page: Lesson) -> String {
     }
   }
 
-  page_html(
-    at: page.path,
-    titled: page.name,
-    containing: [
-      h("article", [#("id", "playground")], [
-        h("section", [#("id", "left")], [
-          h("h2", [], [text(page.name)]),
-          htmb.dangerous_unescaped_fragment(string_builder.from_string(
-            page.text,
-          )),
-          h("nav", [#("class", "prev-next")], [
-            navlink("Back", page.previous),
-            text(" — "),
-            h("a", [#("href", path_table_of_contents)], [text("Contents")]),
-            text(" — "),
-            navlink("Next", page.next),
+  page.html(
+    PageConfig(
+      path: lesson.path,
+      title: lesson.name,
+      content: [
+        h("article", [#("id", "playground")], [
+          h("section", [#("id", "left")], [
+            h("h2", [], [text(lesson.name)]),
+            htmb.dangerous_unescaped_fragment(string_builder.from_string(
+              lesson.text,
+            )),
+            h("nav", [#("class", "prev-next")], [
+              navlink("Back", lesson.previous),
+              text(" — "),
+              h("a", [#("href", path_table_of_contents)], [text("Contents")]),
+              text(" — "),
+              navlink("Next", lesson.next),
+            ]),
+          ]),
+          h("section", [#("id", "right")], [
+            h("section", [#("id", "editor")], [
+              h("div", [#("id", "editor-target")], []),
+            ]),
+            h("aside", [#("id", "output")], []),
           ]),
         ]),
-        h("section", [#("id", "right")], [
-          h("section", [#("id", "editor")], [
-            h("div", [#("id", "editor-target")], []),
+      ],
+      scripts: ScriptConfig(
+        body: [
+          h("script", [#("type", "gleam"), #("id", "code")], [
+            htmb.dangerous_unescaped_fragment(string_builder.from_string(
+              lesson.code,
+            )),
           ]),
-          h("aside", [#("id", "output")], []),
-        ]),
-      ]),
-      h("script", [#("type", "gleam"), #("id", "code")], [
-        htmb.dangerous_unescaped_fragment(string_builder.from_string(page.code)),
-      ]),
-      h("script", [#("type", "module"), #("src", "/index.js")], []),
-    ],
-    with_styles: [],
+          document.script(
+            "/index.js",
+            document.ScriptOptions(module: True, defer: False),
+            [],
+          ),
+        ],
+        head: [],
+      ),
+      stylesheets: [styles.page, ..styles.defaults_code],
+    ),
   )
+  |> page.render
 }
 
 type Link {
@@ -725,133 +717,4 @@ fn link_html(for link: Link, attributes attributes: List(#(String, String))) {
   let link_attributes = [#("href", link.to), ..attributes]
 
   h("a", link_attributes, [text(link.label)])
-}
-
-/// Renders the tour's navbar as html
-fn page_navbar(
-  titled title: String,
-  links additional_links: List(Link),
-) -> htmb.Html {
-  let links = {
-    [Link(label: "gleam.run", to: "http://gleam.run"), ..additional_links]
-    |> list.map(fn(l) { link_html(l, [#("class", "link")]) })
-  }
-  let nav_right_items = list.flatten([links, [widgets.theme_picker()]])
-
-  h("nav", [#("class", "navbar")], [
-    h("a", [#("href", "/"), #("class", "logo")], [
-      h(
-        "img",
-        [
-          #("src", "https://gleam.run/images/lucy/lucy.svg"),
-          #("alt", "Lucy the star, Gleam's mascot"),
-        ],
-        [],
-      ),
-      text(title),
-    ]),
-    h("div", [#("class", "nav-right")], nav_right_items),
-  ])
-}
-
-/// Renders the page head as HTML
-fn page_head(
-  at path: String,
-  titled title: String,
-  with_styles styles: List(String),
-) -> htmb.Html {
-  let metaprop = fn(property, content) {
-    h("meta", [#("property", property), #("content", content)], [])
-  }
-  let link = fn(rel, href) { h("link", [#("rel", rel), #("href", href)], []) }
-
-  let stylesheet = fn(src: String) { link("stylesheet", src) }
-  let title = title <> " - The Gleam Language Tour"
-  let description =
-    "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!"
-  let metaprops = [
-    metaprop("og:type", "website"),
-    metaprop("og:title", title),
-    metaprop("og:description", description),
-    metaprop("og:url", "https://tour.gleam.run/" <> path),
-    metaprop("og:image", "https://gleam.run/images/og-image.png"),
-    metaprop("twitter:card", "summary_large_image"),
-    metaprop("twitter:url", "https://tour.gleam.run/" <> path),
-    metaprop("twitter:title", title),
-    metaprop("twitter:description", description),
-    metaprop("twitter:image", "https://gleam.run/images/og-image.png"),
-  ]
-
-  let metadata = [
-    h("meta", [#("charset", "utf-8")], []),
-    h(
-      "meta",
-      [
-        #("name", "viewport"),
-        #("content", "width=device-width, initial-scale=1"),
-      ],
-      [],
-    ),
-    h("title", [], [text(title)]),
-    h("meta", [#("name", "description"), #("content", description)], []),
-    ..metaprops
-  ]
-
-  let links = [
-    link("shortcut icon", "https://gleam.run/images/lucy/lucy.svg"),
-    link("stylesheet", "/common.css"),
-    link("stylesheet", "/style.css"),
-    ..list.map(styles, stylesheet)
-  ]
-
-  let scripts = [
-    h(
-      "script",
-      [
-        #("defer", ""),
-        #("data-domain", "tour.gleam.run"),
-        #("src", "https://plausible.io/js/script.js"),
-      ],
-      [],
-    ),
-    h("script", [#("type", "module")], [
-      htmb.dangerous_unescaped_fragment(string_builder.from_string(
-        widgets.theme_picker_js,
-      )),
-    ]),
-  ]
-
-  let head_content = {
-    let parts = [metadata, links, scripts]
-    parts
-    |> list.concat
-  }
-
-  h("head", [], head_content)
-}
-
-fn page_html(
-  at path: String,
-  titled title: String,
-  containing content: List(htmb.Html),
-  with_styles styles: List(String),
-) -> String {
-  let head = {
-    let static_styles = ["/common.css", "/styles.css"]
-    let head_styles =
-      [static_styles, styles]
-      |> list.concat()
-
-    page_head(at: path, titled: title, with_styles: head_styles)
-  }
-
-  h("html", [#("lang", "en-gb"), #("class", "theme-light")], [
-    head,
-    h("body", [], [
-      page_navbar(titled: "Gleam Language Tour", links: []),
-      ..content
-    ]),
-  ])
-  |> htmb.render_page("html")
-  |> string_builder.to_string
 }
