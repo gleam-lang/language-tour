@@ -1,85 +1,3 @@
-@font-face {
-  font-family: "Lexend";
-  font-display: swap;
-  font-weight: 400;
-  src: url("https://gleam.run/fonts/Lexend.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Lexend";
-  font-display: swap;
-  font-weight: 700;
-  src: url("https://gleam.run/fonts/Lexend-700.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Outfit";
-  font-display: swap;
-  src: url("https://gleam.run/fonts/Outfit.woff") format("woff");
-}
-
-:root {
-  --font-family-normal: "Outfit", sans-serif;
-  --font-family-title: "Lexend", sans-serif;
-
-  --font-size-normal: calc(var(--gap) * 1.5);
-  --font-size-small: calc(var(--gap) * 1.2);
-  --font-size-extra-small: calc(var(--gap));
-
-  --gap: 0.75rem;
-  --gap-double: calc(2 * var(--gap));
-  --gap-triple: calc(3 * var(--gap));
-  --gap-quad: calc(4 * var(--gap));
-  --gap-half: calc(0.5 * var(--gap));
-  --gap-quarter: calc(0.25 * var(--gap));
-  --navbar-height: calc(var(--gap-double) + 20px);
-
-  --hot-pink: #d900b8;
-  --light-pink: #fff8fe;
-  --gray-light: #dfdfdf;
-
-  --drop-shadow: 0 0 var(--gap-quarter) var(--color-background), var(--gap) var(--gap) 0 var(--color-drop-shadow); 
-
-  --color-navbar-background: var(--faff-pink);
-  --color-navbar-text: var(--light-theme-text);
-  --color-navbar-link: var(--light-theme-text);
-
-  --color-accent: var(--faff-pink);
-  --color-accent-light: var(--light-pink);
-  --color-accent-hot: var(--hot-pink);
-  --color-accent-dark: var(--unexpected-aubergine);
-}
-
-html.theme-light {
-  --color-background: var(--light-theme-background);
-  --color-background-dim: var(--light-theme-background-dim);
-  --color-text: var(--light-theme-text);
-  --color-text-secondary: var(--light-theme-text-secondary);
-  --color-link: var(--light-theme-text);
-  --color-link-decoration: var(--faff-pink);
-  --color-code: var(--light-theme-code);
-  --color-divider: var(--faff-pink);
-  --color-drop-shadow: var(--gray-light);
-  --color-accent-muted: var(--color-accent-light);
-  --color-text-accent: var(--color-accent-dark);
-  color-scheme: light;
-}
-
-html.theme-dark {
-  --color-background: var(--dark-theme-background);
-  --color-background-dim: var(--dark-theme-background-dim);
-  --color-text: var(--dark-theme-text);
-  --color-text-secondary: var(--dark-theme-text-secondary);
-  --color-link: var(--dark-theme-text);
-  --color-link-decoration: var(--faff-pink);
-  --color-code: var(--dark-theme-code);
-  --color-divider: var(--unexpected-aubergine);
-  --color-drop-shadow: var(--blacker);
-  --color-accent-muted: var(--color-accent-dark);
-  --color-text-accent: var(--color-accent);
-  color-scheme: dark;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -161,7 +79,7 @@ a code {
 .navbar .nav-right {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: var(--gap-double);
 }
 
 html.theme-dark .theme-button.-dark {
@@ -183,6 +101,7 @@ html.theme-light .theme-button.-light {
   gap: 0.25em;
   font-size: inherit;
   color: inherit;
+  cursor: pointer;
 }
 
 .theme-button svg {
@@ -286,130 +205,6 @@ html.theme-light .theme-button.-light {
 .mb-0 {
   margin-bottom: 0;
 }
-
-/*
- * CodeFlask editor themes based on the Atom One highlight.js theme used in Gleam package docs sites.
- */
-
-.codeflask .codeflask__textarea {
-  color: var(
-    --color-background
-  ); /* Prevents rendering artifacts in dark mode */
-  caret-color: var(
-    --color-text
-  ); /* Makes the text input cursor visible in dark mode */
-}
-
-/* CodeFlask light theme */
-
-html.theme-light .codeflask {
-  background: var(--color-background);
-  color: var(--color-text);
-}
-
-html.theme-light .codeflask .token.punctuation {
-  color: #383a42;
-}
-
-html.theme-light .codeflask .token.keyword {
-  color: #a626a4;
-}
-
-html.theme-light .codeflask .token.operator {
-  color: #383a42;
-}
-
-html.theme-light .codeflask .token.string {
-  color: #50a14f;
-}
-
-html.theme-light .codeflask .token.comment {
-  color: #a0a1a7;
-}
-
-html.theme-light .codeflask .token.function {
-  color: #986801;
-}
-
-html.theme-light .codeflask .token.boolean {
-  color: #986801;
-}
-
-html.theme-light .codeflask .token.number {
-  color: #986801;
-}
-
-html.theme-light .codeflask .token.selector {
-  color: #986801;
-}
-
-html.theme-light .codeflask .token.property {
-  color: #986801;
-}
-
-html.theme-light .codeflask .token.tag {
-  color: #383a42;
-}
-
-html.theme-light .codeflask .token.attr-value {
-  color: #383a42;
-}
-
-/* CodeFlask dark theme */
-
-html.theme-dark .codeflask {
-  background: var(--color-background);
-  color: #d19a66;
-}
-
-html.theme-dark .codeflask .token.punctuation {
-  color: #abb2bf;
-}
-
-html.theme-dark .codeflask .token.keyword {
-  color: #c678dd;
-}
-
-html.theme-dark .codeflask .token.operator {
-  color: #abb2bf;
-}
-
-html.theme-dark .codeflask .token.string {
-  color: #98c379;
-}
-
-html.theme-dark .codeflask .token.comment {
-  color: #5c6370;
-}
-
-html.theme-dark .codeflask .token.function {
-  color: #61aeee;
-}
-
-html.theme-dark .codeflask .token.boolean {
-  color: #61aeee;
-}
-
-html.theme-dark .codeflask .token.number {
-  color: #d19a66;
-}
-
-html.theme-dark .codeflask .token.selector {
-  color: #d19a66;
-}
-
-html.theme-dark .codeflask .token.property {
-  color: #d19a66;
-}
-
-html.theme-dark .codeflask .token.tag {
-  color: #abb2bf;
-}
-
-html.theme-dark .codeflask .token.attr-value {
-  color: #abb2bf;
-}
-
 /*
  * utility classes
  */
@@ -456,6 +251,14 @@ html.theme-dark .codeflask .token.attr-value {
   color: var(--color-link);
   background: var(--color-accent-muted);
   text-decoration-color: var(--color-accent);
+ }
+
+ .navbar .link, .navbar.link:hover {
+  background: none;
+ }
+
+ .link.padded {
+  padding: calc(var(--gap-quarter) * 0.5) var(--gap-quarter) 0;
  }
 
 
@@ -629,7 +432,7 @@ main#everything {
   margin-right: var(--gap);
   margin-top: var(--gap-double);
   position: relative;
-  background: var(--color-background-dim);
+  background: var(--code-background);
   transition: background 150ms linear 0s, box-shadow 150ms linear 0s;
   box-shadow: var(--drop-shadow);
 }
@@ -820,13 +623,13 @@ main#everything {
 @media all and (orientation: portrait) {
   /* adjust padding and sticky element positions when a link is clicked */
   
-  #everything:has(*:target) #everything-lessons {
+  /* #everything:has(*:target) #everything-lessons {
     padding-top: var(--navbar-height);
   }
 
   #everything:has(*:target) #everything-contents {
     padding-top: calc(var(--navbar-height) + var(--gap));
-  }
+  } */
 
   
 }
