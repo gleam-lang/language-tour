@@ -1,44 +1,11 @@
-import gleam/list
 import gleam/string
 import gleam/string_builder
-import htmb.{type Html, h, text}
-import tour/document.{
-  type HtmlAttribute, BodyConfig, HeadConfig, HtmlConfig, ScriptOptions,
-}
+import gleam/list
+import htmb.{type Html}
+import tour/document.{BodyConfig, HeadConfig, HtmlConfig, ScriptOptions}
+import tour/components.{Link}
 import tour/widgets
-
-pub type Link {
-  Link(label: String, to: String)
-}
-
-/// Renders an HTML anchor tag
-pub fn link(for link: Link, attributes attributes: List(HtmlAttribute)) -> Html {
-  let link_attributes = [#("href", link.to), ..attributes]
-
-  h("a", link_attributes, [text(link.label)])
-}
-
-/// Renders the tour's navbar as html
-pub fn navbar(titled title: String, links links: List(Link)) -> Html {
-  let links = list.map(links, fn(l) { link(l, [#("class", "link")]) })
-
-  let nav_right_items = list.flatten([links, [widgets.theme_picker()]])
-
-  h("nav", [#("class", "navbar")], [
-    h("a", [#("href", "/"), #("class", "logo")], [
-      h(
-        "img",
-        [
-          #("src", "https://gleam.run/images/lucy/lucy.svg"),
-          #("alt", "Lucy the star, Gleam's mascot"),
-        ],
-        [],
-      ),
-      text(title),
-    ]),
-    h("div", [#("class", "nav-right")], nav_right_items),
-  ])
-}
+import tour/styles
 
 pub type ScriptConfig {
   ScriptConfig(head: List(Html), body: List(Html))
@@ -68,7 +35,7 @@ pub fn html(page config: PageConfig) -> Html {
       url: "https://tour.gleam.run/" <> config.path,
       path: config.path,
       meta: [],
-      stylesheets: ["/common.css", "/style.css", ..config.stylesheets],
+      stylesheets: list.flatten([styles.defaults_page, config.stylesheets]),
       scripts: [
         document.script(
           "https://plausible.io/js/script.js",
@@ -89,7 +56,7 @@ pub fn html(page config: PageConfig) -> Html {
       attributes: [body_class],
       scripts: config.scripts.body,
       static_content: [
-        navbar(titled: "Gleam Language Tour", links: [
+        components.navbar(titled: "Gleam Language Tour", links: [
           Link(label: "gleam.run", to: "http://gleam.run"),
         ]),
       ],
