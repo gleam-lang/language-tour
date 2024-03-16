@@ -57,6 +57,8 @@ pub fn html(page config: PageConfig) -> Html {
       scripts: config.scripts.body,
       static_content: [
         components.navbar(titled: "Gleam Language Tour", links: [
+          // TODO: find better label
+          Link(label: "Tour index", to: "/everything"),
           Link(label: "gleam.run", to: "http://gleam.run"),
         ]),
       ],
