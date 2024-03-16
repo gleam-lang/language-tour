@@ -7,7 +7,7 @@ export const functionCall = /\b(?:_)*[a-z_]+[a-z\d_]+\b(?=\()/g;
 export const functionParam = /(?<=\b(?:_)*[a-z_]+[a-z\d_]+\b\()(.|\s|\n)*(?=\))/g;
 export const operator = /(<<|>>|<-|->|\|>|<>|\.\.|<=\.?|>=\.?|==\.?|!=\.?|<\.?|>\.?|&&|\|\||\+\.?|-\.?|\/\.?|\*\.?|%\.?|=)/g;
 export const type = /\b[A-Z]{1}(?:[a-z]+[A-Z]{0,1})*\b/g;
-export const booleanOrNil = /\b(True|False|Nil)\b/g;
+export const literal = /\b(True|False|Nil)\b/g;
 export const comment = /\/\/.*/g;
 export const attribute = /@[a-zA-Z0-9]+\b(?=\()/g;
 export const discardName = /\b_[a-z][a-z0-9_]*\b/g;
