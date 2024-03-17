@@ -3,7 +3,7 @@
  * inline chapters & lessons
  */
 
-body:has(#everything) {
+body {
   /* max-height: 100%; */
   overflow: hidden;
   min-height: 100vh;
@@ -11,12 +11,12 @@ body:has(#everything) {
   min-height: -webkit-fill-available;
 }
 
-html:has(#everything) {
+html {
   min-height: -webkit-fill-available;
 }
 
 /* set navbar to position: fixed */
-body:has(#everything) .navbar {
+.navbar {
   z-index: 100;
   position: fixed;
   inset: 0;
@@ -34,21 +34,21 @@ main#everything {
   padding-top: var(--navbar-height);
 }
 
-#everything p,
-#everything a {
+p,
+a {
   margin: var(--gap) 0;
   font-size: var(--font-size-normal);
   line-height: var(--gap-double);
   font-weight: 400;
 }
 
-#everything code {
+code {
   font-size: var(--font-size-small);
 }
 
-#everything h1,
-#everything h2,
-#everything h3 {
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
@@ -138,10 +138,6 @@ main#everything {
   padding: var(--gap) 0;
   padding-bottom: var(--gap-triple);
   scroll-snap-align: center top;
-}
-
-#everything-lessons .lesson * {
-  margin: 0;
 }
 
 #everything-lessons .lesson-title {
@@ -349,18 +345,6 @@ main#everything {
     margin-right: var(--gap-quad);
     width: calc(100% - var(--gap-quad) * 2);
   }
-}
-
-@media all and (orientation: portrait) {
-  /* adjust padding and sticky element positions when a link is clicked */
-
-  /* #everything:has(*:target) #everything-lessons {
-    padding-top: var(--navbar-height);
-  }
-
-  #everything:has(*:target) #everything-contents {
-    padding-top: calc(var(--navbar-height) + var(--gap));
-  } */
 }
 
 @keyframes highlight-text {
