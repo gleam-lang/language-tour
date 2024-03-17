@@ -1,4 +1,6 @@
-import htmb.{type Html, h}
+import gleam/list
+import htmb.{type Html, h, text}
+import tour/render
 
 pub fn icon_moon() -> Html {
   h("svg", [#("id", "icon-moon"), #("viewBox", "0 0 24 24")], [
@@ -132,3 +134,61 @@ document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () 
   selectTheme('dark')
 })
 "
+
+pub fn theme_picker_script() -> Html {
+  render.dangerous_inline_script(
+    theme_picker_js,
+    render.ScriptOptions(module: True, defer: False),
+    [],
+  )
+}
+
+/// Renders an HTML anhor tag
+pub fn anchor(
+  to href: String,
+  attrs attributes: List(#(String, String)),
+  with content: List(Html),
+) -> Html {
+  h("a", [#("href", href), ..attributes], content)
+}
+
+pub type Link {
+  Link(label: String, to: String)
+}
+
+/// Renders a styled text link
+pub fn text_link(
+  for link: Link,
+  attributes attributes: List(#(String, String)),
+) -> Html {
+  let link_attributes = [#("class", "link"), ..attributes]
+
+  anchor(link.to, link_attributes, [text(link.label)])
+}
+
+/// Renders the tour's navbar as html
+pub fn navbar(titled title: String, links links: List(Link)) -> Html {
+  let links = list.map(links, fn(l) { text_link(l, []) })
+
+  let nav_right_items = list.flatten([links, [theme_picker()]])
+
+  h("nav", [#("class", "navbar")], [
+    anchor("/", [#("class", "logo")], [
+      h(
+        "img",
+        [
+          #("src", "https://gleam.run/images/lucy/lucy.svg"),
+          #("alt", "Lucy the star, Gleam's mascot"),
+        ],
+        [],
+      ),
+      text(title),
+    ]),
+    h("div", [#("class", "nav-right")], nav_right_items),
+  ])
+}
+
+/// Renders a horizontal separator
+pub fn separator(class: String) -> Html {
+  h("hr", [#("class", class <> "-separator")], [])
+}
