@@ -6,7 +6,7 @@ Derives app colors for both dark & light themes from common.css variables
 
 :root {
   --hot-pink: #d900b8;
-  --light-pink: #fff8fe;
+  --light-pink: #fedcfb;
   --gray-light: #dfdfdf;
 
   --drop-shadow: 0 0 var(--gap-quarter) var(--color-background),
