@@ -52,3 +52,28 @@ html.theme-dark {
   --color-text-accent: var(--color-accent);
   color-scheme: dark;
 }
+
+/* Hide body while theme init is occurring (50ms) */
+html.theme-init body {
+  opacity: 0
+}
+
+/*
+removes all transitions in the page during first theme render to avoid FOUC
+(the theme-init class is removed from DOM 1 frame after the page content loads)
+*/
+html.theme-init * {
+  transition: none !important;
+}
+
+body {
+  opacity: 1;
+  transition: opacity 300ms ease-out 0s;
+}
+
+html * {
+  transition-duration: 150ms, 300ms;
+  transition-property: color, background;
+  transition-timing-function: ease-out;
+  transition-delay: 0;
+}
