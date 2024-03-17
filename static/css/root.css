@@ -164,8 +164,8 @@ html.theme-light .theme-button.-light {
 .link {
   color: var(--color-text-accent);
   text-decoration: underline;
-  text-decoration-color: transparent;
-  transition: background 150ms linear 0s, color 150ms ease-out 0s;
+  text-decoration-color: var(--color-accent-muted);
+  transition: background 150ms linear 0s, color 150ms ease-out 0s, text-decoration-color 150ms ease-out 0s;
 }
 
 .link:hover {
