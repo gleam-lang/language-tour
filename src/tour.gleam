@@ -1,18 +1,15 @@
 import filepath
 import gleam/io
 import gleam/list
-import gleam/option.{None, Some}
+import gleam/option.{type Option, None, Some}
 import gleam/result
 import gleam/string
 import gleam/string_builder
-import htmb.{h, text}
+import htmb.{type Html, h, text}
 import simplifile
 import snag
-import tour/types/lesson.{type Chapter, type Lesson, Chapter, Lesson}
-import tour/document
-import tour/page.{PageConfig, ScriptConfig}
-import tour/styles
-import tour/pages/everything
+import tour/render.{PageConfig, ScriptConfig}
+import tour/widgets.{Link}
 
 const static = "static"
 
@@ -100,16 +97,54 @@ const what_next_html = "
 </p>
 "
 
+// page paths
+
 const path_home = "/"
 
 const path_table_of_contents = "/table-of-contents"
 
 const path_what_next = "/what-next"
 
+const path_everything = "/everything"
+
 // Don't include deprecated stdlib modules
 const skipped_stdlib_modules = [
   "bit_string.gleam", "bit_builder.gleam", "map.gleam",
 ]
+
+// css stylesheets paths
+
+const css__gleam_common = "/common.css"
+
+/// Loads fonts and defines font sizes
+const css_fonts = "/css/fonts.css"
+
+/// Derives app colors for both dark & light themes from common.css variables
+const css_theme = "/css/theme.css"
+
+/// Defines layout unit variables
+const css_layout = "/css/layout.css"
+
+/// Common stylesheet for all tour pages
+/// TODO: split into one file per page
+const css_page_common = "/style.css"
+
+/// Sensitive defaults for any page
+const css_defaults_page = [css_fonts, css_theme, css__gleam_common, css_layout]
+
+// Defines code syntax highlighting for highlightJS & CodeFlash
+// based on dark / light mode and the currenly loaded color scheme
+const css_syntax_highlight = "/css/code/syntax-highlight.css"
+
+// Color schemes
+// TODO: add more color schemes
+
+/// Atom One Dark & Atom One Light colors
+const css_scheme_atom_one = "/css/code/color-schemes/atom-one.css"
+
+/// Sensitive defaults for any page needing to display Gleam code
+/// To be used alonside defaults_page
+const css_defaults_code = [css_syntax_highlight, css_scheme_atom_one]
 
 pub fn main() {
   let result = {
@@ -130,6 +165,21 @@ pub fn main() {
       panic as snag.pretty_print(snag)
     }
   }
+}
+
+pub type Chapter {
+  Chapter(name: String, path: String, lessons: List(Lesson))
+}
+
+pub type Lesson {
+  Lesson(
+    name: String,
+    text: String,
+    code: String,
+    path: String,
+    previous: Option(String),
+    next: Option(String),
+  )
 }
 
 type FileNames {
@@ -280,14 +330,14 @@ fn write_everything_page(chapters: List(Chapter)) -> snag.Result(Nil) {
   let path = public <> "/everything"
   use _ <- result.try(ensure_directory(path))
   let path = filepath.join(path, "/index.html")
-  write_text(path, everything.render(chapters))
+  write_text(path, everything_page_render(chapters))
 }
 
 fn write_lesson(lesson: Lesson) -> snag.Result(Nil) {
   let path = public <> lesson.path
   use _ <- result.try(ensure_directory(path))
   let path = filepath.join(path, "/index.html")
-  write_text(path, lesson_html(lesson))
+  write_text(path, lesson_page_render(lesson))
 }
 
 fn add_prev_next(
@@ -504,7 +554,11 @@ fn file_error(
   }
 }
 
-fn lesson_html(lesson: Lesson) -> String {
+// Page renders
+
+/// Renders a Lesson's page
+/// Complete with title, lesson, editor and output
+fn lesson_page_render(lesson: Lesson) -> String {
   let navlink = fn(name, link) {
     case link {
       None -> h("span", [], [text(name)])
@@ -512,7 +566,7 @@ fn lesson_html(lesson: Lesson) -> String {
     }
   }
 
-  page.html(
+  render.render(
     PageConfig(
       path: lesson.path,
       title: lesson.name,
@@ -541,21 +595,194 @@ fn lesson_html(lesson: Lesson) -> String {
       ],
       scripts: ScriptConfig(
         body: [
+          render.dangerous_inline_script(
+            widgets.theme_picker_js,
+            render.ScriptOptions(module: True, defer: False),
+            [],
+          ),
           h("script", [#("type", "gleam"), #("id", "code")], [
             htmb.dangerous_unescaped_fragment(string_builder.from_string(
               lesson.code,
             )),
           ]),
-          document.script(
+          render.script(
             "/index.js",
-            document.ScriptOptions(module: True, defer: False),
+            render.ScriptOptions(module: True, defer: False),
             [],
           ),
         ],
         head: [],
       ),
-      stylesheets: [styles.page, ..styles.defaults_code],
+      stylesheets: list.flatten([
+        css_defaults_page,
+        css_defaults_code,
+        [css_page_common],
+      ]),
+      static_content: [
+        widgets.navbar(titled: "Gleam Language Tour", links: [
+          // TODO: find better label
+          Link(label: "Tour index", to: "/everything"),
+          Link(label: "gleam.run", to: "http://gleam.run"),
+        ]),
+      ],
     ),
   )
-  |> page.render
+}
+
+/// Transform a path into a slug
+fn slugify_path(path: String) -> String {
+  string.replace(path, "/", "-")
+  |> string.drop_left(up_to: 1)
+}
+
+/// Renders a lesson item in the everyting page's list
+fn everything_page_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
+  let snippet_link_title = "Experiment with " <> lesson.name <> " in browser"
+
+  let lesson_content =
+    h("article", [#("class", "lesson"), #("id", slugify_path(lesson.path))], [
+      h("a", [#("href", "#" <> slugify_path(lesson.path)), #("class", "link")], [
+        h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
+      ]),
+      htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
+      h("pre", [#("class", "lesson-snippet hljs gleam language-gleam")], [
+        h("code", [], [text(lesson.code)]),
+        h(
+          "a",
+          [
+            #("class", "lesson-snippet-link"),
+            #("href", lesson.path),
+            #("title", snippet_link_title),
+            #("aria-label", snippet_link_title),
+          ],
+          [
+            h("i", [#("class", "snippet-link-icon")], [text("</>")]),
+            text("Run code snippet"),
+          ],
+        ),
+      ]),
+    ])
+
+  case index {
+    i if i == end_index -> [lesson_content]
+    _ -> [lesson_content, widgets.separator("lesson")]
+  }
+}
+
+/// Renders a list containing all chapters and their lessons
+fn everything_page_chapters_html(chapters: List(Chapter)) -> List(Html) {
+  use #(chapter, index) <- list.flat_map(
+    list.index_map(chapters, fn(chap, i) { #(chap, i) }),
+  )
+
+  let lessons =
+    list.index_map(chapter.lessons, fn(lesson, index) {
+      everything_page_lesson_html(
+        lesson,
+        index,
+        list.length(chapter.lessons) - 1,
+      )
+    })
+  let chapter_title =
+    h("h3", [#("id", slugify_path(chapter.path)), #("class", "chapter-title")], [
+      text(chapter.name),
+    ])
+
+  let chapter_header = case index {
+    0 -> [chapter_title, widgets.separator("chapter")]
+    _ -> [
+      widgets.separator("chapter-between"),
+      chapter_title,
+      widgets.separator("chapter"),
+    ]
+  }
+
+  list.concat([chapter_header, ..lessons])
+}
+
+/// Renders a link to a lesson in the table of contents
+fn everything_page_toc_link(lesson: Lesson) -> Html {
+  h("li", [], [
+    widgets.text_link(
+      Link(label: lesson.name, to: "#" <> slugify_path(lesson.path)),
+      [#("class", "link padded")],
+    ),
+  ])
+}
+
+/// Renders the everything pages's table of contents
+fn everything_page_toc_html(chapters: List(Chapter)) -> List(Html) {
+  use chapter <- list.map(chapters)
+  let links = list.map(chapter.lessons, everything_page_toc_link)
+
+  h("article", [#("class", "chapter"), #("id", "chapter-" <> chapter.name)], [
+    h("h3", [], [text(chapter.name)]),
+    h("ul", [], links),
+  ])
+}
+
+/// Renders the /everything's page body content
+fn everything_page_html(chapters: List(Chapter)) -> Html {
+  let chapter_lessons = everything_page_chapters_html(chapters)
+  let table_of_contents = everything_page_toc_html(chapters)
+
+  h("main", [#("id", "everything")], [
+    h(
+      "aside",
+      [#("id", "everything-contents"), #("class", "dim-bg")],
+      table_of_contents,
+    ),
+    h("section", [#("id", "everything-lessons")], chapter_lessons),
+  ])
+}
+
+// Path to the css specific to the everything page
+const css_everything_page = "/css/pages/everything.css"
+
+/// Renders the /everything page to a string
+pub fn everything_page_render(chapters: List(Chapter)) -> String {
+  // TODO: use proper values for location and such
+  render.render(PageConfig(
+    path: path_everything,
+    title: "Everything!",
+    scripts: ScriptConfig(
+      head: [
+        render.script(
+          "/js/highlight/highlight.core.min.js",
+          render.ScriptOptions(module: True, defer: False),
+          [],
+        ),
+        render.script(
+          "/js/highlight/regexes.js",
+          render.ScriptOptions(module: True, defer: True),
+          [],
+        ),
+      ],
+      body: [
+        render.dangerous_inline_script(
+          widgets.theme_picker_js,
+          render.ScriptOptions(module: True, defer: False),
+          [],
+        ),
+        render.script(
+          "/js/highlight/highlight-gleam.js",
+          render.ScriptOptions(module: True, defer: True),
+          [],
+        ),
+      ],
+    ),
+    stylesheets: list.flatten([
+      css_defaults_page,
+      css_defaults_code,
+      [css_page_common, css_everything_page],
+    ]),
+    static_content: [
+      widgets.navbar(titled: "Gleam Language Tour", links: [
+        // TODO: find better label
+        Link(label: "Tour index", to: "/everything"),
+        Link(label: "gleam.run", to: "http://gleam.run"),
+      ]),
+    ],
+    content: [everything_page_html(chapters)],
+  ))
 }

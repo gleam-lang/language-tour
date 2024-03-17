@@ -1,6 +1,7 @@
 import htmb.{type Html, h, text}
-import gleam/string_builder
 import gleam/list
+import gleam/string
+import gleam/string_builder
 
 pub type HtmlAttribute =
   #(String, String)
@@ -90,7 +91,7 @@ pub type HeadConfig {
 }
 
 /// Renders the page head as HTML
-pub fn head(with config: HeadConfig) -> htmb.Html {
+fn head(with config: HeadConfig) -> htmb.Html {
   let meta_tags = [
     meta_prop("og:type", "website"),
     meta_prop("og:title", config.title),
@@ -126,19 +127,6 @@ pub fn head(with config: HeadConfig) -> htmb.Html {
   h("head", [], head_content)
 }
 
-pub type Link {
-  Link(label: String, to: String)
-}
-
-/// Renders an HTML anchor tag
-pub fn anchor(
-  to href: String,
-  attrs attributes: List(HtmlAttribute),
-  with content: List(Html),
-) {
-  h("a", [#("href", href), ..attributes], content)
-}
-
 pub type BodyConfig {
   BodyConfig(
     content: List(Html),
@@ -149,7 +137,7 @@ pub type BodyConfig {
 }
 
 /// Renders an Html body tag
-pub fn body(with config: BodyConfig) -> Html {
+fn body(with config: BodyConfig) -> Html {
   let content =
     list.flatten([config.static_content, config.content, config.scripts])
 
@@ -166,8 +154,70 @@ pub type HtmlConfig {
 }
 
 /// Renders an HTML tag and its children
-pub fn html(with config: HtmlConfig) -> Html {
+fn html(with config: HtmlConfig) -> Html {
   let attributes = [#("lang", config.lang), ..config.attributes]
 
   h("html", attributes, [head(config.head), body(config.body)])
+}
+
+pub type ScriptConfig {
+  ScriptConfig(head: List(Html), body: List(Html))
+}
+
+pub type PageConfig {
+  PageConfig(
+    path: String,
+    title: String,
+    content: List(Html),
+    static_content: List(Html),
+    stylesheets: List(String),
+    scripts: ScriptConfig,
+  )
+}
+
+/// Renders a page in the language tour
+pub fn render_html(page config: PageConfig) -> Html {
+  // add path-specific class to body to make styling easier
+  let body_class = #("id", "page" <> string.replace(config.path, "/", "-"))
+
+  // render html
+  html(HtmlConfig(
+    head: HeadConfig(
+      description: "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!",
+      image: "https://gleam.run/images/og-image.png",
+      title: config.title <> " - The Gleam Language Tour",
+      url: "https://tour.gleam.run/" <> config.path,
+      path: config.path,
+      meta: [],
+      stylesheets: config.stylesheets,
+      scripts: [
+        script(
+          "https://plausible.io/js/script.js",
+          ScriptOptions(defer: True, module: False),
+          [#("data-domain", "tour.gleam.run")],
+        ),
+        ..config.scripts.head
+      ],
+    ),
+    lang: "en-GB",
+    attributes: [#("class", "theme-light")],
+    body: BodyConfig(
+      attributes: [body_class],
+      scripts: config.scripts.body,
+      static_content: config.static_content,
+      content: config.content,
+    ),
+  ))
+}
+
+pub fn render_string(page page_html: Html) -> String {
+  page_html
+  |> htmb.render_page("html")
+  |> string_builder.to_string
+}
+
+pub fn render(page config: PageConfig) -> String {
+  config
+  |> render_html
+  |> render_string
 }
