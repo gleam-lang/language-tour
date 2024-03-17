@@ -556,6 +556,15 @@ fn file_error(
 
 // Page renders
 
+/// Renders the navbar with common links
+fn navbar_render() -> Html {
+  widgets.navbar(titled: "Gleam Language Tour", links: [
+    // TODO: find better label
+    Link(label: "Tour index", to: path_everything),
+    Link(label: "gleam.run", to: "http://gleam.run"),
+  ])
+}
+
 /// Renders a Lesson's page
 /// Complete with title, lesson, editor and output
 fn lesson_page_render(lesson: Lesson) -> String {
@@ -566,67 +575,59 @@ fn lesson_page_render(lesson: Lesson) -> String {
     }
   }
 
-  render.render(
-    PageConfig(
-      path: lesson.path,
-      title: lesson.name,
-      content: [
-        h("article", [#("id", "playground")], [
-          h("section", [#("id", "left")], [
-            h("h2", [], [text(lesson.name)]),
-            htmb.dangerous_unescaped_fragment(string_builder.from_string(
-              lesson.text,
-            )),
-            h("nav", [#("class", "prev-next")], [
-              navlink("Back", lesson.previous),
-              text(" — "),
-              h("a", [#("href", path_table_of_contents)], [text("Contents")]),
-              text(" — "),
-              navlink("Next", lesson.next),
-            ]),
-          ]),
-          h("section", [#("id", "right")], [
-            h("section", [#("id", "editor")], [
-              h("div", [#("id", "editor-target")], []),
-            ]),
-            h("aside", [#("id", "output")], []),
+  render.render(PageConfig(
+    path: lesson.path,
+    title: lesson.name,
+    stylesheets: list.flatten([
+      css_defaults_page,
+      css_defaults_code,
+      [css_page_common],
+    ]),
+    static_content: [navbar_render()],
+    content: [
+      h("article", [#("id", "playground")], [
+        h("section", [#("id", "left")], [
+          h("h2", [], [text(lesson.name)]),
+          htmb.dangerous_unescaped_fragment(string_builder.from_string(
+            lesson.text,
+          )),
+          h("nav", [#("class", "prev-next")], [
+            navlink("Back", lesson.previous),
+            text(" — "),
+            h("a", [#("href", path_table_of_contents)], [text("Contents")]),
+            text(" — "),
+            navlink("Next", lesson.next),
           ]),
         ]),
-      ],
-      scripts: ScriptConfig(
-        body: [
-          render.dangerous_inline_script(
-            widgets.theme_picker_js,
-            render.ScriptOptions(module: True, defer: False),
-            [],
-          ),
-          h("script", [#("type", "gleam"), #("id", "code")], [
-            htmb.dangerous_unescaped_fragment(string_builder.from_string(
-              lesson.code,
-            )),
+        h("section", [#("id", "right")], [
+          h("section", [#("id", "editor")], [
+            h("div", [#("id", "editor-target")], []),
           ]),
-          render.script(
-            "/index.js",
-            render.ScriptOptions(module: True, defer: False),
-            [],
-          ),
-        ],
-        head: [],
-      ),
-      stylesheets: list.flatten([
-        css_defaults_page,
-        css_defaults_code,
-        [css_page_common],
+          h("aside", [#("id", "output")], []),
+        ]),
       ]),
-      static_content: [
-        widgets.navbar(titled: "Gleam Language Tour", links: [
-          // TODO: find better label
-          Link(label: "Tour index", to: "/everything"),
-          Link(label: "gleam.run", to: "http://gleam.run"),
+    ],
+    scripts: ScriptConfig(
+      body: [
+        render.dangerous_inline_script(
+          widgets.theme_picker_js,
+          render.ScriptOptions(module: True, defer: False),
+          [],
+        ),
+        h("script", [#("type", "gleam"), #("id", "code")], [
+          htmb.dangerous_unescaped_fragment(string_builder.from_string(
+            lesson.code,
+          )),
         ]),
+        render.script(
+          "/index.js",
+          render.ScriptOptions(module: True, defer: False),
+          [],
+        ),
       ],
+      head: [],
     ),
-  )
+  ))
 }
 
 /// Transform a path into a slug
@@ -745,6 +746,13 @@ pub fn everything_page_render(chapters: List(Chapter)) -> String {
   render.render(PageConfig(
     path: path_everything,
     title: "Everything!",
+    stylesheets: list.flatten([
+      css_defaults_page,
+      css_defaults_code,
+      [css_page_common, css_everything_page],
+    ]),
+    static_content: [navbar_render()],
+    content: [everything_page_html(chapters)],
     scripts: ScriptConfig(
       head: [
         render.script(
@@ -759,11 +767,7 @@ pub fn everything_page_render(chapters: List(Chapter)) -> String {
         ),
       ],
       body: [
-        render.dangerous_inline_script(
-          widgets.theme_picker_js,
-          render.ScriptOptions(module: True, defer: False),
-          [],
-        ),
+        widgets.theme_picker_script(),
         render.script(
           "/js/highlight/highlight-gleam.js",
           render.ScriptOptions(module: True, defer: True),
@@ -771,18 +775,5 @@ pub fn everything_page_render(chapters: List(Chapter)) -> String {
         ),
       ],
     ),
-    stylesheets: list.flatten([
-      css_defaults_page,
-      css_defaults_code,
-      [css_page_common, css_everything_page],
-    ]),
-    static_content: [
-      widgets.navbar(titled: "Gleam Language Tour", links: [
-        // TODO: find better label
-        Link(label: "Tour index", to: "/everything"),
-        Link(label: "gleam.run", to: "http://gleam.run"),
-      ]),
-    ],
-    content: [everything_page_html(chapters)],
   ))
 }
