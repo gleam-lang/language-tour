@@ -179,6 +179,7 @@ h3 {
 
 #everything-lessons .lesson-snippet-link {
   background: var(--color-accent-muted);
+  margin: 0;
   position: absolute;
   bottom: 0;
   right: 0;
