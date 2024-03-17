@@ -91,48 +91,86 @@ pub fn theme_picker() -> Html {
 
 // This script is inlined in the response to avoid FOUC when applying the theme
 pub const theme_picker_js = "
-const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)')
+const mediaPrefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+const themeStorageKey = 'theme';
 
-function selectTheme(selectedTheme) {
-  // Apply and remember the specified theme.
-  applyTheme(selectedTheme)
-  if ((selectedTheme === 'dark') === mediaPrefersDarkTheme.matches) {
+function getPreferredTheme() {
+  return mediaPrefersDarkTheme.matches ? 'dark' : 'light';
+}
+
+function getAppliedTheme() {
+  return document.documentElement.classList.contains('theme-dark')
+    ? 'dark'
+    : 'light';
+}
+
+function getStoredTheme() {
+  return localStorage.getItem(themeStorageKey);
+}
+
+function storeTheme(selectedTheme) {
+  localStorage.setItem(themeStorageKey, selectedTheme);
+}
+
+function syncStoredTheme(theme) {
+  if (theme === getPreferredTheme()) {
     // Selected theme is the same as the device's preferred theme, so we can forget this setting.
-    localStorage.removeItem('theme')
+    localStorage.removeItem(themeStorageKey);
   } else {
     // Remember the selected theme to apply it on the next visit
-    localStorage.setItem('theme', selectedTheme)
+    storeTheme(theme);
   }
 }
 
-function applyTheme(theme) {
-  document.documentElement.classList.toggle('theme-dark', theme === 'dark')
-  document.documentElement.classList.toggle('theme-light', theme !== 'dark')
+function applyTheme(theme, initial = false) {
+  // abort if theme is already applied
+  if (theme === getAppliedTheme()) return;
+  // apply theme css class
+  document.documentElement.classList.toggle('theme-dark', theme === 'dark');
+  document.documentElement.classList.toggle('theme-light', theme !== 'dark');
 }
 
-// If user had selected a theme, load it. Otherwise, use device's preferred theme
-const selectedTheme = localStorage.getItem('theme')
-if (selectedTheme) {
-  applyTheme(selectedTheme)
-} else {
-  applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
+function setTheme(theme) {
+  syncStoredTheme(theme);
+  applyTheme(theme);
 }
 
-// Watch the device's preferred theme and update theme if user did not select a theme
-mediaPrefersDarkTheme.addEventListener('change', () => {
-  const selectedTheme = localStorage.getItem('theme')
-  if (!selectedTheme) {
-    applyTheme(mediaPrefersDarkTheme.matches ? 'dark' : 'light')
-  }
-})
+function toggleTheme() {
+  setTheme(getAppliedTheme() === 'dark' ? 'light' : 'dark');
+}
 
-// Add handlers for theme selection buttons.
-document.querySelector('[data-light-theme-toggle]').addEventListener('click', () => {
-  selectTheme('light')
-})
-document.querySelector('[data-dark-theme-toggle]').addEventListener('click', () => {
-  selectTheme('dark')
-})
+function reEnableTransitions() {
+  // re-enable transitions when triggered after first-render to avoid fouc
+  // setTimeout(fn, 0) needed to give CSS at lease 1 frame without transitions and thus avoid FOUC
+  setTimeout(() => {
+    // executed after css has loaded & theme swiching has occured
+    document.documentElement.classList.toggle('theme-init', false);
+  }, 0);
+}
+
+function initThemeEvents() {
+  // Watch the device's preferred theme and update theme if user did not select a theme
+  mediaPrefersDarkTheme.addEventListener('change', () => {
+    // abort if the user already selected a theme
+    if (!!getStoredTheme()) return;
+    // update applied theme accordingly
+    applyTheme(getPreferredTheme());
+  });
+  // Add handlers for theme selection button
+  document
+    .querySelector('.theme-picker')
+    ?.addEventListener('click', toggleTheme);
+  // Re-enable transitons only when all content has loaded
+  window.addEventListener('DOMContentLoaded', reEnableTransitions);
+}
+
+function initTheme() {
+  // apply stored or preferred theme
+  applyTheme(getStoredTheme() ?? getPreferredTheme());
+  initThemeEvents();
+}
+
+initTheme();
 "
 
 pub fn theme_picker_script() -> Html {

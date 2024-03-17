@@ -609,11 +609,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
     ],
     scripts: ScriptConfig(
       body: [
-        render.dangerous_inline_script(
-          widgets.theme_picker_js,
-          render.ScriptOptions(module: True, defer: False),
-          [],
-        ),
+        widgets.theme_picker_script(),
         h("script", [#("type", "gleam"), #("id", "code")], [
           htmb.dangerous_unescaped_fragment(string_builder.from_string(
             lesson.code,
