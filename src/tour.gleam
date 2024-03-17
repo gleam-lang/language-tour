@@ -111,40 +111,6 @@ const skipped_stdlib_modules = [
   "bit_string.gleam", "bit_builder.gleam", "map.gleam",
 ]
 
-// css stylesheets paths
-
-const css__gleam_common = "/common.css"
-
-/// Loads fonts and defines font sizes
-const css_fonts = "/css/fonts.css"
-
-/// Derives app colors for both dark & light themes from common.css variables
-const css_theme = "/css/theme.css"
-
-/// Defines layout unit variables
-const css_layout = "/css/layout.css"
-
-/// Common stylesheet for all tour pages
-/// TODO: split into one file per page
-const css_page_common = "/style.css"
-
-/// Sensitive defaults for any page
-const css_defaults_page = [css_fonts, css_theme, css__gleam_common, css_layout]
-
-// Defines code syntax highlighting for highlightJS & CodeFlash
-// based on dark / light mode and the currenly loaded color scheme
-const css_syntax_highlight = "/css/code/syntax-highlight.css"
-
-// Color schemes
-// TODO: add more color schemes
-
-/// Atom One Dark & Atom One Light colors
-const css_scheme_atom_one = "/css/code/color-schemes/atom-one.css"
-
-/// Sensitive defaults for any page needing to display Gleam code
-/// To be used alonside defaults_page
-const css_defaults_code = [css_syntax_highlight, css_scheme_atom_one]
-
 pub fn main() {
   let result = {
     use _ <- result.try(reset_output())
@@ -553,7 +519,48 @@ fn file_error(
   }
 }
 
-// Page renders
+// Shared stylesheets paths
+
+const css__gleam_common = "/common.css"
+
+/// Loads fonts and defines font sizes
+const css_fonts = "/css/fonts.css"
+
+/// Derives app colors for both dark & light themes from common.css variables
+const css_theme = "/css/theme.css"
+
+/// Defines layout unit variables
+const css_layout = "/css/layout.css"
+
+/// Sensitive defaults for any page
+const css_defaults_page = [css_fonts, css_theme, css__gleam_common, css_layout]
+
+// Page stylesheet paths
+
+/// Common stylesheet for all tour pages
+const css_root = "/css/root.css"
+
+// Path to the css specific to the everything page
+const css_everything_page = "/css/pages/everything.css"
+
+// Path to the css speciic to to lesson & main pages
+const css_lesson_page = "/css/pages/lesson.css"
+
+// Defines code syntax highlighting for highlightJS & CodeFlash
+// based on dark / light mode and the currenly loaded color scheme
+const css_syntax_highlight = "/css/code/syntax-highlight.css"
+
+// Color schemes
+// TODO: add more color schemes
+
+/// Atom One Dark & Atom One Light colors
+const css_scheme_atom_one = "/css/code/color-schemes/atom-one.css"
+
+/// Sensitive defaults for any page needing to display Gleam code
+/// To be used alonside defaults_page
+const css_defaults_code = [css_syntax_highlight, css_scheme_atom_one]
+
+// Common page HTML elements renders
 
 /// Renders the navbar with common links
 fn render_navbar() -> Html {
@@ -574,6 +581,8 @@ pub fn theme_picker_script() -> Html {
   )
 }
 
+// Page Renders
+
 /// Renders a Lesson's page
 /// Complete with title, lesson, editor and output
 fn lesson_page_render(lesson: Lesson) -> String {
@@ -590,7 +599,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
     stylesheets: list.flatten([
       css_defaults_page,
       css_defaults_code,
-      [css_page_common],
+      [css_root, css_lesson_page],
     ]),
     static_content: [render_navbar()],
     content: [
@@ -738,9 +747,6 @@ fn everything_page_html(chapters: List(Chapter)) -> Html {
   ])
 }
 
-// Path to the css specific to the everything page
-const css_everything_page = "/css/pages/everything.css"
-
 /// Renders the /everything page to a string
 pub fn everything_page_render(chapters: List(Chapter)) -> String {
   // TODO: use proper values for location and such
@@ -750,7 +756,7 @@ pub fn everything_page_render(chapters: List(Chapter)) -> String {
     stylesheets: list.flatten([
       css_defaults_page,
       css_defaults_code,
-      [css_page_common, css_everything_page],
+      [css_root, css_everything_page],
     ]),
     static_content: [render_navbar()],
     content: [everything_page_html(chapters)],
