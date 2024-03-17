@@ -49,7 +49,7 @@ html.theme-dark {
   --color-divider: var(--unexpected-aubergine);
   --color-drop-shadow: var(--color-background-dim);
   --color-accent-muted: var(--color-accent-dark);
-  --color-text-accent: var(--color-accent);
+  --color-text-accent: var(--color-accent-light);
   color-scheme: dark;
 }
 
