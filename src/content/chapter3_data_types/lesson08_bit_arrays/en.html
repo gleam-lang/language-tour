@@ -8,7 +8,10 @@
 </p>
 <ul>
   <li><code>size</code>: the size of the segment in bits.</li>
-  <li><code>unit</code>: how many times to repeat the segment.</li>
+  <li>
+    <code>unit</code>: the number of bits that the <code>size</code> value is a
+    multiple of.
+  </li>
   <li><code>bits</code>: a nested bit array of any size.</li>
   <li><code>bytes</code>: a nested byte-aligned bit array.</li>
   <li><code>float</code>: a 64 bits floating point number.</li>
@@ -19,8 +22,23 @@
   <li><code>utf8</code>: utf8 encoded text.</li>
   <li><code>utf16</code>: utf16 encoded text.</li>
   <li><code>utf32</code>: utf32 encoded text.</li>
+  <li><code>utf8_codepoint</code>: a utf8 codepoint.</li>
+  <li><code>utf16_codepoint</code>: a utf16 codepoint.</li>
+  <li><code>utf32_codepoint</code>: a utf32 codepoint.</li>
+  <li><code>signed</code>: a signed number.</li>
+  <li><code>unsigned</code>: an unsigned number.</li>
 </ul>
+<p>
+  Multiple options can be given to a segment by separating each with a dash:
+  <code>x:unsigned-little-size(2)</code>.
+</p>
 <p>
   Bit arrays have limited support when compiling to JavaScript, not all options
   can be used. Full bit array support will be implemented in the future.
+</p>
+<p>
+  For more information on bit arrays see the
+  <a href="https://www.erlang.org/doc/programming_examples/bit_syntax.html"
+    >Erlang bit syntax documentation</a
+  >.
 </p>
