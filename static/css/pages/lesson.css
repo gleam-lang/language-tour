@@ -1,0 +1,95 @@
+#left,
+#output,
+#editor {
+  min-height: 200px;
+  overflow-y: auto;
+  border-bottom: 2px solid var(--color-divider);
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+#left> :first-child {
+  margin-top: 0;
+}
+
+#editor {
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  #playground {
+    position: fixed;
+    top: var(--navbar-height);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 0;
+  }
+
+  #left,
+  #right {
+    width: 50vw;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  #left {
+    border-right: 2px solid var(--color-divider);
+  }
+
+  #right {
+    right: 0;
+  }
+
+  #right> :first-child {
+    height: 62%;
+  }
+
+  #right> :last-child {
+    height: 38%;
+  }
+}
+
+#left,
+#output>*,
+#editor .codeflask__flatten {
+  padding: var(--gap);
+}
+
+#output>* {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.error,
+.warning {
+  border-width: var(--gap);
+  border-style: solid;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.error {
+  border-color: var(--brand-error);
+}
+
+.warning {
+  border-color: var(--brand-warning);
+}
+
+.prev-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 var(--gap);
+  gap: 0.5em;
+}
+
+.prev-next span {
+  opacity: 0.5;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
