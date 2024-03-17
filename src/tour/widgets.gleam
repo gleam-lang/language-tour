@@ -1,6 +1,5 @@
 import gleam/list
 import htmb.{type Html, h, text}
-import tour/render
 
 pub fn icon_moon() -> Html {
   h("svg", [#("id", "icon-moon"), #("viewBox", "0 0 24 24")], [
@@ -172,14 +171,6 @@ function initTheme() {
 
 initTheme();
 "
-
-pub fn theme_picker_script() -> Html {
-  render.dangerous_inline_script(
-    theme_picker_js,
-    render.ScriptOptions(module: True, defer: False),
-    [],
-  )
-}
 
 /// Renders an HTML anhor tag
 pub fn anchor(
