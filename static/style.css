@@ -92,20 +92,6 @@ h6 {
   font-weight: normal;
 }
 
-nav {
-  position: fixed;
-  /*
-  `fixed` collapses `.navbar`
-  (probably related to `display: flex`),
-  thus the need for this:
-  */
-  width: 100%; /* not `vw`,
-  because it will overflow within a container
-  (except `body`)
-  */
-  z-index: 1;
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
