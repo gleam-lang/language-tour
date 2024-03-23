@@ -1,4 +1,4 @@
-// Import a Gleam module from the standard library
+// Import a Gleam module, which will be referred to as "io"
 import gleam/io
 
 pub fn main() {

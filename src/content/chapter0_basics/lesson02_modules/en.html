@@ -1,0 +1,37 @@
+<p>
+  Gleam code is organized into units called "modules."
+  A module is a bunch of definitions (of types, functions, etc.) 
+  that seem to belong together. For example, the
+  <a href="https://hexdocs.pm/gleam_stdlib/gleam/io.html">
+    <code>gleam/io</code>
+  </a>
+  module contains a variety of functions for printing, like <code>println</code>.
+</p>
+<p>
+  All gleam code is in <i>some</i> module or other, 
+  whose name comes from the name of the file it's in.
+  For example, <code>gleam/io</code> is in a file called <code>io.gleam</code> 
+  in a directory called <code>gleam</code>.
+</p>
+<p>
+  For code in one module to access code in another module, 
+  we import it using the <code>import</code> keyword, 
+  as seen here and in the last section.
+</p>
+<p>
+  There are two ways to import code, called "qualified" and "unqualified."
+  Normally functions from other modules are used in a qualified fashion, with
+  the name of the module, then a dot, then the the function name. For example,
+  <code>io.println("Hello!")</code>.
+  The <code>io</code> bit here is called a module "qualifier."
+</p>
+<p>
+  It is also possible to specify a list of functions to import from a module in
+  an unqualified fashion, such as the <code>println</code> function in the code
+  editor now. Because it has been imported like this it can be referred to as just
+  <code>println</code>, with no module qualifier in front.
+</p>
+<p>
+  Generally it is best to use qualified imports, as this makes it clear where
+  the function is defined, making the code easier to read.
+</p>
