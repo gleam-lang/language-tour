@@ -167,6 +167,7 @@ h3 {
   background: var(--code-background);
   transition: background 150ms linear 0s, box-shadow 150ms linear 0s;
   box-shadow: var(--drop-shadow);
+  border-radius: .25rem;
 }
 
 #everything-lessons .lesson-snippet code {
@@ -190,7 +191,7 @@ h3 {
   gap: var(--gap);
   font-size: var(--font-size-small);
   color: var(--color-link);
-  border-radius: none;
+  border-radius: .25rem 0 .25rem 0;
   text-decoration: none;
   outline: 1px solid transparent;
   outline-offset: -1px;
