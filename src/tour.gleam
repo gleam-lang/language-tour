@@ -1000,7 +1000,7 @@ pub fn render_page_html(page config: PageConfig) -> Html {
       ],
     ),
     lang: "en-GB",
-    attributes: [#("class", "theme-light theme-init")],
+    attributes: [#("class", "theme-light")],
     body: BodyConfig(
       attributes: [body_class],
       scripts: config.scripts.body,

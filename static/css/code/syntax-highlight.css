@@ -194,19 +194,3 @@ CodeFlask mappings
 .codeflask .token.attr-value {
   color: var(--code-token-attr-value);
 }
-
-/* Add color transitions to fit with theme switching */
-
-.hljs,
-.codeflask .codeflask__textarea {
-  transition:
-    background 150ms linear 0s,
-    color 150ms linear 0s;
-}
-
-.hljs,
-.hljs *,
-.codeflask .codeflask__textarea .codeflask .codeflask__textarea * {
-  transition: color 150ms linear 0s;
-}
-

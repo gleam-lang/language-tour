@@ -138,15 +138,6 @@ function toggleTheme() {
   setTheme(getAppliedTheme() === 'dark' ? 'light' : 'dark');
 }
 
-function reEnableTransitions() {
-  // re-enable transitions when triggered after first-render to avoid fouc
-  // setTimeout(fn, 0) needed to give CSS at lease 1 frame without transitions and thus avoid FOUC
-  setTimeout(() => {
-    // executed after css has loaded & theme swiching has occured
-    document.documentElement.classList.toggle('theme-init', false);
-  }, 0);
-}
-
 function initThemeEvents() {
   // Watch the device's preferred theme and update theme if user did not select a theme
   mediaPrefersDarkTheme.addEventListener('change', () => {
@@ -159,8 +150,6 @@ function initThemeEvents() {
   document
     .querySelector('.theme-picker')
     ?.addEventListener('click', toggleTheme);
-  // Re-enable transitons only when all content has loaded
-  window.addEventListener('DOMContentLoaded', reEnableTransitions);
 }
 
 function initTheme() {
