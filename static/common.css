@@ -18,6 +18,7 @@
   --menthol: #c8ffa7;
   --caramel: #ffd596;
   --deep-saffron: #ff9d35;
+  --deep-sea-blue: #202431;
   --tomato: #ff6262;
 
   /* Semantic colors */
@@ -34,7 +35,7 @@
 
   /* Dark theme */
   --dark-theme-background: var(--underwater-blue);
-  --dark-theme-background-dim: var(--black);
+  --dark-theme-background-dim: var(--deep-sea-blue);
   --dark-theme-text: var(--white);
   --dark-theme-text-secondary: var(--aged-plastic-yellow);
   --dark-theme-code: var(--deep-saffron);

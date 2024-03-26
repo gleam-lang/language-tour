@@ -161,6 +161,7 @@ h3 {
   position: relative;
   background: var(--code-background);
   box-shadow: var(--drop-shadow);
+  border-radius: .25rem;
 }
 
 #everything-lessons .lesson-snippet code {
@@ -184,7 +185,7 @@ h3 {
   gap: var(--gap);
   font-size: var(--font-size-small);
   color: var(--color-link);
-  border-radius: none;
+  border-radius: .25rem 0 .25rem 0;
   text-decoration: none;
   outline: 1px solid transparent;
   outline-offset: -1px;
