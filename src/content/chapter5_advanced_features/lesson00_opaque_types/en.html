@@ -1,0 +1,17 @@
+<p>
+  <em>Opaque types</em> are types where a custom type itself is public and can
+  be used by other modules, but the constructors for the type are private and
+  can only be used by the module that defines the type. This prevents other
+  modules from constructing or pattern matching on the type.
+</p>
+<p>
+  This is useful for creating types with <em>smart constructors</em>. A smart
+  constructor is a function that constructs a value of a type, but is more
+  restrictive than if the programmer were to use one of the type's constructors
+  directly. This can be useful for ensuring that the type is used correctly.
+</p>
+<p>
+  For example, this <code>PositiveInt</code> custom type is opaque, so if other
+  modules want to construct one they have to use the <code>new</code> function,
+  which ensures that the integer is positive.
+</p>
