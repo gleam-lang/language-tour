@@ -580,8 +580,6 @@ const css_defaults_code = [css_syntax_highlight, css_scheme_atom_one]
 /// Renders the navbar with common links
 fn render_navbar() -> Html {
   widgets.navbar(titled: "Gleam Language Tour", links: [
-    // TODO: find better label
-    Link(label: "Tour index", to: path_everything),
     Link(label: "gleam.run", to: "http://gleam.run"),
   ])
 }

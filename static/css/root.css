@@ -52,7 +52,6 @@ a code {
   color: inherit;
 }
 
-
 /*
  * Nav bar & Nav links
  */
@@ -165,21 +164,14 @@ html.theme-light .theme-button.-light {
   color: var(--color-text-accent);
   text-decoration: underline;
   text-decoration-color: var(--color-accent-muted);
-  transition: background 150ms linear 0s, color 150ms ease-out 0s, text-decoration-color 150ms ease-out 0s;
-}
-
-.link:hover {
-  color: var(--color-link);
-  background: var(--color-accent-muted);
-  text-decoration-color: var(--color-accent);
-}
-
-.navbar .link:hover {
-  background: var(--color-accent-light);
-  text-decoration-color: var(--color-accent-hot);
+  transition:
+    background 150ms linear 0s,
+    color 150ms ease-out 0s,
+    text-decoration-color 150ms ease-out 0s;
 }
 
 .link.padded,
 .navbar .link {
   padding: calc(var(--gap-quarter) * 0.5) var(--gap-quarter) 0;
 }
+
