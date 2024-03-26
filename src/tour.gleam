@@ -68,8 +68,9 @@ const home_html = "
   and we want to know about it so we can improve the tour.
 </p>
 <p>
-  OK, let's go. Click \"Next\" to get started, or click \"Contents\" to jump to a
-  specific topic.
+  OK, let's go. Click \"Next\" to get started, click \"Contents\" to jump to a
+  specific topic, or go <a href=\"/everything\">here</a> to read everything in
+  one page.
 </p>
 "
 
@@ -241,7 +242,7 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   use _ <- result.try(
     write_lesson(Lesson(
       name: "Table of Contents",
-      text: string.join(list.map(chapters, contents_list_html), "\n"),
+      text: contents_list_html(chapters),
       code: hello_joe,
       path: path_table_of_contents,
       previous: None,
@@ -255,24 +256,38 @@ fn write_content(chapters: List(Chapter)) -> snag.Result(Nil) {
   Ok(Nil)
 }
 
-fn contents_list_html(chapter: Chapter) -> String {
-  string.concat([
-    render_html(h("h3", [#("class", "mb-0")], [text(chapter.name)])),
-    render_html(h(
-      "ul",
-      [],
-      list.map(chapter.lessons, fn(lesson) {
-        h("li", [], [
-          h("a", [#("href", lesson.path)], [
-            lesson.name
-            |> string.replace("-", " ")
-            |> string.capitalise
-            |> text,
-          ]),
-        ])
-      }),
-    )),
-  ])
+fn contents_list_html(chapters: List(Chapter)) -> String {
+  let chapters =
+    list.flat_map(chapters, fn(chapter) {
+      [
+        h("h3", [#("class", "mb-0")], [text(chapter.name)]),
+        h(
+          "ul",
+          [],
+          list.map(chapter.lessons, fn(lesson) {
+            h("li", [], [
+              h("a", [#("href", lesson.path)], [
+                lesson.name
+                |> string.replace("-", " ")
+                |> string.capitalise
+                |> text,
+              ]),
+            ])
+          }),
+        ),
+      ]
+    })
+
+  [
+    h("p", [], [
+      text("Looking for all the content on one page? "),
+      h("a", [#("href", path_everything)], [text("Find it here")]),
+      text("!"),
+    ]),
+    ..chapters
+  ]
+  |> list.map(render_html)
+  |> string.join("\n")
 }
 
 fn render_html(html: Html) -> String {
