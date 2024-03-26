@@ -7,10 +7,10 @@ defaults to light theme.
 */
 
 :root {
-  --code-background: var(--code-background-light); 
+  --code-background: var(--code-background-light);
   --code-token-base: var(--code-token-base-light);
   --code-token-punctuation: var(--code-token-punctuation-light);
-  --code-token-operator: var(--code-token-operator-light); 
+  --code-token-operator: var(--code-token-operator-light);
   --code-token-keyword: var(--code-token-keyword-light);
   --code-token-boolean: var(--code-token-boolean-light);
   --code-token-number: var(--code-token-number-light);
@@ -20,14 +20,14 @@ defaults to light theme.
   --code-token-attribute: var(--code-token-attribute-light);
   --code-token-string: var(--code-token-string-light);
   --code-token-function: var(--code-token-function-light);
-  --code-token-comment: var(--code-token-comment-light);  
+  --code-token-comment: var(--code-token-comment-light);
 }
 
 html.theme-light {
-  --code-background: var(--code-background-light); 
+  --code-background: var(--code-background-light);
   --code-token-base: var(--code-token-base-light);
   --code-token-punctuation: var(--code-token-punctuation-light);
-  --code-token-operator: var(--code-token-operator-light); 
+  --code-token-operator: var(--code-token-operator-light);
   --code-token-keyword: var(--code-token-keyword-light);
   --code-token-boolean: var(--code-token-boolean-light);
   --code-token-number: var(--code-token-number-light);
@@ -37,14 +37,14 @@ html.theme-light {
   --code-token-attribute: var(--code-token-attribute-light);
   --code-token-string: var(--code-token-string-light);
   --code-token-function: var(--code-token-function-light);
-  --code-token-comment: var(--code-token-comment-light);  
+  --code-token-comment: var(--code-token-comment-light);
 }
 
 html.theme-dark {
-  --code-background: var(--code-background-dark); 
+  --code-background: var(--code-background-dark);
   --code-token-base: var(--code-token-base-dark);
   --code-token-punctuation: var(--code-token-punctuation-dark);
-  --code-token-operator: var(--code-token-operator-dark); 
+  --code-token-operator: var(--code-token-operator-dark);
   --code-token-keyword: var(--code-token-keyword-dark);
   --code-token-boolean: var(--code-token-boolean-dark);
   --code-token-number: var(--code-token-number-dark);
@@ -54,7 +54,7 @@ html.theme-dark {
   --code-token-attribute: var(--code-token-attribute-dark);
   --code-token-string: var(--code-token-string-dark);
   --code-token-function: var(--code-token-function-dark);
-  --code-token-comment: var(--code-token-comment-dark);  
+  --code-token-comment: var(--code-token-comment-dark);
 }
 
 /*
@@ -69,7 +69,8 @@ pre.hljs {
 .hljs {
   color: var(--color-token-base);
 }
-.hljs-punctuation { /* and operators */
+.hljs-punctuation {
+  /* and operators */
   color: var(--code-token-punctuation);
 }
 .hljs-variable,
@@ -114,10 +115,7 @@ pre.hljs {
 }
 .hljs-comment {
   color: var(--code-token-comment);
-  font-style: italic
-}
-.hljs-module {
-  font-weight: bold;
+  font-style: italic;
 }
 /* 
 .hljs-symbol,
@@ -134,13 +132,13 @@ pre.hljs {
   color: var(--code-token-function);
 } */
 .hljs-emphasis {
-  font-style: italic
+  font-style: italic;
 }
 .hljs-strong {
-  font-weight: bold
+  font-weight: bold;
 }
 .hljs-link {
-  text-decoration: underline
+  text-decoration: underline;
 }
 
 /*
@@ -151,7 +149,9 @@ CodeFlask mappings
 
 .codeflask .codeflask__textarea {
   color: var(--code-background); /* Prevents rendering artifacts in dark mode */
-  caret-color: var(--code-token-base); /* Makes the text input cursor visible in dark mode */
+  caret-color: var(
+    --code-token-base
+  ); /* Makes the text input cursor visible in dark mode */
 }
 
 .codeflask {
@@ -199,12 +199,14 @@ CodeFlask mappings
 
 .hljs,
 .codeflask .codeflask__textarea {
-  transition: background 150ms linear 0s, color 150ms linear 0s;
+  transition:
+    background 150ms linear 0s,
+    color 150ms linear 0s;
 }
 
 .hljs,
 .hljs *,
-.codeflask .codeflask__textarea
-.codeflask .codeflask__textarea * {
+.codeflask .codeflask__textarea .codeflask .codeflask__textarea * {
   transition: color 150ms linear 0s;
 }
+

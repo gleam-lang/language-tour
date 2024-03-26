@@ -764,7 +764,6 @@ fn everything_page_html(chapters: List(Chapter)) -> Html {
 
 /// Renders the /everything page to a string
 pub fn everything_page_render(chapters: List(Chapter)) -> String {
-  // TODO: use proper values for location and such
   render_page(PageConfig(
     path: path_everything,
     title: "Everything!",
