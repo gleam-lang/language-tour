@@ -242,60 +242,7 @@ h3 {
 /* transform contents as to a side menu  */
 @media only screen and (max-width: 768px) {
   #everything-contents {
-    position: fixed;
-    inset: 0;
-    top: var(--navbar-height);
-    grid-column: 1 / span 2;
-    padding-left: calc(var(--gap) + var(--gap-quad) * 2);
-    transform: translateX(-100%);
-    transition:
-      transform 300ms ease-in 0s,
-      overflow-y 0s linear 600ms,
-      background 150ms linear 0s;
-    z-index: 10;
-    overflow: unset;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.4);
-    background: var(--color-background-dim);
-    padding-bottom: calc(2 * var(--gap-quad));
-  }
-
-  /* show / hide contents when touching on trigger */
-  #everything-contents:hover:not(:has(a:hover)) {
-    transform: translateX(calc(-2 * var(--gap-quad)));
-    box-shadow: 0 var(--gap-double) var(--gap-quad) rgba(0, 0, 0, 0.4);
-    /* overflow-x: hidden; */
-    animation: reveal 300ms ease-out 20ms forwards 1;
-  }
-
-  #everything-contents::before {
     display: none;
-  }
-
-  #everything-contents::after {
-    content: "Table of contents";
-    position: fixed;
-    padding: var(--gap-double) var(--gap);
-    inset: unset;
-    bottom: 0;
-    right: calc(-100%);
-    font-size: var(--font-size-small);
-    filter: none;
-    width: calc(100vw);
-    transform: translateX(0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text);
-    font-weight: bold;
-    background: var(--color-background-dim);
-    z-index: 60;
-    opacity: 1;
-    transition:
-      opacity 300ms ease-out 450ms,
-      background 150ms linear,
-      color 150ms linear 0s;
-    pointer-events: all;
-    box-sizing: border-box;
   }
 
   .theme-light #everything-contents::after {
