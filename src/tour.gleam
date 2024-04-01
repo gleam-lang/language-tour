@@ -624,21 +624,21 @@ fn lesson_page_render(lesson: Lesson) -> String {
               lesson.text,
             )),
           ]),
-          h("nav", [#("class", "prev-next")], [
-            navlink("Back", lesson.previous),
-            text(" — "),
-            h("a", [#("href", path_table_of_contents)], [text("Contents")]),
-            text(" — "),
-            navlink("Next", lesson.next),
+            h("nav", [#("class", "prev-next")], [
+              navlink("Back", lesson.previous),
+              text(" — "),
+              h("a", [#("href", path_table_of_contents)], [text("Contents")]),
+              text(" — "),
+              navlink("Next", lesson.next),
+            ]),
           ]),
         ]),
-      ]),
-      h("section", [#("id", "right")], [
-        h("section", [#("id", "editor")], [
-          h("div", [#("id", "editor-target")], []),
+        h("section", [#("id", "right")], [
+          h("section", [#("id", "editor")], [
+            h("div", [#("id", "editor-target")], []),
+          ]),
+          h("aside", [#("id", "output")], []),
         ]),
-        h("aside", [#("id", "output")], []),
-      ]),
     ],
     scripts: ScriptConfig(
       body: [
