@@ -663,12 +663,12 @@ fn lesson_page_render(lesson: Lesson) -> String {
             navlink("Next", lesson.next),
           ]),
         ]),
-      ]),
-      h("section", [#("id", "right")], [
-        h("section", [#("id", "editor")], [
-          h("div", [#("id", "editor-target")], []),
+        h("section", [#("id", "right")], [
+          h("section", [#("id", "editor")], [
+            h("div", [#("id", "editor-target")], []),
+          ]),
+          h("aside", [#("id", "output")], []),
         ]),
-        h("aside", [#("id", "output")], []),
       ]),
     ],
     scripts: ScriptConfig(
