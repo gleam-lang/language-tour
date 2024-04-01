@@ -93,9 +93,3 @@
 .mb-0 {
   margin-bottom: 0;
 }
-
-.content-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
