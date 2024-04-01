@@ -594,6 +594,37 @@ pub fn theme_picker_script() -> Html {
   )
 }
 
+pub fn arrow_keys_navigation_script(
+  next: Option(String),
+  prev: Option(String),
+) -> Html {
+  let to_handler = fn(maybe_link) {
+    case maybe_link {
+      None -> "null"
+      Some(link) -> "() => { window.location.href = '" <> link <> "' }"
+    }
+  }
+
+  html_dangerous_inline_script("
+    const keyHandlers = {
+      'ArrowLeft': " <> to_handler(prev) <> ",
+      'ArrowRight': " <> to_handler(next) <> ",
+    }
+
+    document.addEventListener('keydown', function(event) {
+      // Don't hijack arrow keys when focus is on the code textarea.
+      if (document.querySelector('textarea.codeflask__textarea') === document.activeElement) {
+        return;
+      }
+
+      const handler = keyHandlers[event.key];
+      if (handler !== undefined && handler !== null) {
+        handler();
+      }
+    })
+    ", ScriptOptions(module: True, defer: False), [])
+}
+
 // Page Renders
 
 /// Renders a Lesson's page
@@ -641,6 +672,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
     scripts: ScriptConfig(
       body: [
         theme_picker_script(),
+        arrow_keys_navigation_script(lesson.next, lesson.previous),
         h("script", [#("type", "gleam"), #("id", "code")], [
           htmb.dangerous_unescaped_fragment(string_builder.from_string(
             lesson.code,
