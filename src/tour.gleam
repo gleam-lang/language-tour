@@ -617,17 +617,20 @@ fn lesson_page_render(lesson: Lesson) -> String {
     static_content: [render_navbar()],
     content: [
       h("article", [#("id", "playground")], [
-        h("section", [#("id", "left")], [
-          h("h2", [], [text(lesson.name)]),
-          htmb.dangerous_unescaped_fragment(string_builder.from_string(
-            lesson.text,
-          )),
-          h("nav", [#("class", "prev-next")], [
-            navlink("Back", lesson.previous),
-            text(" — "),
-            h("a", [#("href", path_table_of_contents)], [text("Contents")]),
-            text(" — "),
-            navlink("Next", lesson.next),
+        h("section", [#("id", "left"), #("class", "content-nav")], [
+          h("div", [], [
+            h("h2", [], [text(lesson.name)]),
+            htmb.dangerous_unescaped_fragment(string_builder.from_string(
+              lesson.text,
+            )),
+          ]),
+            h("nav", [#("class", "prev-next")], [
+              navlink("Back", lesson.previous),
+              text(" — "),
+              h("a", [#("href", path_table_of_contents)], [text("Contents")]),
+              text(" — "),
+              navlink("Next", lesson.next),
+            ]),
           ]),
         ]),
         h("section", [#("id", "right")], [
@@ -636,7 +639,6 @@ fn lesson_page_render(lesson: Lesson) -> String {
           ]),
           h("aside", [#("id", "output")], []),
         ]),
-      ]),
     ],
     scripts: ScriptConfig(
       body: [
