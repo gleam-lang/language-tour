@@ -1,54 +1,7 @@
-#left,
-#output,
-#editor {
-  min-height: 200px;
-  overflow-y: auto;
-  border-bottom: 2px solid var(--color-divider);
-  margin: 0;
-  overflow-wrap: break-word;
-}
-
-#left> :first-child {
-  margin-top: 0;
-}
-
-#editor {
-  position: relative;
-}
-
-@media (min-width: 600px) {
-  #playground {
-    position: fixed;
-    top: var(--navbar-height);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-top: 0;
-  }
-
-  #left,
-  #right {
-    width: 50vw;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-  }
-
-  #left {
-    border-right: 2px solid var(--color-divider);
-  }
-
-  #right {
-    right: 0;
-  }
-
-  #right> :first-child {
-    height: 62%;
-  }
-
-  #right> :last-child {
-    height: 38%;
-  }
+#playground {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 #left,
@@ -57,17 +10,88 @@
   padding: var(--gap);
 }
 
+#right {
+  display: flex;
+  flex-direction: column;
+  border: var(--color-divider);
+  background: var(--code-background);
+  padding-top: .15rem;
+  overflow: hidden;
+  flex-grow: 1;
+  min-height: fit-content;
+}
+
+#output,
+#editor {
+  border-top: 1px solid var(--color-accent-muted);
+}
+
+#editor {
+  position: relative;
+  overflow: clip;
+  min-height: 14rem;
+  flex-grow: 1;
+}
+
+#output {
+  min-height: 1rem;
+  background: var(--color-background-dim);
+}
+
 #output>* {
   margin: 0;
   white-space: pre-wrap;
 }
 
+/* Larger then mobile */
+@media (min-width: 768px) {
+  #playground {
+    min-height: calc(100vh - var(--navbar-height));
+    flex-direction: row;
+  }
+
+  #left {
+    height: 100%;
+    width: 50%;
+  }
+
+  #right {
+    border-left: 1px solid var(--color-accent-muted);
+    width: 50%;
+  }
+
+  #editor {
+    border: none;
+  }
+
+  #output {
+    height: 33%;
+    overflow: auto;
+    border-top: 1px solid var(--color-accent-muted);
+  }
+}
+
+/* Larger than medium screen and has enough to height to not worry about losing vertical space */
+@media (min-width: 1200px) and (min-height: 700px) {
+  #left {
+    /* Lift the navigation bar up a bit so it's not sitting right on the bottom*/
+    padding-bottom: calc(var(--gap) * 2);
+  }
+
+  #right {
+    border-left: unset;
+    border-radius: var(--border-radius);
+    padding: 2px 1px;
+    box-shadow: var(--drop-shadow);
+    /* Use calc here to add additional padding dynamically to allow for the drop shadow */
+    margin: calc(var(--gap) * 2);
+  }
+}
+
 .error,
 .warning {
-  border-width: var(--gap);
   border-style: solid;
-  border-top: 0;
-  border-bottom: 0;
+  height: 100%;
 }
 
 .error {

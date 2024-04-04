@@ -7,4 +7,5 @@
   --gap-quarter: calc(0.25 * var(--gap));
 
   --navbar-height: calc(var(--gap-double) + 20px);
+  --border-radius: .25rem;
 }
