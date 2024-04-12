@@ -48,10 +48,6 @@ a {
   text-decoration-color: var(--color-link-decoration);
 }
 
-a code {
-  color: inherit;
-}
-
 /*
  * Nav bar & Nav links
  */
