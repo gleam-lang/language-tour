@@ -12,7 +12,8 @@ pub fn factorial(x: Int) -> Int {
 
 fn factorial_loop(x: Int, accumulator: Int) -> Int {
   case x {
-    0 | 1 -> accumulator
+    0 -> accumulator
+    1 -> accumulator
 
     // The last thing this function does is call itself
     // In the previous lesson the last thing it did was multiply two ints
