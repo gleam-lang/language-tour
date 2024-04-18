@@ -2,7 +2,7 @@
 
 set -eu
 
-VERSION="v1.0.0"
+VERSION="v1.1.0"
 
 rm -fr wasm-compiler
 mkdir wasm-compiler
