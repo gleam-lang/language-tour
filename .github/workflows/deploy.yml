@@ -34,6 +34,19 @@ jobs:
         run: ./bin/download-compiler
       - name: Build site
         run: gleam run
+
+      - name: Debug 
+        run: |
+          head build/dev/javascript/prelude.mjs
+          echo
+          echo
+          ls -l public
+          echo
+          echo
+          ls -l public/precompiled
+          echo
+          echo
+          head public/precompiled/gleam.mjs 
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
