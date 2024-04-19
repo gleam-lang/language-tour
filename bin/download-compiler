@@ -2,6 +2,7 @@
 
 set -eu
 
+# Ensure you update the CI Gleam version to match this
 VERSION="v1.1.0"
 
 rm -fr wasm-compiler

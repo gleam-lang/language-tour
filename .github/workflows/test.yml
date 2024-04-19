@@ -15,7 +15,8 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "26.0.2"
-          gleam-version: "0.34.1"
+          # Ensure you update the bin/download-compiler Gleam version to match this
+          gleam-version: "1.1.0"
           rebar3-version: "3"
       - run: ./bin/download-compiler
       - run: gleam deps download

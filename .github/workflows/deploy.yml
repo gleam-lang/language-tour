@@ -27,7 +27,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: "26.0.2"
-          gleam-version: "0.34.1"
+          gleam-version: "1.1.0"
           rebar3-version: "3"
 
       - name: Download WASM version of Gleam compiler
@@ -35,19 +35,6 @@ jobs:
       - name: Build site
         run: gleam run
 
-      - name: Debug 
-        run: |
-          head build/dev/javascript/prelude.mjs
-          echo
-          echo
-          ls -l public
-          echo
-          echo
-          ls -l public/precompiled
-          echo
-          echo
-          head public/precompiled/gleam.mjs 
-        
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
