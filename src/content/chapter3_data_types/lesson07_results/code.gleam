@@ -1,5 +1,5 @@
-import gleam/io
 import gleam/int
+import gleam/io
 
 pub fn main() {
   io.debug(buy_pastry(10))

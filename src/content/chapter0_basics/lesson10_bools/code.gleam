@@ -1,5 +1,5 @@
-import gleam/io
 import gleam/bool
+import gleam/io
 
 pub fn main() {
   // Bool operators

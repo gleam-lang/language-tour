@@ -1,5 +1,5 @@
-import gleam/io
 import gleam/int
+import gleam/io
 import gleam/result
 
 pub fn main() {

@@ -1,5 +1,5 @@
-import gleam/io
 import gleam/float
+import gleam/io
 
 pub fn main() {
   // Float arithmetic

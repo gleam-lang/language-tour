@@ -1,5 +1,5 @@
-import gleam/io
 import gleam/dict
+import gleam/io
 
 pub fn main() {
   let scores = dict.from_list([#("Lucy", 13), #("Drew", 15)])
