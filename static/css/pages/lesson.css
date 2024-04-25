@@ -29,7 +29,6 @@
 #editor {
   position: relative;
   overflow: clip;
-  min-height: 14rem;
   flex-grow: 1;
 }
 
@@ -46,13 +45,18 @@
 /* Larger then mobile */
 @media (min-width: 768px) {
   #playground {
-    min-height: calc(100vh - var(--navbar-height));
+    min-height: calc(100dvh - var(--navbar-height));
     flex-direction: row;
   }
 
   #left {
     height: 100%;
     width: 50%;
+    overflow-y: auto;
+
+    & h2:first-of-type {
+      margin-top: 0;
+    }
   }
 
   #right {
@@ -75,7 +79,7 @@
 @media (min-width: 1200px) and (min-height: 700px) {
   #left {
     /* Lift the navigation bar up a bit so it's not sitting right on the bottom*/
-    padding-bottom: calc(var(--gap) * 2);
+    padding: calc(var(--gap) * 2);
   }
 
   #right {
@@ -84,7 +88,10 @@
     padding: 2px 1px;
     box-shadow: var(--drop-shadow);
     /* Use calc here to add additional padding dynamically to allow for the drop shadow */
-    margin: calc(var(--gap) * 2);
+    margin-top: calc(var(--gap) * 2);
+    margin-right: calc(var(--gap) * 3);
+    margin-bottom: calc(var(--gap) * 3);
+    margin-left: calc(var(--gap) * 2);
   }
 }
 
