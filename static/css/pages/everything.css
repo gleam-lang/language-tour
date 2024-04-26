@@ -314,7 +314,7 @@ h3 {
 
 @media print {
   #everything-contents {
-    display: none !important;
+    display: none;
   }
 
   .navbar {
@@ -323,19 +323,25 @@ h3 {
 
   main#everything {
     max-height: unset;
-    overflow: visible;
+    overflow: visible !important;
   }
 
   #everything-lessons {
-    max-height: unset !important;
+    max-height: unset;
+    overflow: visible !important;
 
     h3.chapter-title:not(:first-child) {
-      page-break-before: always;
+      break-before: always;
     }
 
     article.lesson:not(hr.chapter-separator + article.lesson) {
-      page-break-inside: avoid;
+      break-inside: avoid;
     }
 
+  }
+
+  /* for FireFox */
+  * {
+    overflow: visible !important;
   }
 }
