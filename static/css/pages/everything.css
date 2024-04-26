@@ -255,6 +255,7 @@ h3 {
 }
 
 @container lessons-list (min-width: 900px) {
+
   #everything-lessons .lesson,
   #everything-lessons .chapter-title {
     padding-right: var(--gap-quad);
@@ -288,15 +289,13 @@ h3 {
 }
 
 @keyframes highlight-block {
-  0% {
-  }
+  0% {}
 
   50% {
     background: var(--color-accent-muted);
   }
 
-  100% {
-  }
+  100% {}
 }
 
 @keyframes reveal {
@@ -310,5 +309,33 @@ h3 {
 
   100% {
     overflow-y: auto;
+  }
+}
+
+@media print {
+  #everything-contents {
+    display: none !important;
+  }
+
+  .navbar {
+    position: unset;
+  }
+
+  main#everything {
+    max-height: unset;
+    overflow: visible;
+  }
+
+  #everything-lessons {
+    max-height: unset !important;
+
+    h3.chapter-title:not(:first-child) {
+      page-break-before: always;
+    }
+
+    article.lesson:not(hr.chapter-separator + article.lesson) {
+      page-break-inside: avoid;
+    }
+
   }
 }
