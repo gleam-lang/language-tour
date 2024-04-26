@@ -11,10 +11,10 @@
   possible due to incompatibilities in how IO and concurreny works in Erlang and
   JavaScript. With Erlang concurrent IO is handled transparently by the runtime,
   while in JavaScript concurrent IO requires the use of promises or callbacks.
-  If your code uses the Erlang style it is typically not possible to implement
-  in JavaScript, while if callbacks are used then it won't be compatible with
-  most Gleam and Erlang code as it forces any code that calls the function to
-  also use callbacks.
+  If your code uses the Erlang style it's typically not possible to implement in
+  JavaScript, while if callbacks are used then it won't be compatible with most
+  Gleam and Erlang code as it forces any code that calls the function to also
+  use callbacks.
 </p>
 <p>
   Libraries that make use of concurrent IO will typically have to decide whether
