@@ -313,35 +313,38 @@ h3 {
 }
 
 @media print {
-  #everything-contents {
+
+  body#page-everything {
+    overflow: visible;
+    float: none;
+    display: inline;
+  }
+
+  aside#everything-contents {
     display: none;
   }
 
-  .navbar {
+  nav.navbar {
     position: unset;
   }
 
   main#everything {
     max-height: unset;
-    overflow: visible !important;
+    overflow: visible;
+    display: inline;
   }
 
-  #everything-lessons {
+  section#everything-lessons {
     max-height: unset;
-    overflow: visible !important;
-
-    h3.chapter-title:not(:first-child) {
-      break-before: always;
-    }
-
-    article.lesson:not(hr.chapter-separator + article.lesson) {
-      break-inside: avoid;
-    }
-
+    overflow: visible;
+    display: inline;
   }
 
-  /* for FireFox */
-  * {
-    overflow: visible !important;
+  h3.chapter-title:not(:first-child) {
+    break-before: always;
+  }
+
+  article.lesson:not(hr.chapter-separator + article.lesson) {
+    break-inside: avoid;
   }
 }
