@@ -293,6 +293,9 @@ fn contents_list_html(chapters: List(Chapter)) -> String {
     ]),
     ..chapters
   ]
+  |> list.append([
+    h("p", [], [h("a", [#("href", path_what_next)], [text("What's next…?")])]),
+  ])
   |> list.map(render_html)
   |> string.join("\n")
 }
