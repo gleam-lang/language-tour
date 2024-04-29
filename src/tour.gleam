@@ -71,7 +71,7 @@ const home_html = "
 <p>
   If at any point you get stuck or have a question do not hesitate to ask in
   <a href=\"https://discord.gg/Fm8Pwmy\">the Gleam Discord server</a>. We're here
-  to help, and if you find something confusing then it's likely others will too,
+  to help, and if you find something confusing then it is likely others will too,
   and we want to know about it so we can improve the tour.
 </p>
 <p>
