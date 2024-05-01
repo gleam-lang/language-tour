@@ -255,7 +255,6 @@ h3 {
 }
 
 @container lessons-list (min-width: 900px) {
-
   #everything-lessons .lesson,
   #everything-lessons .chapter-title {
     padding-right: var(--gap-quad);
@@ -289,13 +288,15 @@ h3 {
 }
 
 @keyframes highlight-block {
-  0% {}
+  0% {
+  }
 
   50% {
     background: var(--color-accent-muted);
   }
 
-  100% {}
+  100% {
+  }
 }
 
 @keyframes reveal {
@@ -313,7 +314,6 @@ h3 {
 }
 
 @media print {
-
   body#page-everything {
     overflow: visible;
     float: none;
@@ -346,5 +346,9 @@ h3 {
 
   article.lesson:not(hr.chapter-separator + article.lesson) {
     break-inside: avoid;
+  }
+
+  #everything-lessons .lesson-snippet-link {
+    display: none;
   }
 }
