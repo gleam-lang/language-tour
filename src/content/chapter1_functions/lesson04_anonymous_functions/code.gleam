@@ -7,6 +7,11 @@ pub fn main() {
 
   // Pass an anonymous function as an argument
   io.debug(twice(1, fn(a) { a * 2 }))
+
+  let secret_number = 42
+  // This anonymous function always returns 42
+  let secret = fn() { secret_number }
+  io.debug(secret())
 }
 
 fn twice(argument: Int, my_function: fn(Int) -> Int) -> Int {
