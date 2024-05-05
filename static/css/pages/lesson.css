@@ -102,6 +102,7 @@
 }
 
 .error {
+  overflow: auto;
   border-color: var(--brand-error);
 }
 
