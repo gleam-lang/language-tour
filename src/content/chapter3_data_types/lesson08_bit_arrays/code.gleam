@@ -10,4 +10,9 @@ pub fn main() {
 
   // A bit array of UTF8 data
   io.debug(<<"Hello, Joe!":utf8>>)
+
+  // BitArray concatenation
+  let first = <<4>>
+  let second = <<2>>
+  io.debug(<<first:bits, second:bits>>)
 }
