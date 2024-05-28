@@ -1058,6 +1058,6 @@ pub fn render_page_html(page config: PageConfig) -> Html {
 pub fn render_page(page config: PageConfig) -> String {
   config
   |> render_page_html
-  |> htmb.render_page("html")
+  |> htmb.render_page()
   |> string_builder.to_string
 }
