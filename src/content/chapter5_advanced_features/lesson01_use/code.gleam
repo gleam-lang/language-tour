@@ -2,8 +2,8 @@ import gleam/io
 import gleam/result
 
 pub fn main() {
-  io.debug(without_use())
-  io.debug(with_use())
+  let _ = io.debug(without_use())
+  let _ = io.debug(with_use())
 }
 
 pub fn without_use() {

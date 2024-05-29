@@ -14,6 +14,6 @@ pub fn main() {
   io.debug(list.fold(ints, 0, fn(count, e) { count + e }))
 
   io.println("=== find ===")
-  io.debug(list.find(ints, fn(x) { x > 3 }))
+  let _ = io.debug(list.find(ints, fn(x) { x > 3 }))
   io.debug(list.find(ints, fn(x) { x > 13 }))
 }
