@@ -72,7 +72,6 @@ a {
 .navbar .logo img {
   display: inline-block;
   height: 2em;
-  transform: rotate(-10deg);
   margin-right: 0.5em;
 }
 
