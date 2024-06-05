@@ -479,6 +479,7 @@ fn generate_stdlib_bundle(modules: List(String)) -> snag.Result(Nil) {
         code
         |> string.replace("\\", "\\\\")
         |> string.replace("`", "\\`")
+        |> string.replace("$", "\\$")
         |> string.split("\n")
         |> list.filter(fn(line) { !string.starts_with(string.trim(line), "//") })
         |> list.filter(fn(line) {
