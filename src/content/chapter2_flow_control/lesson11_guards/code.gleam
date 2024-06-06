@@ -6,8 +6,8 @@ pub fn main() {
   io.debug(get_first_larger(numbers, 5))
 }
 
-fn get_first_larger(lists: List(Int), limit: Int) -> Int {
-  case lists {
+fn get_first_larger(numbers: List(Int), limit: Int) -> Int {
+  case numbers {
     [first, ..] if first > limit -> first
     [_, ..rest] -> get_first_larger(rest, limit)
     [] -> 0
