@@ -195,7 +195,7 @@ fn read_file(path: String) -> snag.Result(String) {
 }
 
 fn load_lesson(chapter_path: String, names: FileNames) -> snag.Result(Lesson) {
-  use code <- result.try(read_file(names.path <> "/code.gleam"))
+  use code <- result.try(read_file(names.path <> "/en.gleam"))
   use text <- result.try(read_file(names.path <> "/en.html"))
 
   Ok(Lesson(
