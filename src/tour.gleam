@@ -658,29 +658,38 @@ fn lesson_page_render(lesson: Lesson) -> String {
     ]),
     static_content: [render_navbar()],
     content: [
-      h("article", [#("id", "playground")], [
-        h("section", [#("id", "left"), #("class", "content-nav")], [
-          h("div", [], [
-            h("h2", [], [text(lesson.name)]),
-            htmb.dangerous_unescaped_fragment(string_builder.from_string(
-              lesson.text,
-            )),
+      h("main", [], [
+        h("article", [#("id", "playground"), #("class", "left")], [
+          h("section", [#("id", "left"), #("class", "content-nav")], [
+            h("div", [], [
+              h("h2", [], [text(lesson.name)]),
+              htmb.dangerous_unescaped_fragment(string_builder.from_string(
+                lesson.text,
+              )),
+            ]),
           ]),
-          h("nav", [#("class", "prev-next")], [
-            navlink("Back", lesson.previous),
-            text(" — "),
-            h("a", [#("href", path_table_of_contents)], [text("Contents")]),
-            text(" — "),
-            navlink("Next", lesson.next),
+          h("section", [#("id", "right")], [
+            h("section", [#("id", "editor")], [
+              h("div", [#("id", "editor-target")], []),
+            ]),
+            h("aside", [#("id", "output")], []),
           ]),
         ]),
-        h("section", [#("id", "right")], [
-          h("section", [#("id", "editor")], [
-            h("div", [#("id", "editor-target")], []),
-          ]),
-          h("aside", [#("id", "output")], []),
+        h("nav", [#("class", "prev-next")], [
+          navlink("Back", lesson.previous),
+          text(" — "),
+          h("a", [#("href", path_table_of_contents)], [text("Contents")]),
+          text(" — "),
+          navlink("Next", lesson.next),
+          h("div", [#("id", "left-right-toggle"), #("class", "left")], [
+            text(" —"),
+            h("button",[#("class", "link")], [
+              h("span", [#("class", "left")], [text("See code")]),
+              h("span", [#("class", "right")], [text("See tutorial")]),
+            ])
+          ])
         ]),
-      ]),
+      ])
     ],
     scripts: ScriptConfig(
       body: [
