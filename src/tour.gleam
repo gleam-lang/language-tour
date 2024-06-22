@@ -689,7 +689,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
             ])
           ])
         ]),
-      ])
+      ]),
     ],
     scripts: ScriptConfig(
       body: [
