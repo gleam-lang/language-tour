@@ -378,10 +378,12 @@ fn add_prev_next_for_chapter(
 }
 
 fn copy_wasm_compiler() -> snag.Result(Nil) {
-  use <- require(
-    simplifile.is_directory(compiler_wasm),
-    "compiler-wasm must have been compiled",
+  use is_directory <- result.try(
+    simplifile.is_directory(compiler_wasm)
+    |> file_error("Failed to check if " <> compiler_wasm <> " is a directory"),
   )
+
+  use <- require(is_directory, "wasm version of compiler must exist")
 
   simplifile.copy_directory(compiler_wasm, public <> "/compiler")
   |> file_error("Failed to copy compiler-wasm")
@@ -443,10 +445,12 @@ fn copy_stdlib_externals() -> snag.Result(Nil) {
 }
 
 fn copy_compiled_stdlib(modules: List(String)) -> snag.Result(Nil) {
-  use <- require(
-    simplifile.is_directory(stdlib_compiled),
-    "Project must have been compiled for JavaScript",
+  use is_directory <- result.try(
+    simplifile.is_directory(stdlib_compiled)
+    |> file_error("Failed to check if " <> stdlib_compiled <> " is a directory"),
   )
+
+  use <- require(is_directory, "Project must have been compiled for JavaScript")
 
   let dest = public_precompiled <> "/gleam"
   use _ <- result.try(
