@@ -16,7 +16,7 @@ jobs:
         with:
           otp-version: "26.0.2"
           # Ensure you update the bin/download-compiler Gleam version to match this
-          gleam-version: "1.2.0"
+          gleam-version: "1.3.2"
           rebar3-version: "3"
       - run: ./bin/download-compiler
       - run: gleam deps download
