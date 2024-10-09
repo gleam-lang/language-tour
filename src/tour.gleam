@@ -1043,7 +1043,7 @@ pub fn render_page_html(page config: PageConfig) -> Html {
         html_script(
           "https://plausible.io/js/script.js",
           ScriptOptions(defer: True, module: False),
-          [#("data-domain", "playground.gleam.run")],
+          [#("data-domain", "tour.gleam.run")],
         ),
         ..config.scripts.head
       ],
