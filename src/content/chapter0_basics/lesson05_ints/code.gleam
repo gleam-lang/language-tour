@@ -1,25 +1,24 @@
 import gleam/int
-import gleam/io
 
 pub fn main() {
   // Int arithmetic
-  io.debug(1 + 1)
-  io.debug(5 - 1)
-  io.debug(5 / 2)
-  io.debug(3 * 3)
-  io.debug(5 % 2)
+  echo { 1 + 1 }
+  echo { 5 - 1 }
+  echo { 5 / 2 }
+  echo { 3 * 3 }
+  echo { 5 % 2 }
 
   // Int comparisons
-  io.debug(2 > 1)
-  io.debug(2 < 1)
-  io.debug(2 >= 1)
-  io.debug(2 <= 1)
+  echo { 2 > 1 }
+  echo { 2 < 1 }
+  echo { 2 >= 1 }
+  echo { 2 <= 1 }
 
   // Equality works for any type
-  io.debug(1 == 1)
-  io.debug(2 == 1)
+  echo { 1 == 1 }
+  echo { 2 == 1 }
 
   // Standard library int functions
-  io.debug(int.max(42, 77))
-  io.debug(int.clamp(5, 10, 20))
+  echo int.max(42, 77)
+  echo int.clamp(5, 10, 20)
 }

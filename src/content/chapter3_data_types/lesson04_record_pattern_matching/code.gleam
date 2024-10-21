@@ -21,5 +21,5 @@ pub fn main() {
   // if the custom type has a single variant you can
   // destructure it using `let` instead of a case expression!
   let IceCream(flavour) = favourite_ice_cream
-  io.debug(flavour)
+  echo flavour
 }
