@@ -1,13 +1,11 @@
-import gleam/io
-
 pub fn main() {
   let positive = new(1)
   let zero = new(0)
   let negative = new(-1)
 
-  io.debug(to_int(positive))
-  io.debug(to_int(zero))
-  io.debug(to_int(negative))
+  echo to_int(positive)
+  echo to_int(zero)
+  echo to_int(negative)
 }
 
 pub opaque type PositiveInt {

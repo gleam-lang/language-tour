@@ -1,11 +1,10 @@
 import gleam/int
-import gleam/io
 
 pub fn main() {
   let x = int.random(2)
   let y = int.random(2)
-  io.debug(x)
-  io.debug(y)
+  echo x
+  echo y
 
   let result = case x, y {
     0, 0 -> "Both are zero"
@@ -13,5 +12,5 @@ pub fn main() {
     _, 0 -> "Second is zero"
     _, _ -> "Neither are zero"
   }
-  io.debug(result)
+  echo result
 }

@@ -1,13 +1,13 @@
 import gleam/bool
-import gleam/io
 
 pub fn main() {
   // Bool operators
-  io.debug(True && False)
-  io.debug(True && True)
-  io.debug(False || False)
-  io.debug(False || True)
+  echo True && False
+  echo True && True
+  echo False || False
+  echo False || True
 
   // Bool functions
-  io.debug(bool.to_string(True))
+  echo bool.to_string(True)
+  echo bool.to_int(False)
 }

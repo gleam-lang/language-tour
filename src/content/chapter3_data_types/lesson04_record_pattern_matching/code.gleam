@@ -25,5 +25,5 @@ fn handle_ice_cream(ice_cream: IceCream) {
   // if the custom type has a single variant you can
   // destructure it using `let` instead of a case expression!
   let IceCream(flavour) = ice_cream
-  io.debug(flavour)
+  echo flavour
 }

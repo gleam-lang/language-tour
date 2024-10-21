@@ -1,5 +1,3 @@
-import gleam/io
-
 pub type SchoolPerson {
   Teacher(name: String, subject: String, floor: Int, room: Int)
 }
@@ -10,6 +8,6 @@ pub fn main() {
   // Use the update syntax
   let teacher2 = Teacher(..teacher1, subject: "PE", room: 6)
 
-  io.debug(teacher1)
-  io.debug(teacher2)
+  echo teacher1
+  echo teacher2
 }

@@ -1,9 +1,8 @@
-import gleam/io
 import gleam/result
 
 pub fn main() {
-  let _ = io.debug(without_use())
-  let _ = io.debug(with_use())
+  let _ = echo without_use()
+  let _ = echo with_use()
 }
 
 pub fn without_use() -> Result(String, Nil) {

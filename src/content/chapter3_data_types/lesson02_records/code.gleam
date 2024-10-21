@@ -1,5 +1,3 @@
-import gleam/io
-
 pub type Person {
   Person(name: String, age: Int, needs_glasses: Bool)
 }
@@ -10,5 +8,5 @@ pub fn main() {
   let tom = Person("Tom", 28, needs_glasses: False)
 
   let friends = [amy, jared, tom]
-  io.debug(friends)
+  echo friends
 }
