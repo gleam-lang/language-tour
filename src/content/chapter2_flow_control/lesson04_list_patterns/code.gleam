@@ -1,10 +1,9 @@
 import gleam/int
-import gleam/io
 import gleam/list
 
 pub fn main() {
   let x = list.repeat(int.random(5), times: int.random(3))
-  io.debug(x)
+  echo x
 
   let result = case x {
     [] -> "Empty list"
@@ -13,5 +12,5 @@ pub fn main() {
     [_, _] -> "List of 2 elements"
     _ -> "Some other list"
   }
-  io.debug(result)
+  echo result
 }

@@ -1,10 +1,8 @@
-import gleam/io
-
 pub fn main() {
   let triple = #(1, 2.2, "three")
-  io.debug(triple)
+  echo triple
 
   let #(a, _, _) = triple
-  io.debug(a)
-  io.debug(triple.1)
+  echo a
+  echo triple.1
 }

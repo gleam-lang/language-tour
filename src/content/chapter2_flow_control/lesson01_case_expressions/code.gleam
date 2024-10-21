@@ -1,9 +1,8 @@
 import gleam/int
-import gleam/io
 
 pub fn main() {
   let x = int.random(5)
-  io.debug(x)
+  echo x
 
   let result = case x {
     // Match specific values
@@ -13,5 +12,5 @@ pub fn main() {
     // Match any other value
     _ -> "Other"
   }
-  io.debug(result)
+  echo result
 }
