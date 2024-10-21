@@ -1,5 +1,3 @@
-import gleam/io
-
 pub fn main() {
   let add_one = fn(x) { x + 1 }
   let exclaim = fn(x) { x <> "!" }
@@ -8,10 +6,10 @@ pub fn main() {
   // twice(10, exclaim)
 
   // Here the type variable is replaced by the type Int
-  io.debug(twice(10, add_one))
+  echo twice(10, add_one)
 
   // Here the type variable is replaced by the type String
-  io.debug(twice("Hello", exclaim))
+  echo twice("Hello", exclaim)
 }
 
 // The name `value` refers to the same type multiple times

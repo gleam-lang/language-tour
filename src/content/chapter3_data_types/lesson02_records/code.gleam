@@ -1,5 +1,3 @@
-import gleam/io
-
 pub type SchoolPerson {
   Teacher(name: String, subject: String)
   Student(String)
@@ -13,5 +11,5 @@ pub fn main() {
   let student3 = Student("Shaheer")
 
   let school = [teacher1, teacher2, student1, student2, student3]
-  io.debug(school)
+  echo school
 }
