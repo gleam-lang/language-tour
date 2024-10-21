@@ -8,12 +8,14 @@ pub fn main() {
   // With the pipe operator
   "Hello, Mike!"
   |> string.drop_right(1)
+  |> echo
   |> string.drop_left(7)
   |> io.println
 
   // Changing order with function capturing
   "1"
   |> string.append("2")
+  |> echo
   |> string.append("3", _)
   |> io.println
 }
