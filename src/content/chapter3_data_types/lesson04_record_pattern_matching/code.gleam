@@ -16,8 +16,8 @@ pub fn main() {
 
 fn handle_fish(fish: Fish) {
   case fish {
-    Starfish(_, favourite_color) -> io.debug(favourite_color)
-    Jellyfish(name, ..) -> io.debug(name)
+    Starfish(_, favourite_color) -> io.println(favourite_color)
+    Jellyfish(name, ..) -> io.println(name)
   }
 }
 
@@ -25,5 +25,5 @@ fn handle_ice_cream(ice_cream: IceCream) {
   // if the custom type has a single variant you can
   // destructure it using `let` instead of a case expression!
   let IceCream(flavour) = ice_cream
-  echo flavour
+  io.println(flavour)
 }
