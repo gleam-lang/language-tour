@@ -14,12 +14,12 @@ pub fn main() {
   let favourite_ice_cream = IceCream("strawberry")
 
   case lucy {
-    Starfish(_, favourite_color) -> io.debug(favourite_color)
-    Jellyfish(name, ..) -> io.debug(name)
+    Starfish(_, favourite_color) -> io.println(favourite_color)
+    Jellyfish(name, ..) -> io.println(name)
   }
 
   // if the custom type has a single variant you can
   // destructure it using `let` instead of a case expression!
   let IceCream(flavour) = favourite_ice_cream
-  echo flavour
+  io.println(flavour)
 }

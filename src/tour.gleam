@@ -60,11 +60,8 @@ const home_html = "
   <a href=\"https://hexdocs.pm/gleam_stdlib/gleam/io.html#print\" target=\"_blank\">
     <code>io.println</code>
   </a> 
-  or 
-  <a href=\"https://hexdocs.pm/gleam_stdlib/gleam/io.html#debug\" target=\"_blank\">
-    <code>io.debug</code>
-  </a> 
-  will be shown in the bottom section, along with any compile errors and warnings. 
+  or <code>echo</code> will be shown in the bottom section, along with any compile
+  errors and warnings. 
   To evaluate Gleam code the tour compiles Gleam to JavaScript and runs it, 
   all entirely within your browser window.
 </p>
