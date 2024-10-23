@@ -1,7 +1,19 @@
 #playground {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-grow: 1;
+  position: relative;
+  /* height of the prev-next area */
+  padding-bottom: 3.5rem;
+  height: 100%;
+}
+
+#playground.left #left {
+  display: flex;
+}
+
+#playground.right #right {
+  display: flex;
 }
 
 #left,
@@ -11,7 +23,7 @@
 }
 
 #right {
-  display: flex;
+  display: none;
   flex-direction: column;
   border: var(--color-divider);
   background: var(--code-background);
@@ -19,6 +31,11 @@
   overflow: hidden;
   flex-grow: 1;
   min-height: fit-content;
+}
+
+#left, #right {
+  width: 100%;
+  display: none;
 }
 
 #output,
@@ -44,17 +61,74 @@
   white-space: pre-wrap;
 }
 
+main {
+  flex: 1;
+}
+
+.prev-next {
+  display: flex;
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem var(--gap);
+  gap: 0.5em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-accent-muted);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.prev-next span {
+  opacity: 0.5;
+}
+
+
+#left-right-toggle .left,
+#left-right-toggle .right {
+  display: none;
+  opacity: 1;
+}
+
+#left-right-toggle button {
+  background: none;
+  padding: 0 0.5rem;
+
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  border: none;
+}
+
+#left-right-toggle.left .left{
+  display: inline-block;
+}
+#left-right-toggle.right .right{
+  display: inline-block;
+}
+
 /* Larger then mobile */
 @media (min-width: 768px) {
   #playground {
     min-height: calc(100dvh - var(--navbar-height));
-    flex-direction: row;
+    padding-bottom: 0;
+    height: auto;
+  }
+
+  /* any combination should show both sides */
+  #playground.left #left,
+  #playground.right #left,
+  #playground.right #right,
+  #playground.right #left {
+    display: flex;
   }
 
   #left {
     height: 100%;
     width: 50%;
     overflow-y: auto;
+    padding-bottom: 3.5rem;
 
     & h2:first-of-type {
       margin-top: 0;
@@ -64,6 +138,15 @@
   #right {
     border-left: 1px solid var(--color-accent-muted);
     width: 50%;
+    display: flex;
+  }
+
+  .prev-next {
+    width: 50%
+  }
+
+  #left-right-toggle {
+    display: none;
   }
 
   #editor {
@@ -81,6 +164,7 @@
   #left {
     /* Lift the navigation bar up a bit so it's not sitting right on the bottom*/
     padding: calc(var(--gap) * 2);
+    padding-bottom: 3.5rem;
   }
 
   #right {
@@ -93,6 +177,15 @@
     margin-right: calc(var(--gap) * 3);
     margin-bottom: calc(var(--gap) * 3);
     margin-left: calc(var(--gap) * 2);
+  }
+
+  .prev-next {
+    width: 30%;
+    /* to center it */
+    margin-left: 10%;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid var(--color-accent-muted);
+    border-bottom: 0;
   }
 }
 
@@ -111,17 +204,6 @@
   border-color: var(--brand-warning);
 }
 
-.prev-next {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--gap);
-  gap: 0.5em;
-}
-
-.prev-next span {
-  opacity: 0.5;
-}
 
 .mb-0 {
   margin-bottom: 0;
