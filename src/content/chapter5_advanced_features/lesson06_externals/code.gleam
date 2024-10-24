@@ -1,5 +1,3 @@
-import gleam/io
-
 // A type with no Gleam constructors
 pub type DateTime
 
@@ -13,5 +11,5 @@ pub fn now() -> DateTime
 // }
 
 pub fn main() {
-  io.debug(now())
+  echo now()
 }

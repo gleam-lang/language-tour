@@ -1,11 +1,10 @@
 import gleam/int
-import gleam/io
 
 pub fn main() {
-  let _ = io.debug(buy_pastry(10))
-  let _ = io.debug(buy_pastry(8))
-  let _ = io.debug(buy_pastry(5))
-  let _ = io.debug(buy_pastry(3))
+  let _ = echo buy_pastry(10)
+  let _ = echo buy_pastry(8)
+  let _ = echo buy_pastry(5)
+  let _ = echo buy_pastry(3)
 }
 
 pub type PurchaseError {

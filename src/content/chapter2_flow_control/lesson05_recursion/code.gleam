@@ -1,8 +1,6 @@
-import gleam/io
-
 pub fn main() {
-  io.debug(factorial(5))
-  io.debug(factorial(7))
+  echo factorial(5)
+  echo factorial(7)
 }
 
 // A recursive functions that calculates factorial

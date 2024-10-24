@@ -1,5 +1,3 @@
-import gleam/io
-
 pub type Season {
   Spring
   Summer
@@ -8,8 +6,8 @@ pub type Season {
 }
 
 pub fn main() {
-  io.debug(weather(Spring))
-  io.debug(weather(Autumn))
+  echo weather(Spring)
+  echo weather(Autumn)
 }
 
 fn weather(season: Season) -> String {
