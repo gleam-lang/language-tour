@@ -28,7 +28,7 @@ jobs:
         with:
           otp-version: false
           # Ensure you update the bin/download-compiler Gleam version to match this
-          gleam-version: "1.5.0"
+          gleam-version: "1.6.0"
 
       - name: Download WASM version of Gleam compiler
         run: ./bin/download-compiler
