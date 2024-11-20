@@ -102,3 +102,21 @@ worker.onmessage = (event) => {
 };
 
 editor.onUpdate(debounce((code) => sendToWorker(code), 200));
+
+
+function initLeftRightToggle() {
+  const toggle = document.querySelector("#left-right-toggle");
+  const btn = document.querySelector("#left-right-toggle button");
+  const playground = document.querySelector("#playground");
+
+  if (btn && toggle && right) {
+    btn.addEventListener(("click"), () => {
+      toggle.classList.toggle('left')
+      toggle.classList.toggle('right')
+      playground.classList.toggle('left')
+      playground.classList.toggle('right')
+    })
+  }
+}
+
+initLeftRightToggle();
