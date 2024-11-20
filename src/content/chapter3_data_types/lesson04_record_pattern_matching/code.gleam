@@ -10,16 +10,20 @@ pub type IceCream {
 }
 
 pub fn main() {
-  let lucy = Starfish("Lucy", "Pink")
-  let favourite_ice_cream = IceCream("strawberry")
+  handle_fish(Starfish("Lucy", "Pink"))
+  handle_ice_cream(IceCream("strawberry"))
+}
 
-  case lucy {
+fn handle_fish(fish: Fish) {
+  case fish {
     Starfish(_, favourite_color) -> io.debug(favourite_color)
     Jellyfish(name, ..) -> io.debug(name)
   }
+}
 
+fn handle_ice_cream(ice_cream: IceCream) {
   // if the custom type has a single variant you can
   // destructure it using `let` instead of a case expression!
-  let IceCream(flavour) = favourite_ice_cream
+  let IceCream(flavour) = ice_cream
   io.debug(flavour)
 }

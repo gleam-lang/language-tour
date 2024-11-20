@@ -11,5 +11,5 @@ pub fn main() {
 
   io.debug(teacher.name)
   io.debug(student.name)
-  // io.debug(teacher.subject)
+  // io.debug(student.subject)
 }

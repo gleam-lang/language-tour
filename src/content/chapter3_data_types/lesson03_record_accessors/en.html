@@ -3,8 +3,10 @@
   contained values from a custom type record.
 </p>
 <p>
-  The accessor syntax can only be used for fields with the same name that are in
-  the same position and have the same type for all variants of the custom type.
+  The accessor syntax can always be used for fields with the same name that are
+  in the same position and have the same type for all variants of the custom
+  type. Other fields can only be accessed when the compiler can tell which
+  variant the value is, such after pattern matching in a `case` expression.
 </p>
 <p>
   The <code>name</code> field is in the first position and has type
@@ -12,7 +14,7 @@
 </p>
 <p>
   The <code>subject</code> field is absent on the <code>Student</code> variant,
-  so it cannot be used on any variant of type <code>SchoolPerson</code>.
-  Uncomment the <code>teacher.subject</code> line to see the compile error from
+  so it cannot be used on all values of type <code>SchoolPerson</code>.
+  Uncomment the <code>student.subject</code> line to see the compile error from
   trying to use this accessor.
 </p>

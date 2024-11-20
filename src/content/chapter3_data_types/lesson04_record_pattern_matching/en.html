@@ -1,12 +1,15 @@
 <p>
-  It is possible to pattern match on a record, this allows for the extraction
-  of multiple field values from a record into distinct variables, similar to matching on a tuple or a list.
+  It is possible to pattern match on a record, this allows for the extraction of
+  multiple field values from a record into distinct variables, similar to
+  matching on a tuple or a list.
 </p>
 <p>
-  The <code>let</code> keyword can only match on single variant custom types. For types with more variants
-  a case expression must be used.
+  The <code>let</code> keyword can only match on single variant custom types, or
+  when the variant is know, such as after pattern matching with a case
+  expression.
 </p>
 <p>
-  It is possible to use underscore <code>_</code> or the spread syntax <code>..</code> to
-  discard fields that are not required.
+  It is possible to use underscore <code>_</code> or the spread syntax
+  <code>..</code> to discard fields that are not required.
 </p>
+
