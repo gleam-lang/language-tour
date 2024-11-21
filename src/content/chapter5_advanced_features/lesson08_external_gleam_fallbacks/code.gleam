@@ -1,5 +1,3 @@
-import gleam/io
-
 @external(erlang, "lists", "reverse")
 pub fn reverse_list(items: List(e)) -> List(e) {
   tail_recursive_reverse(items, [])
@@ -13,6 +11,6 @@ fn tail_recursive_reverse(items: List(e), reversed: List(e)) -> List(e) {
 }
 
 pub fn main() {
-  io.debug(reverse_list([1, 2, 3, 4, 5]))
-  io.debug(reverse_list(["a", "b", "c", "d", "e"]))
+  echo reverse_list([1, 2, 3, 4, 5])
+  echo reverse_list(["a", "b", "c", "d", "e"])
 }

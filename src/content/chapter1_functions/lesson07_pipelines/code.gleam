@@ -3,17 +3,19 @@ import gleam/string
 
 pub fn main() {
   // Without the pipe operator
-  io.debug(string.drop_left(string.drop_right("Hello, Joe!", 1), 7))
+  io.println(string.drop_left(string.drop_right("Hello, Joe!", 1), 7))
 
   // With the pipe operator
   "Hello, Mike!"
   |> string.drop_right(1)
+  |> echo
   |> string.drop_left(7)
-  |> io.debug
+  |> io.println
 
   // Changing order with function capturing
   "1"
   |> string.append("2")
+  |> echo
   |> string.append("3", _)
-  |> io.debug
+  |> io.println
 }
