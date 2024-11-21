@@ -7,5 +7,5 @@ pub fn main() {
   // let y: List(String) = Nil
 
   let result = io.println("Hello!")
-  echo { result == Nil }
+  echo result == Nil
 }

@@ -4,8 +4,8 @@ const floats = [1.0, 2.0, 3.0]
 
 pub fn main() {
   echo ints
-  echo { ints == [1, 2, 3] }
+  echo ints == [1, 2, 3]
 
   echo floats
-  echo { floats == [1.0, 2.0, 3.0] }
+  echo floats == [1.0, 2.0, 3.0]
 }

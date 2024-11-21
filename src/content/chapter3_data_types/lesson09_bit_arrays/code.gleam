@@ -1,7 +1,7 @@
 pub fn main() {
   // 8 bit int. In binary: 00000011
   echo <<3>>
-  echo { <<3>> == <<3:size(8)>> }
+  echo <<3>> == <<3:size(8)>>
 
   // 16 bit int. In binary: 0001100000000011
   echo <<6147:size(16)>>

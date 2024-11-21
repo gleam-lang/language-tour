@@ -6,5 +6,5 @@ pub fn main() {
   let two: Int = 2
 
   // UserId and Int are the same type
-  echo { one == two }
+  echo one == two
 }
