@@ -1,10 +1,10 @@
-import gleam/bytes_builder
-import gleam/string_builder.{type StringBuilder}
+import gleam/bytes_tree
+import gleam/string_tree.{type StringTree}
 
 pub fn main() {
   // Referring to a type in a qualified way
-  let _bytes: bytes_builder.BytesBuilder = bytes_builder.new()
+  let _bytes: bytes_tree.BytesTree = bytes_tree.new()
 
   // Refering to a type in an unqualified way
-  let _text: StringBuilder = string_builder.new()
+  let _text: StringTree = string_tree.new()
 }

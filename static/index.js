@@ -1,6 +1,4 @@
 import CodeFlask from "https://cdn.jsdelivr.net/npm/codeflask@1.4.1/+esm";
-
-console.log(CodeFlask);
 globalThis.CodeFlask = CodeFlask;
 
 const output = document.querySelector("#output");

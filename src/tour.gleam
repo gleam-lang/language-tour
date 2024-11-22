@@ -4,7 +4,7 @@ import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
 import gleam/string
-import gleam/string_builder
+import gleam/string_tree
 import htmb.{type Html, h, text}
 import simplifile
 import snag
@@ -303,7 +303,7 @@ fn contents_list_html(chapters: List(Chapter)) -> String {
 fn render_html(html: Html) -> String {
   html
   |> htmb.render
-  |> string_builder.to_string
+  |> string_tree.to_string
 }
 
 fn ensure_directory(path: String) -> snag.Result(Nil) {
@@ -486,9 +486,6 @@ fn generate_stdlib_bundle(modules: List(String)) -> snag.Result(Nil) {
         |> string.replace("$", "\\$")
         |> string.split("\n")
         |> list.filter(fn(line) { !string.starts_with(string.trim(line), "//") })
-        |> list.filter(fn(line) {
-          !string.starts_with(line, "@external(erlang")
-        })
         |> list.filter(fn(line) { line != "" })
         |> string.join("\n")
 
@@ -666,7 +663,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
         h("section", [#("id", "left"), #("class", "content-nav")], [
           h("div", [], [
             h("h2", [], [text(lesson.name)]),
-            htmb.dangerous_unescaped_fragment(string_builder.from_string(
+            htmb.dangerous_unescaped_fragment(string_tree.from_string(
               lesson.text,
             )),
           ]),
@@ -691,9 +688,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
         theme_picker_script(),
         arrow_keys_navigation_script(lesson.next, lesson.previous),
         h("script", [#("type", "gleam"), #("id", "code")], [
-          htmb.dangerous_unescaped_fragment(string_builder.from_string(
-            lesson.code,
-          )),
+          htmb.dangerous_unescaped_fragment(string_tree.from_string(lesson.code)),
         ]),
         html_script("/index.js", ScriptOptions(module: True, defer: False), []),
       ],
@@ -705,7 +700,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
 /// Transform a path into a slug
 fn slugify_path(path: String) -> String {
   string.replace(path, "/", "-")
-  |> string.drop_left(up_to: 1)
+  |> string.drop_start(up_to: 1)
 }
 
 /// Renders a lesson item in the everyting page's list
@@ -717,7 +712,7 @@ fn everything_page_lesson_html(lesson: Lesson, index: Int, end_index: Int) {
       h("a", [#("href", "#" <> slugify_path(lesson.path)), #("class", "link")], [
         h("h2", [#("class", "lesson-title")], [text(lesson.name)]),
       ]),
-      htmb.dangerous_unescaped_fragment(string_builder.from_string(lesson.text)),
+      htmb.dangerous_unescaped_fragment(string_tree.from_string(lesson.text)),
       h("pre", [#("class", "lesson-snippet hljs gleam language-gleam")], [
         h("code", [], [text(lesson.code)]),
         h(
@@ -770,7 +765,7 @@ fn everything_page_chapters_html(chapters: List(Chapter)) -> List(Html) {
     ]
   }
 
-  list.concat([chapter_header, ..lessons])
+  list.flatten([chapter_header, ..lessons])
 }
 
 /// Renders a link to a lesson in the table of contents
@@ -897,7 +892,7 @@ pub fn html_dangerous_inline_script(
     ])
   }
   h("script", attrs, [
-    htmb.dangerous_unescaped_fragment(string_builder.from_string(content)),
+    htmb.dangerous_unescaped_fragment(string_tree.from_string(content)),
   ])
 }
 
@@ -971,7 +966,7 @@ fn head(with config: HeadConfig) -> htmb.Html {
     ..list.map(config.stylesheets, html_stylesheet)
   ]
 
-  let head_content = list.concat([head_meta, head_links, config.scripts])
+  let head_content = list.flatten([head_meta, head_links, config.scripts])
 
   h("head", [], head_content)
 }
@@ -1064,5 +1059,5 @@ pub fn render_page(page config: PageConfig) -> String {
   config
   |> render_page_html
   |> htmb.render_page()
-  |> string_builder.to_string
+  |> string_tree.to_string
 }
