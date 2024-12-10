@@ -4,3 +4,4 @@ build
 erl_crash.dump
 /public
 /wasm-compiler
+.DS_Store
