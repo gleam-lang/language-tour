@@ -9,5 +9,5 @@ An interactive tour of the Gleam programming language.
 # Build the site
 gleam run
 
-# It's now all the in `public/` directory
+# It's now all in the `public/` directory
 ```
