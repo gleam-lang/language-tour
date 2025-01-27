@@ -1,17 +1,14 @@
 import gleam/io
 
-pub type SchoolPerson {
-  Teacher(name: String, subject: String)
-  Student(String)
+pub type Person {
+  Person(name: String, age: Int, needs_glasses: Bool)
 }
 
 pub fn main() {
-  let teacher1 = Teacher("Mr Schofield", "Physics")
-  let teacher2 = Teacher(name: "Miss Percy", subject: "Physics")
-  let student1 = Student("Koushiar")
-  let student2 = Student("Naomi")
-  let student3 = Student("Shaheer")
+  let amy = Person("Amy", 26, True)
+  let jared = Person(name: "Jared", age: 31, needs_glasses: True)
+  let tom = Person("Tom", 28, needs_glasses: False)
 
-  let school = [teacher1, teacher2, student1, student2, student3]
-  io.debug(school)
+  let friends = [amy, jared, tom]
+  io.debug(friends)
 }
