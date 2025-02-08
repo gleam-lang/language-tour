@@ -401,7 +401,7 @@ fn make_prelude_available() -> snag.Result(Nil) {
 
 fn make_stdlib_available() -> snag.Result(Nil) {
   use files <- result.try(
-    simplifile.read_directory(stdlib_sources)
+    simplifile.get_files(stdlib_sources)
     |> file_error("Failed to read stdlib directory"),
   )
 
@@ -410,6 +410,7 @@ fn make_stdlib_available() -> snag.Result(Nil) {
     |> list.filter(fn(file) { string.ends_with(file, ".gleam") })
     |> list.filter(fn(file) { !list.contains(skipped_stdlib_modules, file) })
     |> list.map(string.replace(_, ".gleam", ""))
+    |> list.map(string.replace(_, stdlib_sources <> "/", ""))
 
   use _ <- result.try(
     generate_stdlib_bundle(modules)
@@ -453,15 +454,16 @@ fn copy_compiled_stdlib(modules: List(String)) -> snag.Result(Nil) {
   use <- require(is_directory, "Project must have been compiled for JavaScript")
 
   let dest = public_precompiled <> "/gleam"
-  use _ <- result.try(
-    simplifile.create_directory_all(dest)
-    |> file_error("Failed to make " <> dest),
-  )
 
   use _ <- result.try(
     list.try_each(modules, fn(name) {
       let from = stdlib_compiled <> "/" <> name <> ".mjs"
       let to = dest <> "/" <> name <> ".mjs"
+      let parent = filepath.directory_name(to)
+      use _ <- result.try(
+        simplifile.create_directory_all(parent)
+        |> file_error("Failed to make " <> parent),
+      )
       simplifile.copy_file(from, to)
       |> file_error("Failed to copy stdlib module " <> from)
     }),
