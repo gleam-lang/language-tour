@@ -12,7 +12,7 @@ packages = [
 
 [requirements]
 filepath = { version = ">= 1.0.0 and < 2.0.0" }
-gleam_stdlib = { version = "~> 0.32" }
+gleam_stdlib = { version = "~> 0.35" }
 gleeunit = { version = "~> 1.0" }
 htmb = { version = ">= 2.0.0 and < 3.0.0" }
 simplifile = { version = ">= 2.0.0 and < 3.0.0" }
