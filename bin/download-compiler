@@ -3,7 +3,7 @@
 set -eu
 
 # Ensure you update the CI Gleam version to match this
-VERSION="v1.6.0"
+VERSION="v1.8.0"
 
 rm -fr wasm-compiler
 mkdir wasm-compiler
