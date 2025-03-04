@@ -9,5 +9,4 @@ pub fn main() {
 
   // Bool functions
   echo bool.to_string(True)
-  echo bool.to_int(False)
 }
