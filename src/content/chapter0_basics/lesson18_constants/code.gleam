@@ -7,5 +7,5 @@ pub fn main() {
   echo ints == [1, 2, 3]
 
   echo floats
-  echo floats == [1.0, 2.0, 3.0]
+  echo floats == [1.1, 2.2, 3.3]
 }
