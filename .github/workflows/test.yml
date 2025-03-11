@@ -16,7 +16,7 @@ jobs:
         with:
           otp-version: false
           # Ensure you update the bin/download-compiler Gleam version to match this
-          gleam-version: "1.8.0"
+          gleam-version: "1.9.1"
       - run: ./bin/download-compiler
       - run: gleam deps download
       - run: gleam format --check src test
