@@ -2,7 +2,8 @@
 
 set -eu
 
-# Ensure you update the CI Gleam version to match this
+# When changing the version be search to search the codebase for all other
+# instances of the version and update those too.
 VERSION="v1.9.1"
 
 rm -fr wasm-compiler

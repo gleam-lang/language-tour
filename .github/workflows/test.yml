@@ -15,7 +15,8 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          # Ensure you update the bin/download-compiler Gleam version to match this
+          # When changing the version be search to search the codebase for all other
+          # instances of the version and update those too.
           gleam-version: "1.9.1"
       - run: ./bin/download-compiler
       - run: gleam deps download
