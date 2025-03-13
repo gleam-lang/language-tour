@@ -11,7 +11,7 @@ const prismGrammar = {
   },
   function: /([a-z_][a-z0-9_]+)(?=\()/,
   keyword:
-    /\b(use|case|if|@external|@deprecated|fn|import|let|assert|try|pub|type|opaque|const|panic|todo|as)\b/,
+    /\b(use|case|if|@external|@deprecated|fn|import|let|assert|try|pub|type|opaque|const|panic|todo|as|echo)\b/,
   symbol: {
     pattern: /([A-Z][A-Za-z0-9_]+)/,
     greedy: true,
