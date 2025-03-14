@@ -9,5 +9,5 @@ pub fn main() {
 
   echo teacher.name
   echo student.name
-  // echo teacher.subject
+  // echo student.subject
 }
