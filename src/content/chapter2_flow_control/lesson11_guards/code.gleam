@@ -1,5 +1,3 @@
-import gleam/io
-
 pub fn main() {
   let numbers = [1, 2, 3, 4, 5]
   echo get_first_larger(numbers, 3)
