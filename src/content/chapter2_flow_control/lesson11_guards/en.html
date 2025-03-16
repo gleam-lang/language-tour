@@ -4,6 +4,36 @@
   <code>True</code> for the pattern to match.
 </p>
 <p>
-  Only a limited set of operators can be used in guards, and functions cannot be
-  called at all.
+  Only a limited set of operators can be used in guards:
+<ul>
+  <li><code>==</code> - equals</li>
+  <li><code>!=</code> - not equals</li>
+  <li><code>></code> - greater than (Int)</li>
+  <li><code>>=</code> - greater than or equal to (Int)</li>
+  <li><code><</code> - less than (Int)</li>
+  <li><code><=</code> - less than or equal to (Int)</li>
+  <li><code>>.</code> - greater than (Float)</li>
+  <li><code>>=.</code> - greater than or equal to (Float)</li>
+  <li><code><.</code> - less than (Float)</li>
+  <li><code><=</code> - less than or equal to (Float)</li>
+  <li><code>+</code> - addition (Int)</li>
+  <li><code>+.</code> - addition (Float)</li>
+  <li><code>-</code> - subtraction (Int)</li>
+  <li><code>-.</code> - subtraction (Float)</li>
+  <li><code>*</code> - multiplication (Int)</li>
+  <li><code>*.</code> - multiplication (Float)</li>
+  <li><code>\</code> - division (Int)</li>
+  <li><code>\.</code> - division (Float)</li>
+  <li><a href="https://hexdocs.pm/gleam_stdlib/gleam/int.html#remainder" target="_blank">
+      <code>gleam/int/remainder</code>
+    </a> - remainder function (Int)</li>
+  <li><code>||</code> - Or</li>
+  <li><code>&&</code> - And</li>
+  <li><code>!</code> - Not</li>
+  <li><code>some_var</code> - variables</li>
+  <li><code>const_var</code> - constant</li>
+  <li><code>tuple.0</code> - tuple index</li>
+  <li><code>record_type.field</code> - field access</li>
+</ul>
+functions <em>cannot</em> be called at all.
 </p>
