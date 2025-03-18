@@ -4,9 +4,7 @@ An interactive tour of the Gleam programming language.
 
 ## Build
 
-### Prerequisites
-
-- `node`
+A JavaScript runtime is required to run this program. NodeJS is used by default.
 
 ```sh
 # Download a wasm version of the Gleam compiler
