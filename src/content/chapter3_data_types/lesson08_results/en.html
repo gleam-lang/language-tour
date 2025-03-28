@@ -1,5 +1,5 @@
 <p>
-  Gleam doesn't use exceptions, instead computations that can either succeed or
+  Gleam doesn't use exceptions; instead, computations that can either succeed or
   fail return a value of the built-in <code>Result(value, error)</code> type. It
   has two variants:
 </p>
@@ -13,17 +13,17 @@
   </li>
 </ul>
 <p>
-  The type is generic with two type parameters, one for the success value and
-  one for the error. With these the result can hold any type for success and
+  The type is generic, with two type parameters: one for the success value and
+  one for the error. With these, the result can hold any type for success and
   failure.
 </p>
 <p>
-  Commonly a Gleam program or library will define a custom type with a variant
+  Commonly, a Gleam program or library will define a custom type with a variant
   for each possible problem that can arise, along with any error information
   that would be useful to the programmer.
 </p>
 <p>
-  This is advantageous over exceptions as you can immediately see what if any
+  This is advantageous over exceptions, as you can immediately see what, if any,
   errors a function can return, and the compiler will ensure they are handled.
   No nasty surprises with unexpected exceptions!
 </p>
