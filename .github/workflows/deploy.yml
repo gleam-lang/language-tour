@@ -29,7 +29,7 @@ jobs:
           otp-version: false
           # When changing the version be search to search the codebase for all other
           # instances of the version and update those too.
-          gleam-version: "1.9.1"
+          gleam-version: "1.10.0"
 
       - name: Download WASM version of Gleam compiler
         run: ./bin/download-compiler
