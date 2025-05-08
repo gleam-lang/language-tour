@@ -3,7 +3,8 @@ pub fn main() {
     let degrees = 64
     degrees
   }
-  // echo degrees // <- This will not compile
+  // echo degrees 
+  //      ^^^^^^^ This will not compile
 
   // Changing order of evaluation
   let celsius = { fahrenheit - 32 } * 5 / 9
