@@ -34,8 +34,7 @@ main#everything {
   padding-top: var(--navbar-height);
 }
 
-p,
-a {
+p {
   margin: var(--gap) 0;
   font-size: var(--font-size-normal);
   line-height: var(--gap-double);
