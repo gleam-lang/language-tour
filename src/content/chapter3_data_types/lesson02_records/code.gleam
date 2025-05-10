@@ -1,4 +1,5 @@
 pub type Person {
+  // a constructor (function) returning an object of type Person
   Person(name: String, age: Int, needs_glasses: Bool)
 }
 
