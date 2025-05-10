@@ -1,4 +1,5 @@
 pub type SchoolPerson {
+  // two constructors — functions returning a `SchoolPerson` type
   Teacher(name: String, subject: String)
   Student(name: String)
 }
