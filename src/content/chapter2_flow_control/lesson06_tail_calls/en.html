@@ -1,11 +1,11 @@
 <p>
-  When a function is called a new stack frame is created in memory to store the
+  When a function is called, a new stack frame is created in memory to store the
   arguments and local variables of the function. If lots of these frames are
-  created during recursion then the program would use a large amount of memory,
+  created during recursion, then the program would use a large amount of memory,
   or even crash the program if some limit is hit.
 </p>
 <p>
-  To avoid this problem Gleam supports <em>tail call optimisation</em>, which
+  To avoid this problem, Gleam supports <em>tail call optimisation</em>, which
   allows the stack frame for the current function to be reused if a function
   call is the last thing the function does, removing the memory cost.
 </p>
