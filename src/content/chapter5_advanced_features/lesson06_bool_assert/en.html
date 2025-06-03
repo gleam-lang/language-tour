@@ -1,10 +1,15 @@
 <p>
-  Bool <code>assert</code> is similar to <code>let assert</code>, except
-  instead of asserting that a value matches a specific pattern, it asserts
-  that a boolean value evaluates to <code>True</code>.
+  Bool <code>assert</code> is the final way to cause a panic in Gleam, used for
+  writing test assertions. It is similar to <code>let assert</code>, except instead
+  of asserting that a value matches a specific pattern, it asserts that a boolean
+  value evaluates to <code>True</code>.
 </p>
 <p>
-  Bool <code>assert</code> is best suited for making assertions in test code,
-  as panicking is usually not the correct way to handle errors in Gleam, especially
-  in libraries.
+  Like the other panicking keywords, the <code>as</code> keyword can be used to
+  add a custom message to an assertion. This will be shown instead of the generic
+  "Assertion failed" message if the value evaluates to <code>False</code>.
+</p>
+<p>
+  Bool <code>assert</code> is designed to be used in test code, and should almost
+  never be used in applications or libraries.
 </p>
