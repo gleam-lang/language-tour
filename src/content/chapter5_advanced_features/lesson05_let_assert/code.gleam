@@ -9,6 +9,6 @@ pub fn main() {
 pub fn unsafely_get_first_element(items: List(a)) -> a {
   // This will panic if the list is empty.
   // A regular `let` would not permit this partial pattern
-  let assert [first, ..] = items
+  let assert [first, ..] = items as "List should not be empty"
   first
 }
