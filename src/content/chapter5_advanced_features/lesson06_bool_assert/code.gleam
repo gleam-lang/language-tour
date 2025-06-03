@@ -1,6 +1,6 @@
 import gleam/result
 
-pub fn ok_error_test() {
+pub fn main() {
   assert result.is_ok(Ok("Hello"))
   assert !result.is_ok(Error("Bad request"))
 
