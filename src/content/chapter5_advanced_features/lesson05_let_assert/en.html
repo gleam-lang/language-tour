@@ -10,6 +10,11 @@
   type being assigned.
 </p>
 <p>
+  Just like <code>panic</code> and <code>todo</code>, the <code>as</code> keyword
+  can be used with <code>let assert</code> to supply a custom panic message if
+  the pattern fails to match and the program crashes.
+</p>
+<p>
   Like <code>panic</code> this feature should be used sparingly, and likely not
   at all in libraries.
 </p>
