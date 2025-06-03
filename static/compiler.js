@@ -2,7 +2,7 @@ let compiler;
 
 export default async function initGleamCompiler() {
   // Query param for cache busting.
-  // When changing the version be search to search the codebase for all other
+  // When changing the version be sure to search the codebase for all other
   // instances of the version and update those too.
   const wasm = await import("/compiler/gleam_wasm.js?v=1.11.0");
   await wasm.default();

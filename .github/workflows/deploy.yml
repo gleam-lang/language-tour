@@ -27,7 +27,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: false
-          # When changing the version be search to search the codebase for all other
+          # When changing the version be sure to search the codebase for all other
           # instances of the version and update those too.
           gleam-version: "1.11.0"
 
