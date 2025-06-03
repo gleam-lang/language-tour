@@ -1,9 +1,13 @@
-import gleam/result
-
 pub fn main() {
-  assert result.is_ok(Ok("Hello"))
-  assert !result.is_ok(Error("Bad request"))
+  assert add(1, 2) == 3
 
-  assert result.is_error(Error(Nil))
-  assert !result.is_error(Ok(42))
+  assert add(1, 2) < add(1, 3)
+
+  assert add(6, 2) == add(2, 6) as "Addition should be commutative"
+
+  assert add(2, 2) == 5
+}
+
+fn add(a: Int, b: Int) -> Int {
+  a + b
 }
