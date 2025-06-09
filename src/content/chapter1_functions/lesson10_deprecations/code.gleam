@@ -1,6 +1,6 @@
 pub fn main() {
-  old_function()
-  new_function()
+  echo old_function()
+  echo new_function()
 }
 
 @deprecated("Use new_function instead")

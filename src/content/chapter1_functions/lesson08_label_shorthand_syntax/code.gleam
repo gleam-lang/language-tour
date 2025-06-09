@@ -4,14 +4,14 @@ pub fn main() {
   let discount = 0.2
 
   // Using the regular label syntax
-  calculate_total_cost(
+  echo calculate_total_cost(
     quantity: quantity,
     unit_price: unit_price,
     discount: discount,
   )
 
   // Using the shorthand syntax
-  calculate_total_cost(quantity:, unit_price:, discount:)
+  echo calculate_total_cost(quantity:, unit_price:, discount:)
 }
 
 fn calculate_total_cost(
