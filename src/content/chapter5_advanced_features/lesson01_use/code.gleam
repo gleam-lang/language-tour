@@ -1,8 +1,17 @@
 import gleam/result
 
 pub fn main() {
-  let _ = echo without_use()
+  // These two functions do exactly the same thing, but one is written with
+  // `use`, and one without.
   let _ = echo with_use()
+  let _ = echo without_use()
+}
+
+pub fn with_use() -> Result(String, Nil) {
+  use username <- result.try(get_username())
+  use password <- result.try(get_password())
+  use greeting <- result.map(log_in(username, password))
+  greeting <> ", " <> username
 }
 
 pub fn without_use() -> Result(String, Nil) {
@@ -13,13 +22,6 @@ pub fn without_use() -> Result(String, Nil) {
       })
     })
   })
-}
-
-pub fn with_use() -> Result(String, Nil) {
-  use username <- result.try(get_username())
-  use password <- result.try(get_password())
-  use greeting <- result.map(log_in(username, password))
-  greeting <> ", " <> username
 }
 
 // Here are some pretend functions for this example:

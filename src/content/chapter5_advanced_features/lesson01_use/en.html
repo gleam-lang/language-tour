@@ -5,23 +5,41 @@
   sometimes result in excessive indentation.
 </p>
 <p>
-  Gleam's <code>use</code> expression helps out here by enabling us to write code that uses
-  callbacks in an unindented style, as shown in the code window.
+  Gleam's <code>use</code> expression for calling functions that take a
+  callback as an argument without increasing the indentation of the code.
 </p>
 
 <p>
-  The higher order function being called goes on the right hand side of the
-  <code>&lt;-</code> operator. It must take a callback function as its final
-  argument.
+  All the code below the <code>use</code> becomes an anonymous function that is
+  passed as a final argument to the function on the right hand side of the
+  <code>&lt;-</code>, and the assigned variables become the arguments to the
+  anonymous function.
 </p>
+
+<p>This code:</p>
+<pre>
+pub fn main() -> Nil {
+  use a, b <- my_function
+  next(a)
+  next(b)
+}
+</pre>
+
+<p>Expands into this code:</p>
+<pre>
+pub fn main() -> Nil {
+  my_function(fn(a, b) {
+    next(a)
+    next(b)
+  })
+}
+</pre>
+
 <p>
-  The argument names for the callback function go on the left hand side of the
-  <code>&lt;-</code> operator. The function can take any number of arguments,
-  including zero.
-</p>
-<p>
-  All the remaining code in the enclosing <code class="hljs">{}</code> block
-  becomes the body of the callback function.
+  To ensure that your <code>use</code> code works and is as understandable as
+  possible, the right-hand-side ideally should be a regular function call
+  rather than a more complex expression, which would be more difficult to
+  read.
 </p>
 <p>
   This is a very capable and useful feature, but excessive application of
