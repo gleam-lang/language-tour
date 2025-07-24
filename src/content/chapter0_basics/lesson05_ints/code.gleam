@@ -9,14 +9,14 @@ pub fn main() {
   echo 5 % 2
 
   // Int comparisons
-  echo 2 > 1
-  echo 2 < 1
-  echo 2 >= 1
-  echo 2 <= 1
+  echo 3 > 1 + 1
+  echo 2 < 1 - 1
+  echo 8 >= 1 + 3
+  echo 8 <= 5 - 3
 
   // Equality works for any type
-  echo 1 == 1
-  echo 2 == 1
+  echo 2 == 1 + 1
+  echo 2 == 1 - 1
 
   // Standard library int functions
   echo int.max(42, 77)
