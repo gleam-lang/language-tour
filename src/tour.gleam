@@ -97,6 +97,12 @@ const what_next_html = "
   and optionally get feedback from experienced Gleam developers.
 </p>
 <p>
+  Sign up to <a href=\"https://app.codecrafters.io/join?via=lpil\">CodeCrafters</a>
+  to practice writing complex software in Gleam by implementing real-world
+  systems such as Redis from scratch. <i>This is a referral link and a portion
+  of any money paid will go to supporting Gleam development.</i>
+</p>
+<p>
   Happy hacking!
 </p>
 "
