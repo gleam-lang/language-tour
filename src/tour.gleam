@@ -1032,7 +1032,7 @@ pub fn render_page_html(page config: PageConfig) -> Html {
   // render html
   html(HtmlConfig(
     head: HeadConfig(
-      description: "An interactive introduction and reference to the Gleam programming language. Learn Gleam in your browser!",
+      description: "An interactive introduction and reference to the Gleam programming language.",
       image: "https://gleam.run/images/social-image.png",
       title: config.title <> " - The Gleam Language Tour",
       url: "https://tour.gleam.run/" <> config.path,
