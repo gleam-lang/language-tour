@@ -17,17 +17,27 @@ console.log = (...args) => {
 };
 
 async function loadProgram(js) {
+  // URL to worker.js ('base/worker.js')
   const url = new URL(import.meta.url);
-  url.pathname = "";
+  // Remove 'worker.js', keep just 'base/'
+  url.pathname = url.pathname.substring(0, url.pathname.lastIndexOf("/") + 1);
   url.hash = "";
   url.search = "";
   const href = url.toString();
-  const js1 = js.replaceAll(
+  let editedJs = js;
+  // If echo has been used then add the import to the dict module that the
+  // compiler would have added if the stdlib had have been present.
+  if (editedJs.includes("return value instanceof $stdlib$dict.default;")) {
+    editedJs = 'import * as $stdlib$dict from "./dict.mjs";\n' + js;
+  }
+  // Rewrite the stdlib imports to work in this context
+  editedJs = editedJs.replaceAll(
     /from\s+"\.\/(.+)"/g,
     `from "${href}precompiled/$1"`,
   );
-  const js2 = btoa(unescape(encodeURIComponent(js1)));
-  const module = await import("data:text/javascript;base64," + js2);
+  // Evaluate the code
+  const encoded = btoa(unescape(encodeURIComponent(editedJs)));
+  const module = await import("data:text/javascript;base64," + encoded);
   return module.main;
 }
 
