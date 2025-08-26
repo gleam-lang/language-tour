@@ -1,7 +1,7 @@
 import gleam/io
 
 pub type Fish {
-  Starfish(name: String, favourite_color: String)
+  Starfish(name: String, favourite_colour: String)
   Jellyfish(name: String, jiggly: Bool)
 }
 
@@ -16,7 +16,7 @@ pub fn main() {
 
 fn handle_fish(fish: Fish) {
   case fish {
-    Starfish(_, favourite_color) -> io.println(favourite_color)
+    Starfish(_, favourite_colour) -> io.println(favourite_colour)
     Jellyfish(name, ..) -> io.println(name)
   }
 }
