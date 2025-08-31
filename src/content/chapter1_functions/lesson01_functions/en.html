@@ -2,6 +2,13 @@
   The <code>fn</code> keyword is used to define new functions.
 </p>
 <p>
+  Similar to blocks, each expression in the function body is evaluated in order
+  and the value of the last expression is returned from the function. Gleam is
+  an expression based language so there is no <code>return</code> operator, but
+  there are ways to conditionally return early from a function, which will be
+  introduced in a later section.
+</p>
+<p>
   The <code>double</code> and <code>multiply</code> functions are defined
   without the <code>pub</code> keyword. This makes them <em>private</em>
   functions, they can only be used within this module. If another module
