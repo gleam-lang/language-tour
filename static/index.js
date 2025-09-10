@@ -99,4 +99,15 @@ worker.onmessage = (event) => {
   queuedWork = undefined;
 };
 
-editor.onUpdate(debounce((code) => sendToWorker(code), 200));
+// On the first update, the syntax highlighting is broken, so we use a flag
+// to manually call the highlight() method on the editor the first time
+let shouldManuallyHighlight = true;
+editor.onUpdate(
+  debounce((code) => {
+    sendToWorker(code);
+    if (shouldManuallyHighlight) {
+      editor.highlight();
+      shouldManuallyHighlight = false;
+    }
+  }, 200),
+);
