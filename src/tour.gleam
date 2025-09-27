@@ -800,11 +800,7 @@ fn everything_page_html(chapters: List(Chapter)) -> Html {
   let table_of_contents = everything_page_toc_html(chapters)
 
   h("main", [#("id", "everything")], [
-    h(
-      "aside",
-      [#("id", "everything-contents"), #("class", "dim-bg")],
-      table_of_contents,
-    ),
+    h("aside", [#("id", "everything-contents")], table_of_contents),
     h("section", [#("id", "everything-lessons")], chapter_lessons),
   ])
 }

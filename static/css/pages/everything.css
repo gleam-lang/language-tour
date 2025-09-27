@@ -67,14 +67,12 @@ h3 {
 
 /* table of contents on the left, scrollable */
 #everything-contents {
+  background: var(--color-background-contents);
   grid-column-start: 1;
   padding-bottom: var(--gap-quad);
   gap: var(--gap-double);
 }
 
-#everything-contents::before {
-  position: fixed;
-}
 
 #everything-contents * {
   margin: 0;

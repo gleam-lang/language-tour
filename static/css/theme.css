@@ -26,6 +26,7 @@ Derives app colors for both dark & light themes from common.css variables
 html.theme-light {
   --color-background: var(--light-theme-background);
   --color-background-dim: var(--light-theme-background-dim);
+  --color-background-contents: var(--light-theme-background-contents);
   --color-text: var(--light-theme-text);
   --color-text-secondary: var(--light-theme-text-secondary);
   --color-link: var(--light-theme-text);
@@ -41,6 +42,7 @@ html.theme-light {
 html.theme-dark {
   --color-background: var(--dark-theme-background);
   --color-background-dim: var(--dark-theme-background-dim);
+  --color-background-contents: var(--dark-theme-background-contents);
   --color-text: var(--dark-theme-text);
   --color-text-secondary: var(--dark-theme-text-secondary);
   --color-link: var(--dark-theme-text);
