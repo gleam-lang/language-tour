@@ -7,12 +7,14 @@
   --aged-plastic-yellow: #fffbe8;
   --unexpected-aubergine: #584355;
   --underwater-blue: #292d3e;
+  --underwater-deep-blue: #1f212d; 
   --charcoal: #2f2f2f;
   --black: #1e1e1e;
   --blacker: #151515;
 
   /* Other greys */
   --off-white: #f5f5f5;
+  --bright-grey: #ededec;
 
   /* Other colors */
   --menthol: #c8ffa7;
@@ -28,6 +30,7 @@
   /* Light theme */
   --light-theme-background: var(--white);
   --light-theme-background-dim: var(--off-white);
+  --light-theme-background-contents: var(--bright-grey);
   --light-theme-text: var(--black);
   --light-theme-text-secondary: var(--charcoal);
   --light-theme-code: var(--black);
@@ -35,6 +38,7 @@
   /* Dark theme */
   --dark-theme-background: var(--underwater-blue);
   --dark-theme-background-dim: var(--black);
+  --dark-theme-background-contents: var(--underwater-deep-blue);
   --dark-theme-text: var(--white);
   --dark-theme-text-secondary: var(--aged-plastic-yellow);
   --dark-theme-code: var(--deep-saffron);
