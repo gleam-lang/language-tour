@@ -1,12 +1,10 @@
-pub type UserId =
+pub type Number =
   Int
 
 pub fn main() {
-  let one: UserId = 1
+  let one: Number = 1
   let two: Int = 2
 
-  // UserId and Int can be compared,
-  // because they are of the same type,
-  // but they are of different value.
+  // Number and Int are two names for the same type
   echo one == two
 }
