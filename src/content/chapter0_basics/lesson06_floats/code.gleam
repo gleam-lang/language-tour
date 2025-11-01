@@ -8,10 +8,11 @@ pub fn main() {
   echo 3.0 *. 3.5
 
   // Float comparisons
-  echo 2.2 >. 1.3
-  echo 2.2 <. 1.3
-  echo 2.2 >=. 1.3
-  echo 2.2 <=. 1.3
+  let one = 1.0
+  echo 2.2 >. one
+  echo 2.2 <. one
+  echo 2.2 >=. one
+  echo 2.2 <=. one
 
   // Equality works for any type
   echo 3.0 == 1.5 *. 2.0
