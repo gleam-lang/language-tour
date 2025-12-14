@@ -15,7 +15,7 @@ pub fn main() {
   echo teacher1
   echo teacher2
 
-  // Will not copy positional field
+  // Will not properly work with positional field
   let room1 = ClassRoom(1, subject: "Algebra", floor: 3)
   let room2 = ClassRoom(..room1, subject: "Geometry")
   echo room2
