@@ -47,7 +47,7 @@ function appendOutput(content, className) {
   if (!content) return;
   const formattedContent = highlightDebugPath(content);
   const element = document.createElement("pre");
-  element.textContent = formattedContent;
+  element.innerHTML = formattedContent;
   element.className = className;
   output.appendChild(element);
 }
