@@ -195,5 +195,5 @@ CodeFlask mappings
   color: var(--code-token-attr-value);
 }
 .debug-path {
-  color: darkgrey;
+  color: var(--code-token-comment);
 }

@@ -45,28 +45,23 @@ function clearOutput() {
 
 function appendOutput(content, className) {
   if (!content) return;
+  const formattedContent = highlightDebugPath(content);
   const element = document.createElement("pre");
-  element.textContent = content;
+  element.textContent = formattedContent;
   element.className = className;
   output.appendChild(element);
 }
 
-function highlightDebugPath(className) {
-  const logElement = output.querySelector(`.${className}`);
-
-  if (!logElement) return;
+function highlightDebugPath(content) {
+  if (!content || typeof content !== 'string') return content;
 
   const pathRegex = /(src\/[\w\.]+(?::\d+)?)/g;
-  
-  const originalContent = logElement.innerHTML;
-  const newContent = originalContent.replace(
-    pathRegex, 
+  const newContent = content.replace(
+    pathRegex,
     '<span class="debug-path">$1</span>'
   );
 
-  if (originalContent !== newContent) {
-    logElement.innerHTML = newContent;
-  }
+  return newContent;
 }
 
 const editor = new CodeFlask("#editor-target", {
@@ -105,10 +100,7 @@ worker.onmessage = (event) => {
   // Handle the result of the compilation and execution
   const result = event.data;
   clearOutput();
-  if (result.log) {
-    appendOutput(result.log, "log");
-    highlightDebugPath("log");
-  }
+  if (result.log) appendOutput(result.log, "log");
   if (result.error) appendOutput(result.error, "error");
   for (const warning of result.warnings || []) {
     appendOutput(warning, "warning");
