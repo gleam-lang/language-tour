@@ -55,7 +55,7 @@ function appendOutput(content, className) {
 function highlightDebugPath(content) {
   if (!content || typeof content !== 'string') return content;
 
-  const pathRegex = /(src\/[\w\.]+(?::\d+)?)/g;
+  const pathRegex = /(\/?src\/[\w\.]+(?::[\d:]+)?)/g;
   const newContent = content.replace(
     pathRegex,
     '<span class="debug-path">$1</span>'
