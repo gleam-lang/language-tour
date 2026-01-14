@@ -11,6 +11,13 @@ pub fn factorial(x: Int) -> Int {
     1 -> 1
 
     // Recursive case
-    _ -> x * factorial(x - 1)
+    _ -> x * factorial(step_towards_zero(x))
+  }
+}
+
+fn step_towards_zero(x: Int) -> Int {
+  case x >= 0 {
+    True -> x - 1
+    False -> x + 1
   }
 }
