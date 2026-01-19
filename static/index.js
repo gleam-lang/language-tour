@@ -45,10 +45,23 @@ function clearOutput() {
 
 function appendOutput(content, className) {
   if (!content) return;
+  const formattedContent = highlightDebugPath(content);
   const element = document.createElement("pre");
-  element.textContent = content;
+  element.innerHTML = formattedContent;
   element.className = className;
   output.appendChild(element);
+}
+
+function highlightDebugPath(content) {
+  if (!content || typeof content !== 'string') return content;
+
+  const pathRegex = /(\/?src\/[\w\.]+(?::[\d:]+)?)/g;
+  const newContent = content.replace(
+    pathRegex,
+    '<span class="debug-path">$1</span>'
+  );
+
+  return newContent;
 }
 
 const editor = new CodeFlask("#editor-target", {
