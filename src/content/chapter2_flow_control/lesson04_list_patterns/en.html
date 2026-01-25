@@ -11,5 +11,8 @@
   The list append pattern <code>..</code> can be used to match the rest of the
   list. The pattern <code>[1, ..]</code> matches any list that starts with
   <code>1</code>. The pattern <code>[_, _, ..]</code> matches any list that has
-  at least two elements.
+  at least two elements. By adding a variable name after the <code>..</code>, you
+  can capture the remaining elements of the list. The pattern <code>[_, ..rest]</code>
+  will match a list with at least one element and assign the rest of the elements
+  to the variable <code>rest</code>.
 </p>
