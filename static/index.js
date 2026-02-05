@@ -66,7 +66,7 @@ function highlightEchoPath(content) {
   const pathRegex = /(^src\/main.gleam:\d+$)/gm;
   const newContent = content.replace(
     pathRegex,
-    '<span class="debug-path">$1</span>',
+    '<span class="echo-path">$1</span>',
   );
   return newContent;
 }

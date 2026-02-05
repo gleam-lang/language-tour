@@ -194,6 +194,3 @@ CodeFlask mappings
 .codeflask .token.attr-value {
   color: var(--code-token-attr-value);
 }
-.debug-path {
-  color: var(--code-token-comment);
-}

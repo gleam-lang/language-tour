@@ -132,3 +132,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+.echo-path {
+  color: var(--code-token-comment);
+}
