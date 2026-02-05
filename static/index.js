@@ -53,12 +53,12 @@ function appendOutput(content, className) {
 }
 
 function highlightDebugPath(content) {
-  if (!content || typeof content !== 'string') return content;
+  if (!content || typeof content !== "string") return content;
 
-  const pathRegex = /(\/?src\/[\w\.]+(?::[\d:]+)?)/g;
+  const pathRegex = /(^src\/main.gleam:\d+$)/gm;
   const newContent = content.replace(
     pathRegex,
-    '<span class="debug-path">$1</span>'
+    '<span class="debug-path">$1</span>',
   );
 
   return newContent;
