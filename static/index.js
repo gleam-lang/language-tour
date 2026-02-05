@@ -45,22 +45,29 @@ function clearOutput() {
 
 function appendOutput(content, className) {
   if (!content) return;
-  const formattedContent = highlightDebugPath(content);
+  const escapedContent = escapeHtml(content);
+  const formattedContent = highlightEchoPath(escapedContent);
   const element = document.createElement("pre");
-  element.innerHTML = formattedContent;
+  const code = document.createElement("code");
+  code.innerHTML = formattedContent;
+  element.appendChild(code);
   element.className = className;
   output.appendChild(element);
 }
 
-function highlightDebugPath(content) {
-  if (!content || typeof content !== "string") return content;
+function escapeHtml(content) {
+  const div = document.createElement("div");
+  div.textContent = content;
+  return div.innerHTML;
+}
 
+function highlightEchoPath(content) {
+  if (typeof content !== "string") return content;
   const pathRegex = /(^src\/main.gleam:\d+$)/gm;
   const newContent = content.replace(
     pathRegex,
     '<span class="debug-path">$1</span>',
   );
-
   return newContent;
 }
 
