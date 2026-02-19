@@ -4,7 +4,7 @@ set -eu
 
 # When changing the version be sure to search the codebase for all other
 # instances of the version and update those too.
-VERSION="v1.13.0"
+VERSION="v1.14.0"
 
 rm -fr wasm-compiler
 mkdir wasm-compiler
