@@ -9,5 +9,5 @@ pub fn main() {
     |> dict.insert("Bushra", 16)
     |> dict.insert("Darius", 14)
     |> dict.delete("Drew")
-  echo scores
+  echo dict.to_list(scores)
 }
