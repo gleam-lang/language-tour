@@ -2,7 +2,7 @@ import gleam/dict
 
 pub fn main() {
   let scores = dict.from_list([#("Lucy", 13), #("Drew", 15)])
-  echo scores
+  echo dict.to_list(scores)
 
   let scores =
     scores
