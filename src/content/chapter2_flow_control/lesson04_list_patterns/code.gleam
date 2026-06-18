@@ -9,6 +9,7 @@ pub fn main() {
     [] -> "Empty list"
     [1] -> "List of just 1"
     [4, ..] -> "List starting with 4"
+    [3, ..rest] -> "Starts with a 3, captures the rest"
     [_, _] -> "List of 2 elements"
     _ -> "Some other list"
   }
