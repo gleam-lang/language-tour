@@ -10,10 +10,14 @@
 </p>
 
 <p>
-  All the code below the <code>use</code> becomes an anonymous function that is
-  passed as a final argument to the function on the right hand side of the
-  <code>&lt;-</code>, and the assigned variables become the arguments to the
-  anonymous function.
+  All the code below the <code>use</code> becomes an anonymous function, and
+  the assigned variables become the arguments to the anonymous function.
+</p>
+<p>
+  If the right hand side of <code>&lt;-</code> is a function call then the new
+  anonymous function is inserted as a final argument to the call, otherwise the
+  expression on the right hand side must return a function that takes the
+  anonymous function as an argument.
 </p>
 
 <p>This code:</p>
