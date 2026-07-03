@@ -1,0 +1,148 @@
+/* # Code switcher 
+ *
+ * ## Minimal layout
+ *
+ *  <div id="example" style="height: 1rem"
+ *    class="code-switcher code-switcher-toggle-in">
+ *    <pre>
+ *      <span>my</span><span data-switcher-id="example">example</span>
+ *    </pre>
+ *    <pre>
+ *      <span>your</span><span data-switcher-id="example">example</span>
+ *    </pre>
+ *  </div>
+ *
+ *  <script src="/js/code-switcher.js" type="module">
+ *  <link rel="stylesheet" href="/css/code-switcher.css">
+ *
+ * * * *
+ *
+ * ## Notes
+ *
+ * There may be other elements within the <div>.
+ *
+ * Each `data-switcher-id` needs to be unique within the <pre> 
+ *  AND present in both <pre>'s.
+ *
+ * Every bit of text within the <pre> needs to be inside a <span>.
+ *  Either with or without an id.
+ *
+ * Toggling between the two states is done using `toggle_code(<element-id>)`.
+ *  For the above example that would be `toggle_code(example)`
+ *
+ * The height of the <div> has to be set manually, unfortunately.
+ *  At least I've not found a way to do it dynamically.
+ *
+ * * * *
+ *
+ * ## How does this work
+ *
+ * On startup code-switcher.js calculates the transform needed to move
+ *  the elements with matching `data-switcher-id`'s to the position of their counterpart.
+ *  The transforms get stored as attributes.
+ *
+ * ## Animation flow
+ *
+ * 1. Hide 'matched'(a) & Start fading out the rest(a)
+ * 2. Begin translating 'matched'(b) to x0y0
+ * 3. End fading out(a)
+ * 4. Begin fade in(b)
+ * 5. End translating(b) 
+ * 6. End fade in(b)
+ *
+ * (a) and (b) refer to either of the 2 <pre>. Which is which depends on direction.
+ * */
+
+
+/* Visually hide elements that arn't <pre>
+ * I.e. stuff that would interfere with the animation, but should 
+ * be kept around for people using screen readers.
+ * */
+.code-switcher > :not(pre) {
+    opacity: 0;
+}
+
+.code-switcher {
+    position: relative;
+}
+
+.code-switcher > pre {
+    position: absolute;
+    top: 0;
+}
+
+/* defines the base state for all span's that have a 'data-switcher-id' attribute associated with them. */
+.code-switcher {
+    /* with the matching pieces at their transformed location */
+    [data-switcher-id] {
+        /* inline-block instead of inline so transform can work */
+        display: inline-block;
+        transform: translate(attr(data-switcher-translate-x px), attr(data-switcher-translate-y px));
+    }
+}
+
+/* the first <pre> within the .code-switcher should be showing */
+.code-switcher-toggle-in {
+    /* the <pre> we are going to show now */
+    pre:nth-of-type(1) {
+        /* matching code appears and moves to its home position */
+        [data-switcher-id] {
+            transition: transform 1000ms ease-in-out;
+            transform: translate(0px, 0px);
+            opacity: 1;
+        }
+
+        /* the unmatched code fades in towards the end */
+        span:not([data-switcher-id]) {
+            transition: opacity 300ms 900ms;
+            opacity: 1;
+        }
+    }
+
+    /* the <pre> we are going to hide now */
+    pre:nth-of-type(2) {
+        /* unmatched code fades out */
+        span:not([data-switcher-id]) {
+            transition: opacity 300ms;
+            opacity: 0;
+        }
+
+        /* matching code immediately get hidden */
+        [data-switcher-id] {
+            opacity: 0;
+        }
+    }
+}
+
+/* the second <pre> within the .code-switcher should be showing */
+.code-switcher-toggle-out {
+    /* the <pre> we are going to show now */
+    pre:nth-of-type(2) {
+        /* matching code appears and moves to its home position */
+        [data-switcher-id] {
+            transition: transform 1000ms ease-in-out;
+            transform: translate(0px, 0px);
+            opacity: 1;
+        }
+
+        /* unmatched code fades in towards the end */
+        span:not([data-switcher-id]) {
+            transition: opacity 300ms 900ms;
+            opacity: 1;
+        }
+    }
+
+    /* the <pre> we are going to hide now */
+    pre:nth-of-type(1) {
+        /* unmatched code fades out */
+        span:not([data-switcher-id]) {
+            transition: opacity 300ms;
+            opacity: 0;
+        }
+
+        /* matching code immediately get hidden */
+        [data-switcher-id] {
+            opacity: 0;
+        }
+    }
+}

@@ -20,24 +20,26 @@
   anonymous function as an argument.
 </p>
 
+<div id="use-example" class="code-switcher code-switcher-toggle-in" style="height: 7rem">
 <p>This code:</p>
 <pre>
-pub fn main() -> Nil {
-  use a, b <- my_function
-  next(a)
-  next(b)
-}
+<span data-switcher-id="declaration">pub fn main() -> Nil {</span>
+  <span>use</span> <span data-switcher-id="variables">a, b</span> <span><-</span> <span data-switcher-id="function">my_function</span>
+  <span data-switcher-id="body-1">next(a)</span>
+  <span data-switcher-id="body-2">next(b)</span>
+<span>}</span>
 </pre>
 
 <p>Expands into this code:</p>
 <pre>
-pub fn main() -> Nil {
-  my_function(fn(a, b) {
-    next(a)
-    next(b)
-  })
-}
+<span data-switcher-id="declaration">pub fn main() -> Nil {</span>
+  <span data-switcher-id="function">my_function</span><span>(fn(</span><span data-switcher-id="variables">a, b</span><span>) {</span>
+    <span data-switcher-id="body-1">next(a)</span>
+    <span data-switcher-id="body-2">next(b)</span>
+  <span>})</span>
+<span>}</span>
 </pre>
+</div>
 
 <p>
   To ensure that your <code>use</code> code works and is as understandable as
