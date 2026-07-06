@@ -39,7 +39,7 @@
  *
  * On startup code-switcher.js calculates the transform needed to move
  *  the elements with matching `data-switcher-id`'s to the position of their counterpart.
- *  The transforms get stored as attributes.
+ *  The transforms get stored in a <style> element in the page's <head>.
  *
  * ## Animation flow
  *
@@ -63,7 +63,7 @@
 function init_blocks() {
     const targets = document.getElementsByClassName("code-switcher")
 
-    Array.from(targets).map((target) => {
+    const inner = Array.from(targets).reduce((style_html, target) => {
         const children = target.getElementsByTagName("pre")
 
         if(children.length != 2){
@@ -91,19 +91,40 @@ function init_blocks() {
             const first_top = first.getBoundingClientRect().top;
             const second_top = second.getBoundingClientRect().top;
 
-            // set translate-y attribute
-            first.setAttribute("data-switcher-translate-y", second_top - first_top)
-            second.setAttribute("data-switcher-translate-y", first_top - second_top)
-
             // left offset for both
             const first_left = first.getBoundingClientRect().left;
             const second_left = second.getBoundingClientRect().left;
 
-            // set translate-x attribute
-            first.setAttribute("data-switcher-translate-x", second_left - first_left)
-            second.setAttribute("data-switcher-translate-x", first_left - second_left)
+            var first_x = second_left - first_left
+            var first_y = second_top - first_top
+            
+            var second_x = first_left - second_left
+            var second_y = first_top - second_top 
+
+
+            first.classList.add("first-" + span_id)
+            style_html += "\n.first-" + span_id + " {" +
+            "transform: translate(" + first_x + "px, " + first_y + "px);" +
+            "}"
+
+            second.classList.add("second-" + span_id)
+            style_html += "\n.second-" + span_id + " {" +
+            "transform: translate(" + second_x + "px, " + second_y + "px);" +
+            "}"
+
         }
-    })
+
+        window.setInterval(() => {toggle_code(target.id)}, 2000)
+
+        return style_html
+    }, ".code-switcher {" )
+
+
+    var style = document.createElement("style")
+    style.type = "text/css"
+    style.innerHTML = inner + "\n}" 
+    
+    document.getElementsByTagName("head")[0].appendChild(style)
 }
 
 /* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`

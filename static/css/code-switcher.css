@@ -39,7 +39,7 @@
  *
  * On startup code-switcher.js calculates the transform needed to move
  *  the elements with matching `data-switcher-id`'s to the position of their counterpart.
- *  The transforms get stored as attributes.
+ *  The transforms get stored in a <style> element in the page's <head>.
  *
  * ## Animation flow
  *
@@ -77,7 +77,6 @@
     [data-switcher-id] {
         /* inline-block instead of inline so transform can work */
         display: inline-block;
-        transform: translate(attr(data-switcher-translate-x px), attr(data-switcher-translate-y px));
     }
 }
 
