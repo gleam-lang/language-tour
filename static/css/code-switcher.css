@@ -73,75 +73,75 @@
 
 /* defines the base state for all span's that have a 'data-switcher-id' attribute associated with them. */
 .code-switcher {
-    /* with the matching pieces at their transformed location */
-    [data-switcher-id] {
-        /* inline-block instead of inline so transform can work */
-        display: inline-block;
-    }
+  /* with the matching pieces at their transformed location */
+  [data-switcher-id] {
+    /* inline-block instead of inline so transform can work */
+    display: inline-block;
+  }
 }
 
 /* the first <pre> within the .code-switcher should be showing */
 .code-switcher-toggle-in {
-    /* the <pre> we are going to show now */
-    pre:nth-of-type(1) {
-        /* matching code appears and moves to its home position */
-        [data-switcher-id] {
-            transition: transform 1000ms ease-in-out;
-            transform: translate(0px, 0px);
-            opacity: 1;
-        }
-
-        /* the unmatched code fades in towards the end */
-        span:not([data-switcher-id]) {
-            transition: opacity 300ms 900ms;
-            opacity: 1;
-        }
+  /* the <pre> we are going to show now */
+  pre:nth-of-type(1) {
+    /* matching code appears and moves to its home position */
+    [data-switcher-id] {
+      transition: transform 1000ms ease-in-out;
+      transform: translate(0px, 0px);
+      opacity: 1;
     }
 
-    /* the <pre> we are going to hide now */
-    pre:nth-of-type(2) {
-        /* unmatched code fades out */
-        span:not([data-switcher-id]) {
-            transition: opacity 300ms;
-            opacity: 0;
-        }
-
-        /* matching code immediately get hidden */
-        [data-switcher-id] {
-            opacity: 0;
-        }
+    /* the unmatched code fades in towards the end */
+    span:not([data-switcher-id]) {
+      transition: opacity 300ms 900ms;
+      opacity: 1;
     }
+  }
+
+  /* the <pre> we are going to hide now */
+  pre:nth-of-type(2) {
+    /* unmatched code fades out */
+    span:not([data-switcher-id]) {
+      transition: opacity 300ms;
+      opacity: 0;
+    }
+
+    /* matching code immediately get hidden */
+    [data-switcher-id] {
+      opacity: 0;
+    }
+  }
 }
 
 /* the second <pre> within the .code-switcher should be showing */
 .code-switcher-toggle-out {
-    /* the <pre> we are going to show now */
-    pre:nth-of-type(2) {
-        /* matching code appears and moves to its home position */
-        [data-switcher-id] {
-            transition: transform 1000ms ease-in-out;
-            transform: translate(0px, 0px);
-            opacity: 1;
-        }
-
-        /* unmatched code fades in towards the end */
-        span:not([data-switcher-id]) {
-            transition: opacity 300ms 900ms;
-            opacity: 1;
-        }
+  /* the <pre> we are going to show now */
+  pre:nth-of-type(2) {
+    /* matching code appears and moves to its home position */
+    [data-switcher-id] {
+      transition: transform 1000ms ease-in-out;
+      transform: translate(0px, 0px);
+      opacity: 1;
     }
 
-    /* the <pre> we are going to hide now */
-    pre:nth-of-type(1) {
-        /* unmatched code fades out */
-        span:not([data-switcher-id]) {
-            transition: opacity 300ms;
-            opacity: 0;
-        }
-
-        /* matching code immediately get hidden */
-        [data-switcher-id] {
-            opacity: 0;
-        }
+    /* unmatched code fades in towards the end */
+    span:not([data-switcher-id]) {
+      transition: opacity 300ms 900ms;
+      opacity: 1;
     }
+  }
+
+  /* the <pre> we are going to hide now */
+  pre:nth-of-type(1) {
+    /* unmatched code fades out */
+    span:not([data-switcher-id]) {
+      transition: opacity 300ms;
+      opacity: 0;
+    }
+
+    /* matching code immediately get hidden */
+    [data-switcher-id] {
+      opacity: 0;
+    }
+  }
 }
