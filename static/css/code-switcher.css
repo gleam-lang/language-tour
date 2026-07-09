@@ -4,9 +4,9 @@
  *
  *  <div id="example" style="height: 1rem"
  *    class="code-switcher code-switcher-toggle-in">
- *    <pre>
+ *    <pre><code>
  *      <span>my</span><span data-switcher-id="example">example</span>
- *    </pre>
+ *    </code></pre>
  *    <pre>
  *      <span>your</span><span data-switcher-id="example">example</span>
  *    </pre>
@@ -67,7 +67,9 @@
 }
 
 .code-switcher > pre {
+    background: transparent;
     position: absolute;
+    margin-top: 0px;
     top: 0;
 }
 
@@ -85,14 +87,14 @@
   /* the <pre> we are going to show now */
   pre:nth-of-type(1) {
     /* matching code appears and moves to its home position */
-    [data-switcher-id] {
+    code > [data-switcher-id] {
       transition: transform 1000ms ease-in-out;
       transform: translate(0px, 0px);
       opacity: 1;
     }
 
     /* the unmatched code fades in towards the end */
-    span:not([data-switcher-id]) {
+    code > span:not([data-switcher-id]) {
       transition: opacity 300ms 900ms;
       opacity: 1;
     }
@@ -101,13 +103,13 @@
   /* the <pre> we are going to hide now */
   pre:nth-of-type(2) {
     /* unmatched code fades out */
-    span:not([data-switcher-id]) {
+    code > span:not([data-switcher-id]) {
       transition: opacity 300ms;
       opacity: 0;
     }
 
     /* matching code immediately get hidden */
-    [data-switcher-id] {
+    code > [data-switcher-id] {
       opacity: 0;
     }
   }
@@ -118,14 +120,14 @@
   /* the <pre> we are going to show now */
   pre:nth-of-type(2) {
     /* matching code appears and moves to its home position */
-    [data-switcher-id] {
+    code > [data-switcher-id] {
       transition: transform 1000ms ease-in-out;
       transform: translate(0px, 0px);
       opacity: 1;
     }
 
     /* unmatched code fades in towards the end */
-    span:not([data-switcher-id]) {
+    code > span:not([data-switcher-id]) {
       transition: opacity 300ms 900ms;
       opacity: 1;
     }
@@ -134,13 +136,13 @@
   /* the <pre> we are going to hide now */
   pre:nth-of-type(1) {
     /* unmatched code fades out */
-    span:not([data-switcher-id]) {
+    code > span:not([data-switcher-id]) {
       transition: opacity 300ms;
       opacity: 0;
     }
 
     /* matching code immediately get hidden */
-    [data-switcher-id] {
+    code > [data-switcher-id] {
       opacity: 0;
     }
   }

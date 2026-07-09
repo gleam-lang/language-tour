@@ -19,26 +19,27 @@
   expression on the right hand side must return a function that takes the
   anonymous function as an argument.
 </p>
-
 <div id="use-example" class="code-switcher code-switcher-toggle-in" style="height: 7rem">
 <p>This code:</p>
-<pre><code>
-<span data-switcher-id="declaration">pub fn main() -> Nil {</span>
-  <span>use</span> <span data-switcher-id="variables">a, b</span> <span><-</span> <span data-switcher-id="function">my_function</span>
-  <span data-switcher-id="body-1">next(a)</span>
-  <span data-switcher-id="body-2">next(b)</span>
-<span data-switcher-id="end">}</span>
-</code></pre>
+<pre class="hljs"><code class="hljs" data-highlighted="yes">
+<span data-switcher-id="declaration"><span class="hljs-keyword">pub</span> <span class="hljs-function function-name"><span class="hljs-keyword">fn</span> main</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-literal">Nil</span> <span class="hljs-punctuation">{</span></span></span>
+  <span class="hljs-keyword">use</span> <span data-switcher-id="variables">a<span class="hljs-punctuation">,</span> b</span> <span class="hljs-operator">&lt;-</span> <span data-switcher-id="function" class="hljs-function function-name function-call">my_function</span>
+  <span data-switcher-id="body-1"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span></span>
+  <span data-switcher-id="body-2"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>b<span class="hljs-punctuation">)</span></span>
+<span data-switcher-id="end"><span class="hljs-punctuation">}</span></span>
+</code>
+</pre>
 
 <p>Expands into this code:</p>
-<pre><code>
-<span data-switcher-id="declaration">pub fn main() -> Nil {</span>
-  <span data-switcher-id="function">my_function</span><span>(fn(</span><span data-switcher-id="variables">a, b</span><span>) {</span>
-    <span data-switcher-id="body-1">next(a)</span>
-    <span data-switcher-id="body-2">next(b)</span>
-  <span>})</span>
-<span data-switcher-id="end">}</span>
-</code></pre>
+<pre class="hljs"><code class="hljs" data-highlighted="yes">
+<span data-switcher-id="declaration"><span class="hljs-keyword">pub</span> <span class="hljs-function function-name"><span class="hljs-keyword">fn</span> main</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-literal">Nil</span> <span class="hljs-punctuation">{</span></span>
+  <span data-switcher-id="function"><span class="hljs-function function-name function-call">my_function</span></span><span class="hljs-punctuation">(</span><span class="hljs-function function-name"><span class="hljs-keyword">fn</span></span><span class="hljs-punctuation">(</span><span data-switcher-id="variables">a<span class="hljs-punctuation">,</span> b</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">{</span>
+    <span data-switcher-id="body-1"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span></span>
+    <span data-switcher-id="body-2"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>b<span class="hljs-punctuation">)</span></span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">)</span>
+<span data-switcher-id="end"><span class="hljs-punctuation">}</span></span>
+</code>
+</pre>
 </div>
 
 <p>

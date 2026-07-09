@@ -4,9 +4,9 @@
  *
  *  <div id="example" style="height: 1rem"
  *    class="code-switcher code-switcher-toggle-in">
- *    <pre>
+ *    <pre><code>
  *      <span>my</span><span data-switcher-id="example">example</span>
- *    </pre>
+ *    <code></pre>
  *    <pre>
  *      <span>your</span><span data-switcher-id="example">example</span>
  *    </pre>
