@@ -27,8 +27,8 @@
  * Every bit of text within the <pre> needs to be inside a <span>.
  *  Either with or without an id.
  *
- * Toggling between the two states is done using `toggle_code(<element-id>)`.
- *  For the above example that would be `toggle_code(example)`
+ * Toggling between the two states is done using `toggleCode(<element-id>)`.
+ *  For the above example that would be `toggleCode("example")`
  *
  * The height of the <div> has to be set manually, unfortunately.
  *  At least I've not found a way to do it dynamically.
@@ -60,111 +60,86 @@
  * **They have to adhere to the structure described at the top of this file.**
  *
  */
-function init_blocks() {
+function initBlocks() {
     const targets = document.getElementsByClassName("code-switcher")
 
-    const inner = Array.from(targets).reduce((style_html, target) => {
+    var styleHtml = ".code-switcher {"
+
+    for (const target of targets) {
         const children = target.getElementsByTagName("pre")
 
-        if(children.length != 2){
+        if (children.length != 2) {
             console.log("Invalid child count " + children.length);
             return;
         }
 
-        const pre1 = valid_pre(children[0]);
-        const pre2 = valid_pre(children[1]);
-
         // get only the spans that have a `data-switcher-id` attribute
-        const spans1 = spans_with_data(pre1);
-        const spans2 = spans_with_data(pre2);
+        const spans1 = spansWithData(children[0]);
+        const spans2 = spansWithData(children[1]);
 
-        for(let span_id in spans1) {
-            const first = spans1[span_id]
-            const second = spans2[span_id]
+        for (const spanId in spans1) {
+            const first = spans1[spanId]
+            const second = spans2[spanId]
 
-            if(second == undefined) {
-                console.log("Differing pre contents. " + span_id + " not found in second element.")
-                return;
+            if (second == undefined) {
+                throw new Error("Differing contents. " + spanId + " not found in second element.")
             }
 
             // top offset for both
-            const first_top = first.getBoundingClientRect().top;
-            const second_top = second.getBoundingClientRect().top;
+            const firstTop = first.getBoundingClientRect().top;
+            const secondTop = second.getBoundingClientRect().top;
 
             // left offset for both
-            const first_left = first.getBoundingClientRect().left;
-            const second_left = second.getBoundingClientRect().left;
+            const firstLeft = first.getBoundingClientRect().left;
+            const secondLeft = second.getBoundingClientRect().left;
 
-            var first_x = second_left - first_left
-            var first_y = second_top - first_top
+            const firstX = secondLeft - firstLeft
+            const firstY = secondTop - firstTop
             
-            var second_x = first_left - second_left
-            var second_y = first_top - second_top 
+            const secondX = firstLeft - secondLeft
+            const secondY = firstTop - secondTop 
 
-
-            first.classList.add("first-" + span_id)
-            style_html += "\n.first-" + span_id + " {" +
-            "transform: translate(" + first_x + "px, " + first_y + "px);" +
+            first.classList.add("first-" + spanId)
+            styleHtml += "\n.first-" + spanId + " {" +
+            "transform: translate(" + firstX + "px, " + firstY + "px);" +
             "}"
 
-            second.classList.add("second-" + span_id)
-            style_html += "\n.second-" + span_id + " {" +
-            "transform: translate(" + second_x + "px, " + second_y + "px);" +
+            second.classList.add("second-" + spanId)
+            styleHtml += "\n.second-" + spanId + " {" +
+            "transform: translate(" + secondX + "px, " + secondY + "px);" +
             "}"
-
         }
 
-        window.setInterval(() => {toggle_code(target.id)}, 2000)
-
-        return style_html
-    }, ".code-switcher {" )
-
+        window.setInterval(() => {toggleCode(target.id)}, 2000)
+    }
 
     var style = document.createElement("style")
     style.type = "text/css"
-    style.innerHTML = inner + "\n}" 
+    style.innerHTML = styleHtml + "\n}" 
     
     document.head.appendChild(style)
 }
 
-/* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`
- * */
-export function toggle_code(target_id) {
-    const target = document.getElementById(target_id)
-  const incoming = target.classList.toggle("code-switcher-toggle-in");
-  target.classList.toggle("code-switcher-toggle-out", !incoming);
-}
-
 // Get the <span>s that have a 'data-switcher-id' attribute
-function spans_with_data(item) {
-    return Array.from(item.children).filter((span) => {
-        if(span.tagName != "SPAN")
-            return false;
+function spansWithData(item) {
+    var acc = []
 
-        if(span.attributes["data-switcher-id"] == undefined)
-            return false;
+    const spans = item.querySelectorAll('span[data-switcher-id]')
 
-        return true;
-    }).reduce((acc, span) => {
+    for (const span of spans) {
         acc[span.dataset.switcherId] = span;
-        return acc;
-    }, {})
-}
-
-// Check that the child is a <pre>
-function valid_pre(child) {
-    if(child.tagName != "PRE") {
-        console.log("Invalid child " + child.tagName + " expected <pre>")
-        return undefined;
     }
 
-    return child;
+    return acc;
 }
 
-// Init the codeblocks once the page is loaded 
-addEventListener("load", () => {
-    init_blocks()
-})
+/* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`
+ * */
+function toggleCode(targetId) {
+    const target = document.getElementById(targetId)
 
-// make toggle_code available
-window.toggle_code = toggle_code;
+    const incoming = target.classList.toggle("code-switcher-toggle-in")
+    target.classList.toggle("code-switcher-toggle-out", !incoming)
+}
+
+initBlocks()
