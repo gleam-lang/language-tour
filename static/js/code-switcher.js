@@ -124,15 +124,19 @@ function init_blocks() {
     style.type = "text/css"
     style.innerHTML = inner + "\n}" 
     
-    document.head.appendChild(style)
+    document.getElementsByTagName("head")[0].appendChild(style)
 }
 
 /* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`
  * */
 export function toggle_code(target_id) {
     const target = document.getElementById(target_id)
-  const incoming = target.classList.toggle("code-switcher-toggle-in");
-  target.classList.toggle("code-switcher-toggle-out", !incoming);
+
+    if(target.className == "code-switcher" || target.className == "code-switcher code-switcher-toggle-out") {
+        target.className = "code-switcher code-switcher-toggle-in"
+    } else {
+        target.className = "code-switcher code-switcher-toggle-out"
+    }
 }
 
 // Get the <span>s that have a 'data-switcher-id' attribute
@@ -146,7 +150,7 @@ function spans_with_data(item) {
 
         return true;
     }).reduce((acc, span) => {
-        acc[span.dataset.switcherId] = span;
+        acc[span.attributes["data-switcher-id"].value] = span;
         return acc;
     }, {})
 }
