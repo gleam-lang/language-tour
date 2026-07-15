@@ -60,7 +60,7 @@
  * **They have to adhere to the structure described at the top of this file.**
  *
  */
-function init() {
+function initBlocks() {
     const targets = document.getElementsByClassName("code-switcher")
 
     var styleHtml = ".code-switcher {"
@@ -142,4 +142,4 @@ function toggleCode(targetId) {
     target.classList.toggle("code-switcher-toggle-out", !incoming)
 }
 
-init()
+initBlocks()
