@@ -582,6 +582,9 @@ const css_lesson_page = "/css/pages/lesson.css"
 // based on dark / light mode and the currenly loaded color scheme
 const css_syntax_highlight = "/css/code/syntax-highlight.css"
 
+// Used by the code switching animation in /advanced-features/use
+const css_code_switcher = "/css/code-switcher.css"
+
 // Color schemes
 // TODO: add more color schemes
 
@@ -661,6 +664,7 @@ fn lesson_page_render(lesson: Lesson) -> String {
       css_defaults_page,
       css_defaults_code,
       [css_root, css_lesson_page],
+      [css_code_switcher],
     ]),
     static_content: [render_navbar()],
     content: [
@@ -696,6 +700,11 @@ fn lesson_page_render(lesson: Lesson) -> String {
           htmb.dangerous_unescaped_fragment(string_tree.from_string(lesson.code)),
         ]),
         html_script("/index.js", ScriptOptions(module: True, defer: False), []),
+        html_script(
+          "/js/code-switcher.js",
+          ScriptOptions(module: True, defer: False),
+          [],
+        ),
       ],
       head: [],
     ),
@@ -814,6 +823,7 @@ pub fn everything_page_render(chapters: List(Chapter)) -> String {
       css_defaults_page,
       css_defaults_code,
       [css_root, css_everything_page],
+      [css_code_switcher],
     ]),
     static_content: [render_navbar()],
     content: [everything_page_html(chapters)],
