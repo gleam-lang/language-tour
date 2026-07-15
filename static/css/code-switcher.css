@@ -69,6 +69,7 @@
   padding: var(--gap);
   margin-right: var(--gap);
   margin-top: var(--gap-double);
+  margin-bottom: var(--gap-double);
   background: var(--code-background);
   box-shadow: var(--drop-shadow);
 }
