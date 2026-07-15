@@ -2,7 +2,7 @@
  *
  * ## Minimal layout
  *
- *  <div id="example" style="height: 1rem"
+ *  <div id="example" style="height: 1rem">
  *    class="code-switcher code-switcher-toggle-in">
  *    <pre><code>
  *      <span>my</span><span data-switcher-id="example">example</span>
@@ -27,8 +27,7 @@
  * Every bit of text within the <pre> needs to be inside a <span>.
  *  Either with or without an id.
  *
- * Toggling between the two states is done using `toggleCode(<element-id>)`.
- *  For the above example that would be `toggleCode("example")`
+ * Toggling between the two states is done using `toggleCode(element)`.
  *
  * The height of the <div> has to be set manually, unfortunately.
  *  At least I've not found a way to do it dynamically.
@@ -55,91 +54,86 @@
 
 
 /*
- * Calculate the px needed to move elements with matching `data-switcher-id`'s to their respective counterpart.
+ * Calculate the px needed to move elements with matching `data-switcher-id`'s
+ * to their respective counterpart.
  *
  * **They have to adhere to the structure described at the top of this file.**
  *
  */
 function init() {
-    const targets = document.getElementsByClassName("code-switcher")
+  const target = document.querySelector(".code-switcher")
+  const children = target.getElementsByTagName("pre")
+  const styles = []
 
-    var styleHtml = ".code-switcher {"
+  if (children.length != 2) {
+    throw new Error("Invalid child count " + children.length);
+  }
 
-    for (const target of targets) {
-        const children = target.getElementsByTagName("pre")
+  // Get only the spans that have a `data-switcher-id` attribute
+  const spans1 = spansWithData(children[0]);
+  const spans2 = spansWithData(children[1]);
 
-        if (children.length != 2) {
-            console.log("Invalid child count " + children.length);
-            return;
-        }
+  for (const spanId in spans1) {
+    const first = spans1[spanId]
+    const second = spans2[spanId]
 
-        // get only the spans that have a `data-switcher-id` attribute
-        const spans1 = spansWithData(children[0]);
-        const spans2 = spansWithData(children[1]);
-
-        for (const spanId in spans1) {
-            const first = spans1[spanId]
-            const second = spans2[spanId]
-
-            if (second == undefined) {
-                throw new Error("Differing contents. " + spanId + " not found in second element.")
-            }
-
-            // top offset for both
-            const firstTop = first.getBoundingClientRect().top;
-            const secondTop = second.getBoundingClientRect().top;
-
-            // left offset for both
-            const firstLeft = first.getBoundingClientRect().left;
-            const secondLeft = second.getBoundingClientRect().left;
-
-            const firstX = secondLeft - firstLeft
-            const firstY = secondTop - firstTop
-            
-            const secondX = firstLeft - secondLeft
-            const secondY = firstTop - secondTop 
-
-            first.classList.add("first-" + spanId)
-            styleHtml += "\n.first-" + spanId + " {" +
-            "transform: translate(" + firstX + "px, " + firstY + "px);" +
-            "}"
-
-            second.classList.add("second-" + spanId)
-            styleHtml += "\n.second-" + spanId + " {" +
-            "transform: translate(" + secondX + "px, " + secondY + "px);" +
-            "}"
-        }
-
-        window.setInterval(() => {toggleCode(target.id)}, 2000)
+    if (second == undefined) {
+      throw new Error("Differing contents. " + spanId + " not found in second element.")
     }
 
-    var style = document.createElement("style")
-    style.type = "text/css"
-    style.innerHTML = styleHtml + "\n}" 
-    
-    document.head.appendChild(style)
+    // Top offset for both
+    const firstTop = first.getBoundingClientRect().top;
+    const secondTop = second.getBoundingClientRect().top;
+
+    // Left offset for both
+    const firstLeft = first.getBoundingClientRect().left;
+    const secondLeft = second.getBoundingClientRect().left;
+
+    const firstX = secondLeft - firstLeft
+    const firstY = secondTop - firstTop
+
+    const secondX = firstLeft - secondLeft
+    const secondY = firstTop - secondTop
+
+    first.classList.add("first-" + spanId)
+    second.classList.add("second-" + spanId)
+
+    styles.push(`.code-switcher .first-${spanId} {
+  transform: translate(${firstX}px, ${firstY}px);
+}`)
+    styles.push(`.code-switcher .second-${spanId} {
+  transform: translate(${secondX}px, ${secondY}px);
+}`)
+
+  }
+
+  const style = document.createElement("style")
+  style.type = "text/css"
+  style.innerHTML = styles.join("\n")
+  document.head.appendChild(style)
+
+  window.setInterval(() => { toggleCode(target) }, 2000)
 }
 
-// Get the <span>s that have a 'data-switcher-id' attribute
+/* Get the <span>s that have a 'data-switcher-id' attribute
+ */
 function spansWithData(item) {
-    var acc = []
+  const acc = []
 
-    const spans = item.querySelectorAll('span[data-switcher-id]')
+  const spans = item.querySelectorAll('span[data-switcher-id]')
 
-    for (const span of spans) {
-        acc[span.dataset.switcherId] = span;
-    }
+  for (const span of spans) {
+    acc[span.dataset.switcherId] = span;
+  }
 
-    return acc;
+  return acc;
 }
 
 /* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`
- * */
-function toggleCode(targetId) {
-    const target = document.getElementById(targetId)
-
-    const incoming = target.classList.toggle("code-switcher-toggle-in")
-    target.classList.toggle("code-switcher-toggle-out", !incoming)
+ */
+function toggleCode(element) {
+  const incoming = element.classList.toggle("code-switcher-toggle-in")
+  element.classList.toggle("code-switcher-toggle-out", !incoming)
 }
 
 init()
