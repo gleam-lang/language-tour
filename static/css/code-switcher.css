@@ -59,18 +59,25 @@
  * be kept around for people using screen readers.
  * */
 .code-switcher > :not(pre) {
-    opacity: 0;
+  opacity: 0;
 }
 
 .code-switcher {
-    position: relative;
+  position: relative;
+
+  /* codeblock styling (copy paste from everything.css#everything-lesson .lesson-snippet) */
+  padding: var(--gap);
+  margin-right: var(--gap);
+  margin-top: var(--gap-double);
+  background: var(--code-background);
+  box-shadow: var(--drop-shadow);
 }
 
 .code-switcher > pre {
-    background: transparent;
-    position: absolute;
-    margin-top: 0px;
-    top: 0;
+  background: transparent;
+  position: absolute;
+  margin-top: 0px;
+  top: 0;
 }
 
 /* defines the base state for all span's that have a 'data-switcher-id' attribute associated with them. */
