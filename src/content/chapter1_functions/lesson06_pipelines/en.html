@@ -12,10 +12,16 @@
   as an argument to the function on its right.
 </p>
 <p>
-  It will first check to see if the left-hand value could be used as the first
-  argument to the call. For example, <code>a |> b(1, 2)</code> would become
-  <code>b(a, 1, 2)</code>. If not, it falls back to calling the result of the
-  right-hand side as a function, e.g., <code>b(1, 2)(a)</code>
+  If the right-hand expression is a function call then then the left-hand value
+  will be used as the first argument to the call. For example,
+  <code>rocket |> launch(1, 2)</code> would become
+  <code>launch(rocket, 1, 2)</code>.
+</p>
+<p>
+  If the right-hand expression is not a function call then then it will become
+  one, and the left-hand value will be the sole argument to the call. For
+  example, <code>rocket |> launch</code> would become
+  <code>launch(rocket)</code>.
 </p>
 <p>
   Gleam code is typically written with the "subject" of the function as the
