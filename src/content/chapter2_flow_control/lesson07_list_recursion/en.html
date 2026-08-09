@@ -2,16 +2,14 @@
   While it is more common to use functions in the
   <a href="https://hexdocs.pm/gleam_stdlib/gleam/list.html" target="_blank">
     <code>gleam/list</code>
-  </a> 
+  </a>
   module to iterate across a list, at times you may prefer to work
   with the list directly.
 </p>
 <p>
-  The <code>[first, ..rest]</code> pattern matches on a list with at least one
-  element, assigning the first element to the variable <code>first</code> and
-  the rest of the list to the variable <code>rest</code>. By using this pattern
-  and a pattern for the empty list <code>[]</code> a function can run code on
-  each element of a list until the end is reached.
+  By using the <code>[first, ..rest]</code> pattern and a pattern for the empty
+  list <code>[]</code> a function can run code on each element of a list until
+  the end is reached.
 </p>
 <p>
   This code sums a list by recursing over the list and adding each int to a
