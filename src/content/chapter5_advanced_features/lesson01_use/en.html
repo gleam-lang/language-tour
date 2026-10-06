@@ -19,25 +19,24 @@
   expression on the right hand side must return a function that takes the
   anonymous function as an argument.
 </p>
-
+<div id="use-example" class="code-switcher code-switcher-toggle-in">
 <p>This code:</p>
-<pre>
-pub fn main() -> Nil {
-  use a, b <- my_function
-  next(a)
-  next(b)
-}
-</pre>
+<pre class="hljs"><code class="hljs" data-highlighted="yes"><span data-switcher-id="declaration"><span class="hljs-keyword">pub</span> <span class="hljs-function function-name"><span class="hljs-keyword">fn</span> main</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-literal">Nil</span> <span class="hljs-punctuation">{</span></span></span>
+  <span class="hljs-keyword">use</span> <span data-switcher-id="variables">a<span class="hljs-punctuation">,</span> b</span> <span class="hljs-operator">&lt;-</span> <span data-switcher-id="function" class="hljs-function function-name function-call">my_function</span>
+  <span data-switcher-id="body-1"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span></span>
+  <span data-switcher-id="body-2"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>b<span class="hljs-punctuation">)</span></span>
+<span data-switcher-id="end"><span class="hljs-punctuation">}</span></span>
+</code></pre>
 
 <p>Expands into this code:</p>
-<pre>
-pub fn main() -> Nil {
-  my_function(fn(a, b) {
-    next(a)
-    next(b)
-  })
-}
-</pre>
+<pre class="hljs"><code class="hljs" data-highlighted="yes"><span data-switcher-id="declaration"><span class="hljs-keyword">pub</span> <span class="hljs-function function-name"><span class="hljs-keyword">fn</span> main</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-literal">Nil</span> <span class="hljs-punctuation">{</span></span>
+  <span data-switcher-id="function"><span class="hljs-function function-name function-call">my_function</span></span><span class="hljs-punctuation">(</span><span class="hljs-function function-name"><span class="hljs-keyword">fn</span></span><span class="hljs-punctuation">(</span><span data-switcher-id="variables">a<span class="hljs-punctuation">,</span> b</span><span class="hljs-punctuation">)</span> <span class="hljs-punctuation">{</span>
+    <span data-switcher-id="body-1"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>a<span class="hljs-punctuation">)</span></span>
+    <span data-switcher-id="body-2"><span class="hljs-function function-name function-call">next</span><span class="hljs-punctuation">(</span>b<span class="hljs-punctuation">)</span></span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">)</span>
+<span data-switcher-id="end"><span class="hljs-punctuation">}</span></span>
+</code></pre>
+</div>
 
 <p>
   To ensure that your <code>use</code> code works and is as understandable as
@@ -50,3 +49,6 @@ pub fn main() -> Nil {
   <code>use</code> may result in unclear code, especially to beginners. Usually
   the regular function call syntax results in more approachable code!
 </p>
+
+<link rel="stylesheet" href="/css/code-switcher.css">
+<script src="/js/code-switcher.js"></script>

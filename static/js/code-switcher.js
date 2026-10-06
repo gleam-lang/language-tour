@@ -1,0 +1,233 @@
+/* # Code switcher 
+ *
+ * ## Minimal layout
+ *
+ *  <div id="example" style="height: 1rem">
+ *    class="code-switcher code-switcher-toggle-in">
+ *    <pre><code>
+ *      <span>my</span><span data-switcher-id="example">example</span>
+ *    <code></pre>
+ *    <pre>
+ *      <span>your</span><span data-switcher-id="example">example</span>
+ *    </pre>
+ *  </div>
+ *
+ *  <script src="/js/code-switcher.js" type="module">
+ *  <link rel="stylesheet" href="/css/code-switcher.css">
+ *
+ * * * *
+ *
+ * ## Notes
+ *
+ * There may be other elements within the <div>.
+ *
+ * Each `data-switcher-id` needs to be unique within the <pre> 
+ *  AND present in both <pre>'s.
+ *
+ * Every bit of text within the <pre> needs to be inside a <span>.
+ *  Either with or without an id.
+ *
+ * Toggling between the two states is done using `toggleCode(element)`.
+ *
+ * The height of the <div> has to be set manually, unfortunately.
+ *  At least I've not found a way to do it dynamically.
+ *
+ * * * *
+ *
+ * ## How does this work
+ *
+ * On startup code-switcher.js calculates the transform needed to move
+ *  the elements with matching `data-switcher-id`'s to the position of their counterpart.
+ *  The transforms get stored in a <style> element in the page's <head>.
+ *
+ * ## Animation flow
+ *
+ * 1. Hide 'matched'(a) & Start fading out the rest(a)
+ * 2. Begin translating 'matched'(b) to x0y0
+ * 3. End fading out(a)
+ * 4. Begin fade in(b)
+ * 5. End translating(b) 
+ * 6. End fade in(b)
+ *
+ * (a) and (b) refer to either of the 2 <pre>. Which is which depends on direction.
+ * */
+
+
+/*
+ * Calculate the px needed to move elements with matching `data-switcher-id`'s
+ * to their respective counterpart.
+ *
+ * **They have to adhere to the structure described at the top of this file.**
+ *
+ */
+function init() {
+  const target = document.querySelector(".code-switcher")
+  const children = target.getElementsByTagName("pre")
+  const styles = []
+
+  if (children.length != 2) {
+    throw new Error("Invalid child count " + children.length);
+  }
+
+  // Get only the spans that have a `data-switcher-id` attribute
+  const spans1 = spansWithData(children[0]);
+  const spans2 = spansWithData(children[1]);
+
+  for (const spanId in spans1) {
+    const first = spans1[spanId]
+    const second = spans2[spanId]
+
+    if (second == undefined) {
+      throw new Error(`Differing contents. ${spanId} not found in second element.`)
+    }
+
+    addSpanStyles(spanId, first, second, styles)
+  }
+  
+  addPreStyles(children, styles)
+
+  const style = document.createElement("style")
+  style.type = "text/css"
+  const joinedStyles = styles.join("\n")
+  style.innerHTML =  `@media (prefers-reduced-motion: no-preference) {
+  ${joinedStyles}
+}`
+  document.head.appendChild(style)
+
+  /* Adding the buttons to both pre's, but the CSS will make sure you only see one set at a time. */
+  addButtons(target, children[0]);
+  addButtons(target, children[1]);
+}
+
+function addSpanStyles(spanId, first, second, styles) {
+  // Top offset for both
+  const firstTop = first.getBoundingClientRect().top;
+  const secondTop = second.getBoundingClientRect().top;
+
+  // Left offset for both
+  const firstLeft = first.getBoundingClientRect().left;
+  const secondLeft = second.getBoundingClientRect().left;
+
+  const firstX = secondLeft - firstLeft
+  const firstY = secondTop - firstTop
+
+  const secondX = firstLeft - secondLeft
+  const secondY = firstTop - secondTop
+
+  first.classList.add("first-" + spanId)
+  second.classList.add("second-" + spanId)
+
+  styles.push(`.code-switcher .first-${spanId} {
+  transform: translate(${firstX}px, ${firstY}px);
+}`)
+  styles.push(`.code-switcher .second-${spanId} {
+  transform: translate(${secondX}px, ${secondY}px);
+}`)
+}
+
+function addPreStyles(children, styles) {
+  const pre1 = children[0].getBoundingClientRect();
+  const height1 = pre1.height;
+  const width1 = pre1.width;
+
+  const pre2 = children[1].getBoundingClientRect();
+  const height2 = pre2.height;
+  const width2 = pre2.width;
+
+  styles.push(`
+    .code-switcher-toggle-in > pre:nth-of-type(1) {
+      --pre-height: ${height2}px;
+      --pre-width: ${width1}px;
+    }
+    .code-switcher-toggle-in > pre:nth-of-type(2) {
+      --pre-height: ${height2}px;
+      --pre-width: ${width1}px;
+    }
+    .code-switcher-toggle-out > pre:nth-of-type(2) {
+      --pre-height: ${height2}px;
+      --pre-width: ${width1}px; /*a*/
+    }
+    .code-switcher-toggle-out > pre:nth-of-type(1) {
+      --pre-height: ${height2}px;
+      --pre-width: ${width1}px;
+    }
+  `);
+}
+
+/* Get the <span>s that have a 'data-switcher-id' attribute
+ */
+function spansWithData(item) {
+  const acc = []
+
+  const spans = item.querySelectorAll('span[data-switcher-id]')
+
+  for (const span of spans) {
+    acc[span.dataset.switcherId] = span;
+  }
+
+  return acc;
+}
+
+/* Toggle a code-switcher <div> with a given id between `toggle-in` and `toggle-out`
+ */
+function toggleCode(element) {
+  const incoming = element.classList.toggle("code-switcher-toggle-in")
+  element.classList.toggle("code-switcher-toggle-out", !incoming)
+
+  return incoming;
+}
+
+// buttons ----------------------------------------------------------------------
+
+function addButtons(codeswitcher, target) {
+  const buttons = document.createElement("div")
+  buttons.classList.add("buttons")
+
+  addToggleButton(codeswitcher, buttons)
+  addPlayPauseButton(codeswitcher, buttons)
+
+  target.appendChild(buttons)
+}
+
+function addToggleButton(target, buttons) {
+  const button = document.createElement("button")
+  button.textContent = "Toggle"
+
+  button.onclick = function() {
+    toggleCode(target)
+  }
+
+  buttons.appendChild(button)
+}
+
+/* stores the window.setInterval return value 
+ * so we can stop it again */
+var autoplayIntervalId;
+
+function addPlayPauseButton(target, buttons) {
+  const button = document.createElement("button")
+  button.classList.add("play-pause")
+  
+  button.onclick = function() {
+    const playing = target.classList.toggle("playing")
+    
+    if (playing) {
+      autoplayIntervalId = window.setInterval(automaticToggle(target), 3000)
+    } else {
+      window.clearInterval(autoplayIntervalId)
+    }
+  }
+
+  buttons.appendChild(button)
+}
+
+function automaticToggle(target) {
+  toggleCode(target) 
+
+  return function() {
+    toggleCode(target) 
+  }
+}
+
+
+init()
