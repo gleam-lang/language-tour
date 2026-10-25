@@ -24,6 +24,12 @@
   Division by zero will not overflow, but is instead defined to be zero.
 </p>
 <p>
+  Another discrepancy between Javascript runtime and running directly on BEAM
+  is how your code will treat the negative zero. Under the JavaScript runtime,
+  <code>0.0 == -0.0</code> will return <code>True</code>, but under BEAM it will
+  return <code>False</code> instead.
+</p>
+<p>
   The 
   <a href="https://hexdocs.pm/gleam_stdlib/gleam/float.html" target="_blank">
     <code>gleam/float</code>
